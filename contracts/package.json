@@ -1,0 +1,26 @@
+{
+  "name": "doge-dash-cards-contracts",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build": "hardhat compile",
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy.ts --network localhost",
+    "vrf:local": "hardhat run scripts/vrf-autofulfill.ts --network localhost",
+    "deploy:bsctest": "hardhat run scripts/deploy.ts --network bscTestnet",
+    "export-abi": "hardhat run scripts/export-abi.ts"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^6.1.2",
+    "@types/node": "^26.6.5",
+    "dotenv": "^18.0.8",
+    "hardhat": "^2.29.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@chainlink/contracts": "^1.5.0",
+    "@openzeppelin/contracts": "^5.6.1"
+  }
+}
