@@ -7,10 +7,47 @@ Digital collector cards for Doge Dash holders, built from the Series 1 design:
 3. **Rip** a pack for 8 USDC or USDT. The pack burns, Chainlink VRF picks the cards, and 10 card NFTs mint to the wallet.
 4. **Collect** cards in the binder, grouped by set, with rarity 1 (rarest) to 7 on every card back.
 
+5. **Play** Doge Dash, the runner game, as your own Dash NFT.
+
 ```
 contracts/   Hardhat project: Solidity contracts, tests, deploy scripts
-web/         Vite + React + wagmi dapp (Home, Claim, My packs, Rip, My cards)
+web/         Vite + React + wagmi dapp (Home, Play, Claim, My packs, Rip, My cards)
+web/src/game Doge Dash runner: rules (sim.ts), levels, drawing, sound, perks
 ```
+
+## The game: Doge Dash
+
+A side-scrolling runner across the five worlds on the Series 1 Level cards. Each world is a ~60 second run in five
+parts (LET’S GO!, COIN TRAIL, the world's challenge, TAKE FIVE, LEVEL CLEAR) and ends at Dash's dog house.
+
+| World | Challenge | What you face |
+| --- | --- | --- |
+| Level 1 · The Meadow | Bird Watch | Chickens, logs and fences, a few wasps |
+| Level 3 · The Jungle | Danger Ahead | Charging boars, stumps, pits |
+| Level 5 · Route 66 | Buzz City | Wasp swarms at head height (slide) and low (jump), cones and cacti |
+| Level 7 · Ice Caps | Thin Ice | Ice that cracks behind you, open-water holes, snowmen |
+| Space · Deep Space | Shooting Stars | Low gravity, falling stars that leave burning craters |
+
+- **Controls:** Space, ↑ or tap to jump (hold for a higher jump). ↓ or swipe down to slide. P to pause. On
+  phones there are JUMP and SLIDE buttons.
+- **Scoring:** 10 per coin, 100 per stomp (land on chickens and boars), +1,000 for clearing the level, and 500
+  per life left.
+- **Who you play as:** each Doge Dash NFT in your wallet is its own runner, with colours, pattern and accessory
+  taken from the token. Players without an NFT can run Level 1 as the guest pup.
+- **Perks:** a lucky few Dashes get one perk: extra life (4 lives), super jump (jump again in mid-air) or double
+  rewards (coins count twice). The 25 ultra-rare Dashes get all three. Holding a Series 1 card of your Dash adds a
+  holo trail. Perks come from a hash of the token ID (`web/src/game/dash.ts`). For mainnet this should read the
+  collection's trait metadata instead.
+- **Progress:** clearing a world opens the next one. Progress is saved in the browser and also in
+  `DashLeaderboard` on-chain, so unlocks follow your wallet.
+- **Leaderboard:** `DashLeaderboard` keeps each wallet's best score per world and a top-10 table, and checks that
+  you own the Dash you played as. Scores are reported by the game, so the table trusts players. That is fine for
+  testnet. Runs are deterministic (seeded layouts and a fixed 120 Hz step), so a server can replay a run and sign
+  the score before anything valuable depends on it.
+
+Every level is checked by a bot: `npm run test:game` (in `web/`) runs 9 mechanics checks, then plays all five
+worlds plus 25 extra seeds each, and fails if any run takes a hit. To watch the bot in the browser, add
+`?autopilot` to the URL.
 
 ## The print run
 
@@ -48,6 +85,7 @@ Rarity is set by how many cards exist in that set and finish: 1–12 → 1, 13�
 | `PackRipper` | Takes 8 USDC/USDT per pack (up to 5 packs per rip), burns the packs, and requests Chainlink VRF v2.5. The VRF callback draws all 10 cards per pack from the pool straight away. Because the draw happens when the randomness arrives, nobody can see a seed first and wait for a better pool state. `openPack` then mints the cards. Anyone can call it, and the cards always go to the wallet that ripped. `retry` re-requests randomness if VRF never answers. |
 | `DashCards` | ERC-721 cards. Set, finish, design, serial, copies and pack ID are stored on-chain. |
 | `CardRenderer` | On-chain JSON metadata with an SVG stand-in image. Call `setImageBaseURI` to switch to the final art at `{base}{set}/{finish}/{design}.png`. |
+| `DashLeaderboard` | Best score per wallet per world, a top-10 table per world, and a bitmask of the worlds each wallet has cleared. |
 | `MockDogeDash`, `MockStablecoin` | Testnet only. Anyone can mint Doge Dash tokens (up to 5 per call), and the USDC/USDT faucet gives 100 per call. Both stablecoins use 18 decimals, like the Binance-Peg tokens on BSC. |
 
 The VRF callback for a 5-pack rip uses about 1.54M gas. The callback limit is set to 2.4M, under the 2.5M maximum on
@@ -57,13 +95,16 @@ BSC testnet.
 
 ```bash
 cd contracts && npm install
-npm test                 # 12 tests: print run, claims, attestation, rip, VRF gas, retry, uniqueness
+npm test                 # 14 tests: print run, claims, attestation, rip, VRF gas, retry, uniqueness, leaderboard
 npm run node             # terminal 1: local chain
 npm run deploy:local     # terminal 2: deploys + writes web/src/contracts/deployments.json
 npm run vrf:local        # terminal 2: answers VRF requests like Chainlink would
 
 cd ../web && npm install && npm run dev
+npm run test:game        # game mechanics + bot clears every level
 ```
+
+The game itself needs no wallet or contracts: open the Play tab and run as the guest pup.
 
 Add the Hardhat network (chain 31337, `http://127.0.0.1:8545`) to MetaMask and import one of the test accounts
 that `npm run node` prints.
@@ -108,4 +149,6 @@ Chainlink VRF v2.5 on BSC testnet: coordinator `0xDA3b641D438362C440Ac5458c57e00
 - Final card art and image hosting (`CardRenderer.setImageBaseURI`), and wiring the art into the web card component.
 - An attestation signer service that reads Doge Dash ownership on Ethereum (the contract side is done and tested).
 - Real stablecoin addresses and 18-decimal pricing check (Binance-Peg USDC/USDT on BSC are 18 decimals).
+- Server-signed leaderboard scores (replay the run), and perks read from real trait metadata.
+- Final in-game art (the runner is drawn with canvas shapes so it ships with no image assets).
 - An external audit. Move ownership to a multisig.

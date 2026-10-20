@@ -13,6 +13,7 @@ export type Deployment = {
     DashCards: Address;
     CardRenderer: Address;
     PackRipper: Address;
+    DashLeaderboard?: Address;
     VRFMock?: Address;
   };
 };

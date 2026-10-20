@@ -91,6 +91,7 @@ async function main() {
     { keyHash, subId, confirmations: 3, nativePayment: true, gasBase: 150_000, gasPerPack: 450_000 },
   ]);
   const ripperAddr = await ripper.getAddress();
+  const leaderboard = await deployed("DashLeaderboard", [dogeAddr]);
 
   await (await packs.getFunction("setRipper")(ripperAddr)).wait();
   await (await cards.getFunction("setMinter")(ripperAddr)).wait();
@@ -117,6 +118,7 @@ async function main() {
       DashCards: await cards.getAddress(),
       CardRenderer: await renderer.getAddress(),
       PackRipper: ripperAddr,
+      DashLeaderboard: await leaderboard.getAddress(),
       ...(isLocal ? { VRFMock: coordinatorAddr } : {}),
     },
   };

@@ -3,10 +3,11 @@ import { DashPacksAbi, PackRipperAbi } from "../contracts";
 import { useGame } from "../lib/useGame";
 import { FINISHES, SETS, TOTAL_CARDS, printed, rarity } from "../lib/cards";
 import { CardFront, PackArt } from "../components/CardView";
+import { GameDemo } from "../components/GameDemo";
 
 const MAX_PACKS = 18_469;
 
-export function Home({ onCta, connected }: { onCta: () => void; connected: boolean }) {
+export function Home({ onCta, onPlay, connected }: { onCta: () => void; onPlay: () => void; connected: boolean }) {
   const { c } = useGame();
   const reads = useReadContracts({
     contracts: c
@@ -74,6 +75,21 @@ export function Home({ onCta, connected }: { onCta: () => void; connected: boole
             <CardFront card={{ set: 13, finish: 1, design: 1, serial: 2, copies: 2, packId: 1n }} size={170} />
           </div>
         </div>
+      </section>
+
+      <section className="panel play-promo">
+        <div>
+          <div className="kicker">THE GAME</div>
+          <h2>Play as your Dash</h2>
+          <p className="muted">
+            Run from the Level 1 meadow to deep space: stomp chickens and boars, slide under wasps, hop the thin ice and dodge shooting
+            stars on the way home. Your Doge Dash NFT is your runner, and a lucky few get extra lives, super jump or double rewards.
+          </p>
+          <button className="btn btn-yellow btn-lg" onClick={onPlay}>
+            Play Doge Dash
+          </button>
+        </div>
+        <GameDemo />
       </section>
 
       <section className="how">

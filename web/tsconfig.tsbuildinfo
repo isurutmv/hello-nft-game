@@ -1,1 +1,0 @@
-{"root":["./src/App.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/wagmi.ts","./src/components/CardView.tsx","./src/contracts/abi.ts","./src/contracts/index.ts","./src/lib/cards.ts","./src/lib/useGame.ts","./src/pages/Binder.tsx","./src/pages/Claim.tsx","./src/pages/Home.tsx","./src/pages/Packs.tsx","./src/pages/Rip.tsx","./vite.config.ts"],"version":"5.8.3"}

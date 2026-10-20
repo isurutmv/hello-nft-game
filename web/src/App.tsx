@@ -9,8 +9,9 @@ import { Claim } from "./pages/Claim";
 import { Packs } from "./pages/Packs";
 import { Rip } from "./pages/Rip";
 import { Binder } from "./pages/Binder";
+import { Play } from "./pages/Play";
 
-export type Page = "home" | "claim" | "packs" | "rip" | "cards";
+export type Page = "home" | "play" | "claim" | "packs" | "rip" | "cards";
 
 export function App() {
   const [page, setPage] = useState<Page>("home");
@@ -38,7 +39,7 @@ export function App() {
   }, [isConnected]);
 
   const go = (p: Page) => {
-    if (!isConnected && p !== "home") return setShowConnect(true);
+    if (!isConnected && p !== "home" && p !== "play") return setShowConnect(true);
     setPage(p);
   };
   const startRip = (ids: bigint[]) => {
@@ -48,6 +49,7 @@ export function App() {
 
   const nav: { key: Page; label: string; count?: bigint }[] = [
     { key: "home", label: "Home" },
+    { key: "play", label: "Play" },
     { key: "claim", label: "Claim" },
     { key: "packs", label: "My packs", count: packCount },
     { key: "cards", label: "My cards", count: cardCount },
@@ -90,7 +92,14 @@ export function App() {
       {isConnected && deployment && <TestnetTools />}
 
       <main>
-        {page === "home" && <Home onCta={() => (isConnected ? go(packCount ? "packs" : "claim") : setShowConnect(true))} connected={isConnected} />}
+        {page === "home" && (
+          <Home
+            onCta={() => (isConnected ? go(packCount ? "packs" : "claim") : setShowConnect(true))}
+            onPlay={() => setPage("play")}
+            connected={isConnected}
+          />
+        )}
+        {page === "play" && <Play onConnect={() => setShowConnect(true)} />}
         {page === "claim" && deployment && <Claim onDone={() => setPage("packs")} />}
         {page === "packs" && deployment && <Packs onRip={startRip} />}
         {page === "rip" && deployment && <Rip packIds={ripIds} onDone={() => setPage("cards")} onBack={() => setPage("packs")} />}
