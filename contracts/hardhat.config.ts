@@ -23,8 +23,6 @@ const config: HardhatUserConfig = {
     // BscScan is served through the Etherscan v2 multichain API.
     apiKey: process.env.ETHERSCAN_API_KEY ?? "",
   },
-  // Verify on Sourcify (no API key needed); BscScan too when ETHERSCAN_API_KEY is set.
-  sourcify: { enabled: true },
   gasReporter: { enabled: process.env.REPORT_GAS === "1" },
 };
 
