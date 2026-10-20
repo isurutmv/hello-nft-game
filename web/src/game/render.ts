@@ -5,6 +5,7 @@ import { BOAR, CHICKEN, CRATER, SCORE, starPos, type Sim } from "./sim";
 import { PERK_INFO } from "./dash";
 import { LIP_UP, S, TILE, TILE_G, getScene, type Layer, type Scene } from "./scenery";
 import { drawBoar, drawChicken, drawDash, drawShootingStar, drawWasp, shade } from "./characters";
+import { BOAR_GALLOP, DOG_GALLOP, clamp, follow } from "./motion";
 
 export { drawDash };
 
@@ -15,7 +16,18 @@ export type Banner = { text: string; sub: string; t: number };
 
 type Mote = { x: number; y: number; z: number; vx: number; vy: number; ph: number };
 type Puff = { x: number; y: number; r: number; life: number; max: number; vx: number; vy: number; color: string };
-type Fx = { motes: Mote[]; puffs: Puff[]; lastCam: number; lastT: number; dustT: number; wasGround: boolean };
+type Fx = {
+  motes: Mote[];
+  puffs: Puff[];
+  lastCam: number;
+  lastT: number;
+  wasGround: boolean;
+  // smoothed pose blends so Dash eases between running, jumping and sliding
+  air: number;
+  slide: number;
+  land: number;
+  lastPhase: number;
+};
 const fxBySim = new WeakMap<Sim, Fx>();
 const patterns = new WeakMap<Ctx, Map<string, CanvasPattern>>();
 
@@ -25,7 +37,7 @@ function fxFor(sim: Sim, kind: Scene["ambient"]): Fx {
     const n = kind === "snow" ? 140 : kind === "dust" ? 70 : kind === "stardust" ? 60 : 45;
     const motes: Mote[] = [];
     for (let i = 0; i < n; i++) motes.push(newMote(kind, true));
-    fx = { motes, puffs: [], lastCam: sim.camX, lastT: -1, dustT: 0, wasGround: true };
+    fx = { motes, puffs: [], lastCam: sim.camX, lastT: -1, wasGround: true, air: 0, slide: 0, land: 0, lastPhase: sim.px / DOG_GALLOP.stride };
     fxBySim.set(sim, fx);
   }
   return fx;
@@ -120,14 +132,24 @@ export function render(ctx: Ctx, sim: Sim, banner: Banner | null, now: number, d
       case "chicken":
         if (e.dead > 0.5) break;
         groundShadow(ctx, ex + CHICKEN.w / 2, GROUND_Y, 20, 0.3);
-        drawChicken(ctx, ex + CHICKEN.w / 2, GROUND_Y, now, e.dead > 0 ? Math.min(1, e.dead * 6) : 0);
+        drawChicken(ctx, ex + CHICKEN.w / 2, GROUND_Y, now, e.dead > 0 ? Math.min(1, e.dead * 6) : 0, -e.x);
         break;
       case "boar":
         if (e.dead > 0.5) break;
         groundShadow(ctx, ex + BOAR.w / 2, GROUND_Y, 34, 0.35);
-        drawBoar(ctx, ex + BOAR.w / 2, GROUND_Y, now, e.charging, e.dead > 0 ? Math.min(1, e.dead * 6) : 0);
-        if (e.charging && e.dead === 0 && Math.random() < 0.5) puff(fx, ex + BOAR.w + cam, GROUND_Y - 4, "#c8a878", 9, 60);
+      {
+        // The boar senses Dash before it charges: head down, hackles up, pawing the ground.
+        const alert = e.charging ? 1 : clamp((900 - (e.x - sim.px)) / 360, 0, 1);
+        drawBoar(ctx, ex + BOAR.w / 2, GROUND_Y, now, e.charging, e.dead > 0 ? Math.min(1, e.dead * 6) : 0, -e.x, alert);
+        if (e.dead === 0) {
+          if (e.charging) {
+            // a puff of dust from each hoof as it strikes
+            const ph = -e.x / BOAR_GALLOP.stride;
+            if (Math.floor(ph * 2) !== Math.floor((ph - (270 * dt) / BOAR_GALLOP.stride) * 2)) puff(fx, e.x + BOAR.w * 0.7, GROUND_Y - 4, "#c8a878", 9, 70);
+          } else if (alert > 0.3 && Math.sin(now * 7) > 0.95) puff(fx, e.x + BOAR.w * 0.2, GROUND_Y - 3, "#c8a878", 6, 40);
+        }
         break;
+      }
       case "wasp": {
         if (e.dead > 0) break;
         const y = e.baseY + Math.sin(sim.time * 5 + e.phase) * 5;
@@ -157,22 +179,35 @@ export function render(ctx: Ctx, sim: Sim, banner: Banner | null, now: number, d
     const h = Math.max(0, footY - sim.py);
     groundShadow(ctx, px + PLAYER_W / 2, footY, 26 * Math.max(0.35, 1 - h / 260), 0.4 * Math.max(0.15, 1 - h / 220));
   }
-  if (sim.onGround && !sim.ended) {
-    fx.dustT += dt;
-    if (fx.dustT > 0.07) {
-      fx.dustT = 0;
-      puff(fx, sim.px + 8, sim.py - 3, dustColor(key), 5 + Math.random() * 4, -30);
-    }
+  // pose blends
+  fx.air = follow(fx.air, sim.onGround ? 0 : 1, sim.onGround ? 22 : 12, dt);
+  fx.slide = follow(fx.slide, sim.sliding ? 1 : 0, 18, dt);
+  if (sim.onGround && !fx.wasGround) {
+    fx.land = 1;
+    for (let i = 0; i < 6; i++) puff(fx, sim.px + PLAYER_W / 2 + (i - 3) * 8, sim.py - 2, dustColor(key), 8, (i - 3) * 30);
   }
-  if (sim.onGround && !fx.wasGround) for (let i = 0; i < 6; i++) puff(fx, sim.px + PLAYER_W / 2 + (i - 3) * 8, sim.py - 2, dustColor(key), 8, (i - 3) * 30);
+  fx.land = follow(fx.land, 0, 10, dt);
   fx.wasGround = sim.onGround;
+  // a little dust from each paw as it touches down
+  const phase = sim.px / DOG_GALLOP.stride;
+  if (sim.onGround && !sim.ended && fx.air < 0.3) {
+    DOG_GALLOP.offsets.forEach((o, i) => {
+      if (Math.floor(phase - o) !== Math.floor(fx.lastPhase - o)) {
+        const anchor = i >= 2 ? 14 : -17;
+        puff(fx, sim.px + PLAYER_W / 2 + (anchor + DOG_GALLOP.sweep * 0.55) * 0.86, sim.py - 2, dustColor(key), 4 + Math.random() * 3, -40);
+      }
+    });
+  }
+  fx.lastPhase = phase;
   drawPuffs(ctx, fx, cam, dt);
   if (sim.profile.holoTrail) drawTrail(ctx, px, sim.py, now, sim.sliding);
   const flash = sim.invuln > 0 && Math.floor(now * 14) % 2 === 0;
   if (!flash) {
     drawDash(ctx, sim.profile, px + PLAYER_W / 2, sim.py, {
-      sliding: sim.sliding,
-      air: !sim.onGround,
+      dist: sim.px,
+      air: fx.air,
+      slide: fx.slide,
+      land: fx.land,
       vy: sim.vy,
       t: sim.time,
       ended: sim.ended && sim.cleared,

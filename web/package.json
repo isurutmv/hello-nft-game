@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "typecheck": "tsc -b",
     "check:levels": "tsx scripts/check-levels.ts",
-    "test:game": "tsx scripts/test-mechanics.ts && tsx scripts/check-levels.ts"
+    "test:game": "tsx scripts/test-mechanics.ts && tsx scripts/check-gaits.ts && tsx scripts/check-levels.ts"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.104.5",
