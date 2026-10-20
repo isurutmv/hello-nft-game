@@ -49,6 +49,36 @@ Every level is checked by a bot: `npm run test:game` (in `web/`) runs 9 mechanic
 worlds plus 25 extra seeds each, and fails if any run takes a hit. To watch the bot in the browser, add
 `?autopilot` to the URL.
 
+## Live on BSC testnet
+
+Deployed from `0xC830ca16bAbF2812130C4a1428add5613d6C2cac` and verified on [Sourcify](https://sourcify.dev) (exact match). The web app reads
+these addresses from `web/src/contracts/deployments.json`.
+
+| Contract | Address |
+| --- | --- |
+| MockDogeDash | [`0xa1cf6B0c1614dDD06c9e5050129E2C133fe3DA52`](https://testnet.bscscan.com/address/0xa1cf6B0c1614dDD06c9e5050129E2C133fe3DA52) |
+| USDC | [`0x5c7ec3E41BB6B3B723bD87c789c60FE36A685CA3`](https://testnet.bscscan.com/address/0x5c7ec3E41BB6B3B723bD87c789c60FE36A685CA3) |
+| USDT | [`0x6120E8410088bb7d5FeAEe809Df5943ddad0434D`](https://testnet.bscscan.com/address/0x6120E8410088bb7d5FeAEe809Df5943ddad0434D) |
+| DashPacks | [`0x7160DD229966108E2D629CB844465637163BA48C`](https://testnet.bscscan.com/address/0x7160DD229966108E2D629CB844465637163BA48C) |
+| DashCards | [`0x313E96E71aD19CeDAE94BFa68Ef953270167c4A7`](https://testnet.bscscan.com/address/0x313E96E71aD19CeDAE94BFa68Ef953270167c4A7) |
+| CardRenderer | [`0x300037F67aa3242F556fD7FBD49eB84Cd412362b`](https://testnet.bscscan.com/address/0x300037F67aa3242F556fD7FBD49eB84Cd412362b) |
+| PackRipper | [`0xc76cFCb12DCe68E92d3D4278CB68F6d8aF43E9FF`](https://testnet.bscscan.com/address/0xc76cFCb12DCe68E92d3D4278CB68F6d8aF43E9FF) |
+| DashLeaderboard | [`0x19C999512a9bc4ba44636DEe20B1338EC4cA4e6b`](https://testnet.bscscan.com/address/0x19C999512a9bc4ba44636DEe20B1338EC4cA4e6b) |
+
+Chainlink VRF v2.5 subscription `30569291071428640930983185309972124917807855442015241823367329295091774612262` (funded with tBNB, PackRipper is a consumer). A live
+smoke run (`npx hardhat run scripts/smoke.ts --network bscTestnet`) claimed, paid, ripped and opened a pack; VRF
+answered in about 15 seconds.
+
+### Host the site on Vercel
+
+Import the repository; `vercel.json` builds `web/` and serves `web/dist`. No secrets are needed on Vercel. Optional
+environment variables:
+
+| Name | Value |
+| --- | --- |
+| `VITE_BSC_TESTNET_RPC` | `https://bsc-testnet-rpc.publicnode.com` (the default) |
+| `VITE_WALLETCONNECT_PROJECT_ID` | A free project ID from cloud.reown.com, to connect mobile wallets by QR |
+
 ## The print run
 
 All 184,686 cards are fixed up front (`contracts/src/libraries/PrintRun.sol`). Each pull removes one card from the
@@ -150,5 +180,5 @@ Chainlink VRF v2.5 on BSC testnet: coordinator `0xDA3b641D438362C440Ac5458c57e00
 - An attestation signer service that reads Doge Dash ownership on Ethereum (the contract side is done and tested).
 - Real stablecoin addresses and 18-decimal pricing check (Binance-Peg USDC/USDT on BSC are 18 decimals).
 - Server-signed leaderboard scores (replay the run), and perks read from real trait metadata.
-- Final in-game art (the runner is drawn with canvas shapes so it ships with no image assets).
+- Final in-game art. The runner is drawn in code (lit, layered scenery and shaded characters) so it ships with no image assets.
 - An external audit. Move ownership to a multisig.

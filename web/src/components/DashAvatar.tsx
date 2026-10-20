@@ -17,7 +17,7 @@ export function DashAvatar({ profile, size = 96, bg }: { profile: DashProfile; s
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, size, size);
       const s = size / 96;
-      drawDash(ctx, profile, size / 2 - 6 * s, size * 0.86, { t: (now - t0) / 1000, scale: 1.25 * s });
+      drawDash(ctx, profile, size / 2 - 8 * s, size * 0.9, { t: (now - t0) / 1000, scale: 1.1 * s });
       raf = requestAnimationFrame(frame);
     };
     raf = requestAnimationFrame(frame);
