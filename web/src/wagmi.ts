@@ -14,7 +14,7 @@ export const config = createConfig({
     ...(wcProjectId ? [walletConnect({ projectId: wcProjectId, showQrModal: true })] : []),
   ],
   transports: {
-    [bscTestnet.id]: http(import.meta.env.VITE_BSC_TESTNET_RPC || undefined),
+    [bscTestnet.id]: http(import.meta.env.VITE_BSC_TESTNET_RPC || "https://bsc-testnet-rpc.publicnode.com"),
     [hardhat.id]: http("http://127.0.0.1:8545"),
   },
 });

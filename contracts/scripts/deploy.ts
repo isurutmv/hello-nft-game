@@ -12,7 +12,7 @@ import path from "node:path";
  * ../web/src/contracts/deployments.json (ABIs come from `npm run export-abi`).
  *
  * Env (all optional): DOGE_DASH, USDC, USDT (reuse existing tokens), VRF_SUB_ID,
- * VRF_FUND_BNB, TREASURY.
+ * VRF_FUND_BNB (default: balance minus 0.03 tBNB), TREASURY.
  */
 
 // Chainlink VRF v2.5, BNB Chain testnet (docs.chain.link/vrf/v2-5/supported-networks)
@@ -72,7 +72,11 @@ async function main() {
         .map((l: { topics: string[]; data: string }) => { try { return coordinator.interface.parseLog(l); } catch { return null; } })
         .find((e: { name: string } | null) => e?.name === "SubscriptionCreated");
       subId = ev.args.subId;
-      const fund = ethers.parseEther(process.env.VRF_FUND_BNB || "0.1");
+      // Default: put everything except a gas reserve into the subscription; VRF pays for every rip.
+      const reserve = ethers.parseEther("0.03");
+      const balance = await ethers.provider.getBalance(deployer.address);
+      const fund = process.env.VRF_FUND_BNB ? ethers.parseEther(process.env.VRF_FUND_BNB) : balance - reserve;
+      if (fund < ethers.parseEther("0.02")) throw new Error(`Not enough tBNB to fund VRF (balance ${ethers.formatEther(balance)})`);
       await (await coordinator.fundSubscriptionWithNative(subId, { value: fund })).wait();
       console.log(`  Created VRF subscription ${subId}, funded ${ethers.formatEther(fund)} tBNB`);
     }

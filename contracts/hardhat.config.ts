@@ -14,7 +14,7 @@ const config: HardhatUserConfig = {
   networks: {
     localhost: { url: "http://127.0.0.1:8545" },
     bscTestnet: {
-      url: process.env.BSC_TESTNET_RPC ?? "https://data-seed-prebsc-1-s1.bnbchain.org:8545",
+      url: process.env.BSC_TESTNET_RPC || "https://bsc-testnet-rpc.publicnode.com",
       chainId: 97,
       accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
     },
@@ -23,6 +23,8 @@ const config: HardhatUserConfig = {
     // BscScan is served through the Etherscan v2 multichain API.
     apiKey: process.env.ETHERSCAN_API_KEY ?? "",
   },
+  // Verify on Sourcify (no API key needed); BscScan too when ETHERSCAN_API_KEY is set.
+  sourcify: { enabled: true },
   gasReporter: { enabled: process.env.REPORT_GAS === "1" },
 };
 
