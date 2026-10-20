@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Enemy card</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&amp;family=Fredoka:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width:360px;height:504px;box-sizing:border-box;border-radius:18px;padding:10px;background:linear-gradient(160deg,#ff2e63 0%,#5a0f2e 40%,#1b1446 100%);box-shadow:0 14px 34px rgba(0,0,0,.45);font-family:Fredoka,sans-serif">
+<div style="position:relative;width:340px;height:484px;border-radius:10px;overflow:hidden;background:#1b1446">
+<img src="{{bg}}" alt="" style="position:absolute;left:0;top:0;width:340px;height:484px;object-fit:cover;object-position:{{pos}}">
+<div style="position:absolute;inset:0;background:{{tint}}"></div>
+
+<sc-if value="{{b1}}" hint-placeholder-val="{{ true }}">
+<img src="/_blob/8560daf40b9f5eca55df90dd4f595499" alt="Dash sleeping" style="position:absolute;left:200px;top:300px;width:120px;height:69px;object-fit:contain;opacity:.95">
+<span style="position:absolute;left:280px;top:270px;font-family:'Luckiest Guy',cursive;font-size:16px;color:#ffffff;-webkit-text-stroke:1.5px #1b1446;paint-order:stroke fill">z z</span>
+<div style="position:absolute;left:150px;top:180px;width:190px;height:150px;background:repeating-linear-gradient(0deg,rgba(255,255,255,0) 0 14px,rgba(255,255,255,.55) 14px 17px,rgba(255,255,255,0) 17px 30px);-webkit-mask:linear-gradient(90deg,transparent,#000 60%);mask:linear-gradient(90deg,transparent,#000 60%)"></div>
+<div style="position:absolute;left:200px;top:330px;width:110px;height:40px;border-radius:50%;background:rgba(240,230,210,.85);filter:blur(4px)"></div>
+<div style="position:absolute;left:250px;top:310px;width:80px;height:46px;border-radius:50%;background:rgba(240,230,210,.7);filter:blur(5px)"></div>
+<img src="/_blob/0da0b5aac7d903c9e10fe26b4269e278" alt="Boar charging" style="position:absolute;left:30px;top:170px;width:260px;height:198px;object-fit:contain;transform:rotate(-4deg);filter:drop-shadow(0 10px 8px rgba(0,0,0,.45))">
+<span style="position:absolute;left:24px;top:110px;font-family:'Luckiest Guy',cursive;font-size:52px;line-height:1;color:#ff2e63;-webkit-text-stroke:3px #ffffff;paint-order:stroke fill;transform:rotate(-8deg);filter:drop-shadow(4px 4px 0 #1b1446)">CHARGE!</span>
+</sc-if>
+
+<sc-if value="{{b2}}" hint-placeholder-val="{{ false }}">
+<img src="/_blob/8560daf40b9f5eca55df90dd4f595499" alt="Dash sleeping" style="position:absolute;left:220px;top:96px;width:100px;height:58px;object-fit:contain;opacity:.9">
+<div style="position:absolute;left:-60px;top:110px;width:460px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(255,46,99,.75) 0%,rgba(255,46,99,0) 65%)"></div>
+<img src="/_blob/0da0b5aac7d903c9e10fe26b4269e278" alt="Boar" style="position:absolute;left:0px;top:150px;width:330px;height:251px;object-fit:contain;filter:drop-shadow(0 12px 10px rgba(0,0,0,.5))">
+<span style="position:absolute;left:250px;top:170px;font-family:'Luckiest Guy',cursive;font-size:44px;line-height:1;color:#ffe14d;-webkit-text-stroke:3px #1b1446;paint-order:stroke fill;transform:rotate(12deg)">!!</span>
+</sc-if>
+
+<sc-if value="{{b3}}" hint-placeholder-val="{{ false }}">
+<img src="/_blob/8560daf40b9f5eca55df90dd4f595499" alt="Dash sleeping" style="position:absolute;left:14px;top:300px;width:150px;height:86px;object-fit:contain">
+<span style="position:absolute;left:30px;top:268px;font-family:'Luckiest Guy',cursive;font-size:18px;color:#ffffff;-webkit-text-stroke:1.5px #1b1446;paint-order:stroke fill">z z z</span>
+<img src="/_blob/0da0b5aac7d903c9e10fe26b4269e278" alt="Boar sneaking" style="position:absolute;left:150px;top:220px;width:180px;height:137px;object-fit:contain;filter:drop-shadow(0 10px 8px rgba(0,0,0,.45))">
+<span style="position:absolute;left:170px;top:150px;font-family:'Luckiest Guy',cursive;font-size:38px;line-height:1;color:#ffffff;-webkit-text-stroke:3px #1b1446;paint-order:stroke fill;transform:rotate(-6deg)">SHHH…</span>
+</sc-if>
+
+<sc-if value="{{c1}}" hint-placeholder-val="{{ false }}">
+<img src="/_blob/8560daf40b9f5eca55df90dd4f595499" alt="Dash sleeping" style="position:absolute;left:196px;top:320px;width:124px;height:71px;object-fit:contain">
+<sc-for list="{{feathers}}" as="ft" hint-placeholder-count="0">
+<span style="position:absolute;left:{{ft.x}}px;top:{{ft.y}}px;width:{{ft.w}}px;height:{{ft.h}}px;border-radius:50% 50% 50% 50% / 70% 70% 30% 30%;background:{{ft.c}};border:2px solid #3b2414;transform:rotate({{ft.r}}deg)"></span>
+</sc-for>
+<img src="/_blob/6368559d48eb42f017225628511d27fd" alt="Chicken" style="position:absolute;left:50px;top:110px;width:230px;height:248px;object-fit:contain;transform:rotate(-8deg);filter:drop-shadow(0 10px 8px rgba(0,0,0,.4))">
+</sc-if>
+
+<sc-if value="{{c2}}" hint-placeholder-val="{{ false }}">
+<img src="/_blob/8560daf40b9f5eca55df90dd4f595499" alt="Dash sleeping" style="position:absolute;left:210px;top:330px;width:110px;height:63px;object-fit:contain">
+<div style="position:absolute;left:10px;top:90px;width:300px;height:300px;border-radius:50%;border:6px solid rgba(255,225,77,.7)"></div>
+<div style="position:absolute;left:50px;top:130px;width:220px;height:220px;border-radius:50%;border:5px solid rgba(255,225,77,.5)"></div>
+<img src="/_blob/6368559d48eb42f017225628511d27fd" alt="Chicken" style="position:absolute;left:40px;top:110px;width:250px;height:270px;object-fit:contain;filter:drop-shadow(0 10px 8px rgba(0,0,0,.4))">
+<span style="position:absolute;left:150px;top:96px;font-family:'Luckiest Guy',cursive;font-size:56px;line-height:1;color:#ffe14d;-webkit-text-stroke:3px #1b1446;paint-order:stroke fill;transform:rotate(10deg);filter:drop-shadow(4px 4px 0 #ff2e63)">BAWK!</span>
+</sc-if>
+
+<sc-if value="{{c3}}" hint-placeholder-val="{{ false }}">
+<img src="/_blob/8560daf40b9f5eca55df90dd4f595499" alt="Dash sleeping" style="position:absolute;left:14px;top:310px;width:150px;height:86px;object-fit:contain">
+<span style="position:absolute;left:30px;top:278px;font-family:'Luckiest Guy',cursive;font-size:18px;color:#ffffff;-webkit-text-stroke:1.5px #1b1446;paint-order:stroke fill">z z z</span>
+<span style="position:absolute;left:300px;top:380px;width:12px;height:8px;border-radius:50%;background:rgba(59,36,20,.55)"></span>
+<span style="position:absolute;left:280px;top:392px;width:12px;height:8px;border-radius:50%;background:rgba(59,36,20,.55)"></span>
+<span style="position:absolute;left:262px;top:380px;width:12px;height:8px;border-radius:50%;background:rgba(59,36,20,.55)"></span>
+<img src="/_blob/6368559d48eb42f017225628511d27fd" alt="Chicken sneaking" style="position:absolute;left:170px;top:200px;width:150px;height:162px;object-fit:contain;transform:rotate(6deg);filter:drop-shadow(0 10px 8px rgba(0,0,0,.4))">
+<span style="position:absolute;left:150px;top:150px;font-family:'Luckiest Guy',cursive;font-size:46px;line-height:1;color:#ffffff;-webkit-text-stroke:3px #1b1446;paint-order:stroke fill">?</span>
+</sc-if>
+
+<sc-if value="{{w1}}" hint-placeholder-val="{{ false }}">
+<img src="/_blob/8560daf40b9f5eca55df90dd4f595499" alt="Dash sleeping" style="position:absolute;left:196px;top:320px;width:124px;height:71px;object-fit:contain">
+<div style="position:absolute;left:0;top:160px;width:200px;height:130px;background:repeating-linear-gradient(0deg,rgba(255,255,255,0) 0 12px,rgba(255,240,150,.6) 12px 15px,rgba(255,255,255,0) 15px 26px);-webkit-mask:linear-gradient(90deg,transparent,#000 80%);mask:linear-gradient(90deg,transparent,#000 80%)"></div>
+<img src="/_blob/f62188c2c27d815550b0e3bd49a08ef1" alt="" style="position:absolute;left:10px;top:150px;width:150px;height:161px;object-fit:contain;opacity:.15">
+<img src="/_blob/f62188c2c27d815550b0e3bd49a08ef1" alt="" style="position:absolute;left:50px;top:140px;width:160px;height:172px;object-fit:contain;opacity:.3">
+<img src="/_blob/f62188c2c27d815550b0e3bd49a08ef1" alt="Wasp" style="position:absolute;left:100px;top:120px;width:200px;height:215px;object-fit:contain;transform:rotate(-8deg);filter:drop-shadow(0 10px 8px rgba(0,0,0,.4))">
+</sc-if>
+
+<sc-if value="{{w2}}" hint-placeholder-val="{{ false }}">
+<img src="/_blob/8560daf40b9f5eca55df90dd4f595499" alt="Dash sleeping" style="position:absolute;left:20px;top:320px;width:130px;height:75px;object-fit:contain">
+<sc-for list="{{swarm}}" as="sw" hint-placeholder-count="0">
+<img src="/_blob/f62188c2c27d815550b0e3bd49a08ef1" alt="" style="position:absolute;left:{{sw.x}}px;top:{{sw.y}}px;width:{{sw.s}}px;height:{{sw.s}}px;object-fit:contain;transform:rotate({{sw.r}}deg);filter:drop-shadow(0 4px 4px rgba(0,0,0,.35))">
+</sc-for>
+<div style="position:absolute;left:70px;top:110px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(255,225,77,.55) 0%,rgba(255,225,77,0) 65%)"></div>
+<img src="/_blob/f62188c2c27d815550b0e3bd49a08ef1" alt="Wasp leader" style="position:absolute;left:90px;top:120px;width:190px;height:204px;object-fit:contain;filter:drop-shadow(0 10px 8px rgba(0,0,0,.4))">
+<span style="position:absolute;left:150px;top:96px;width:60px;height:24px;border-radius:50%;border:5px solid #ffe14d;box-shadow:0 0 14px 4px rgba(255,225,77,.8)"></span>
+</sc-if>
+
+<sc-if value="{{w3}}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:30px;top:200px;width:280px;height:170px;border-radius:50%;border:3px dashed rgba(255,255,255,.75);transform:rotate(-10deg)"></div>
+<img src="/_blob/8560daf40b9f5eca55df90dd4f595499" alt="Dash sleeping" style="position:absolute;left:84px;top:250px;width:170px;height:98px;object-fit:contain">
+<img src="/_blob/f62188c2c27d815550b0e3bd49a08ef1" alt="Wasp circling" style="position:absolute;left:220px;top:160px;width:100px;height:108px;object-fit:contain;transform:rotate(-20deg);filter:drop-shadow(0 8px 6px rgba(0,0,0,.4))">
+<span style="position:absolute;left:30px;top:150px;font-family:'Luckiest Guy',cursive;font-size:34px;line-height:1;color:#ffe14d;-webkit-text-stroke:3px #1b1446;paint-order:stroke fill;transform:rotate(-8deg)">bzzzz…</span>
+</sc-if>
+
+<img src="/_blob/5f0f787d42b1de3da20f158d29ae4d6b" alt="Doge Dash" style="position:absolute;left:10px;top:10px;width:96px;height:62px;object-fit:contain">
+<div style="position:absolute;right:10px;top:12px;background:#ff2e63;border-radius:999px;padding:5px 10px;font-size:10px;font-weight:700;letter-spacing:1.5px;color:#ffffff">ENEMY · {{enemyName}}</div>
+<div style="position:absolute;left:10px;right:10px;bottom:10px;background:#1b1446;border:2px solid #ff2e63;border-radius:12px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:3px">
+<span style="font-family:'Luckiest Guy',cursive;font-size:23px;line-height:1;color:#ff7aa8">{{title}}</span>
+<span style="font-size:10px;font-weight:700;letter-spacing:1.5px;color:#ffffff">{{sub}}</span>
+</div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
+<span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#c9c2f0">{{version}}</span>
+<span style="font-size:12px;font-weight:700;color:#ffffff">{{serial}}</span>
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"enemy":{"editor":"enum","options":["boar","chicken","wasp"],"default":"boar"},"design":{"editor":"int","min":1,"max":3,"default":1},"serial":{"editor":null,"default":"12/50"},"version":{"editor":null,"default":"NORMAL"},"$preview":{"width":360,"height":504}}'>
+class Component extends DCLogic {
+renderVals() {
+const e = String(this.props.enemy ?? 'boar');
+const d = Math.min(3, Math.max(1, Number(this.props.design ?? 1)));
+const E = {
+boar: { name: 'BOAR', bg: '/_blob/9f4291b98ea8cc710de610b444a0b45e', tint: 'linear-gradient(180deg,rgba(90,10,30,.35),rgba(27,20,70,.45))', where: 'LEVEL 3 · THE JUNGLE', titles: ['CHARGE!', 'TUSK TROUBLE', 'ON PATROL'], pos: ['60% 50%', '85% 50%', '30% 50%'] },
+chicken: { name: 'CHICKEN', bg: '/_blob/5d4a111b4bf5bdf7488cdcba957b3bc3', tint: 'linear-gradient(180deg,rgba(255,120,40,.25),rgba(27,20,70,.4))', where: 'LEVEL 1 · THE MEADOW', titles: ['FEATHER STORM', 'BAWK!', 'SNEAKING UP'], pos: ['45% 50%', '70% 50%', '20% 50%'] },
+wasp: { name: 'WASP', bg: '/_blob/833e69743041f6c0b9abfc105b7442e0', tint: 'linear-gradient(180deg,rgba(255,210,40,.22),rgba(27,20,70,.45))', where: 'LEVEL 5 · ROUTE 66', titles: ['STING OPERATION', 'SWARM LEADER', 'SPACE BUZZ'], pos: ['40% 50%', '75% 50%', '45% 50%'], bgs: [null, null, '/_blob/f188d8a3472fb66c3f9059a88e25a672'], wheres: [null, null, 'DEEP SPACE'] }
+};
+const x = E[e] || E.boar;
+const rnd = (i, k) => { const v = Math.sin(i * 12.9898 + k * 78.233) * 43758.5453; return v - Math.floor(v); };
+return {
+bg: (x.bgs && x.bgs[d - 1]) || x.bg, tint: x.tint, pos: x.pos[d - 1], enemyName: x.name, title: x.titles[d - 1], sub: ((x.wheres && x.wheres[d - 1]) || x.where) + ' · ' + d + ' OF 3',
+b1: e === 'boar' && d === 1, b2: e === 'boar' && d === 2, b3: e === 'boar' && d === 3,
+c1: e === 'chicken' && d === 1, c2: e === 'chicken' && d === 2, c3: e === 'chicken' && d === 3,
+w1: e === 'wasp' && d === 1, w2: e === 'wasp' && d === 2, w3: e === 'wasp' && d === 3,
+feathers: Array.from({ length: 12 }, (_, i) => ({ x: Math.round(rnd(i, 1) * 300 + 10), y: Math.round(rnd(i, 2) * 260 + 80), w: 12 + Math.round(rnd(i, 3) * 10), h: 24 + Math.round(rnd(i, 4) * 14), r: Math.round(rnd(i, 5) * 360), c: i % 2 ? '#f2cfa4' : '#d98a63' })),
+swarm: [{ x: 20, y: 110, s: 56, r: -14 }, { x: 260, y: 100, s: 60, r: 12 }, { x: 270, y: 240, s: 50, r: -6 }, { x: 40, y: 230, s: 46, r: 10 }, { x: 200, y: 300, s: 44, r: -18 }, { x: 150, y: 80, s: 40, r: 6 }],
+serial: this.props.serial ?? '12/50', version: this.props.version ?? 'NORMAL'
+};
+}
+}
+</script>
+</body>
+</html>

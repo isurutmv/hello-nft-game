@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Key card</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&amp;family=Fredoka:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="position:relative;width:360px;height:504px;font-family:Fredoka,sans-serif;color:#ffffff">
+<sc-if value="{{kA}}" hint-placeholder-val="{{ true }}">
+<div style="box-sizing:border-box;padding:10px;background:linear-gradient(135deg,#fff3b0 0%,#e2a812 22%,#fff0a0 40%,#b97c06 60%,#ffe27a 80%,#c98a0b 100%);box-shadow:0 20px 50px rgba(0,0,0,.6),0 0 40px rgba(245,196,49,.35)">
+<div style="position:relative;width:340px;height:484px;border-radius:10px;overflow:hidden;background:#0c0a08">
+<div class="kc-spin" style="width:760px;height:760px;background:repeating-conic-gradient(from 0deg,rgba(245,196,49,.35) 0deg 5deg,rgba(245,196,49,0) 5deg 15deg)"></div>
+<div style="position:absolute;inset:10px;border:2px solid rgba(245,196,49,.8);border-radius:6px"></div>
+<div style="position:absolute;inset:16px;border:1px solid rgba(245,196,49,.5);border-radius:4px"></div>
+<img src="/_blob/56aff61c888ef5a73cf9b880f416c6d0" alt="" style="position:absolute;left:50px;top:70px;width:240px;height:240px;opacity:.9;filter:drop-shadow(0 0 30px rgba(245,196,49,.8))">
+<img class="kc-bob" src="/_blob/66f4b2c602337b35f1d35507f417f308" alt="Dash" style="position:absolute;left:45px;top:150px;width:250px;height:214px;object-fit:contain;filter:drop-shadow(0 14px 12px rgba(0,0,0,.6))">
+<div class="kc-holo" style="position:absolute;inset:0;opacity:.28"></div>
+<div class="kc-sweep"></div>
+<div style="position:absolute;left:0;right:0;top:26px;display:flex;justify-content:center"><img src="/_blob/1e25670d6b64f000805d97c64546aa87" alt="Doge Dash" style="width:200px;height:38px;object-fit:contain"></div>
+<div style="position:absolute;left:0;right:0;bottom:30px;display:flex;flex-direction:column;align-items:center;gap:4px">
+<span class="kc-g" style="font-family:'Luckiest Guy',cursive;font-size:64px;line-height:1;-webkit-text-stroke:1.5px #5a3c00">DASH</span>
+<span style="font-size:12px;font-weight:700;letter-spacing:4px;color:#f5c431">THE ORIGINAL · KEY CARD</span>
+<span style="font-size:11px;font-weight:600;letter-spacing:2px;color:#c9a96a">{{serial}}</span>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{kB}}" hint-placeholder-val="{{ false }}">
+<div style="box-sizing:border-box;padding:10px;background:linear-gradient(135deg,#ffd6f5 0%,#bfe9ff 20%,#ffffff 35%,#c8b6ff 50%,#a8fff0 65%,#fff6b0 80%,#ffd6f5 100%);box-shadow:0 20px 50px rgba(0,0,0,.6),0 0 40px rgba(200,160,255,.4);">
+<div style="position:relative;width:340px;height:484px;border-radius:10px;overflow:hidden;background:#1b0a3a">
+<img src="/_blob/f188d8a3472fb66c3f9059a88e25a672" alt="" style="position:absolute;left:0;top:0;width:340px;height:484px;object-fit:cover;object-position:42% 50%">
+<div class="kc-spin" style="width:820px;height:820px;background:conic-gradient(from 0deg,rgba(255,120,200,.5),rgba(120,200,255,.5),rgba(160,255,200,.5),rgba(255,230,120,.5),rgba(255,120,200,.5));mix-blend-mode:color-dodge;opacity:.55;-webkit-mask:radial-gradient(circle,#000 0%,transparent 60%);mask:radial-gradient(circle,#000 0%,transparent 60%);animation-duration:14s"></div>
+<span class="kc-tw" style="left:40px;top:120px"></span><span class="kc-tw" style="left:290px;top:90px;animation-delay:.6s"></span><span class="kc-tw" style="left:250px;top:250px;animation-delay:1.2s"></span><span class="kc-tw" style="left:70px;top:300px;animation-delay:1.8s"></span><span class="kc-tw" style="left:170px;top:70px;animation-delay:.9s"></span>
+<img class="kc-bob" src="/_blob/368188bada7026c96cc1cf9b6bd14d1f" alt="Dash" style="position:absolute;left:40px;top:120px;width:260px;height:250px;object-fit:contain;transform:rotate(-10deg);filter:drop-shadow(0 0 22px rgba(200,160,255,.9))">
+<div class="kc-holo" style="position:absolute;inset:0;opacity:.35"></div>
+<div class="kc-sweep" style="animation-delay:-1.5s"></div>
+<div style="position:absolute;left:0;right:0;top:22px;display:flex;justify-content:center"><img src="/_blob/1e25670d6b64f000805d97c64546aa87" alt="Doge Dash" style="width:200px;height:38px;object-fit:contain"></div>
+<div style="position:absolute;left:0;right:0;bottom:28px;display:flex;flex-direction:column;align-items:center;gap:4px">
+<span class="kc-h" style="font-family:'Luckiest Guy',cursive;font-size:64px;line-height:1;-webkit-text-stroke:1.5px #2a0870">DASH</span>
+<span style="font-size:12px;font-weight:700;letter-spacing:4px;color:#ffffff">COSMIC · KEY CARD</span>
+<span style="font-size:11px;font-weight:600;letter-spacing:2px;color:#c9c2f0">{{serial}}</span>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{kC}}" hint-placeholder-val="{{ false }}">
+<div style="box-sizing:border-box;padding:10px;background:linear-gradient(135deg,#fff3b0 0%,#e2a812 22%,#fff0a0 40%,#b97c06 60%,#ffe27a 80%,#c98a0b 100%);box-shadow:0 20px 50px rgba(0,0,0,.6),0 0 40px rgba(255,225,77,.35);">
+<div style="position:relative;width:340px;height:484px;border-radius:10px;overflow:hidden;background:linear-gradient(180deg,#2f8ff0 0%,#5fc0f5 60%,#a8e6ff 100%)">
+<div class="kc-spin" style="top:62%;width:900px;height:900px;background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.35) 0deg 6deg,rgba(255,255,255,0) 6deg 18deg)"></div>
+<div style="position:absolute;left:-40px;top:120px;width:170px;height:56px;border-radius:40px;background:#e8fbff;opacity:.9"></div>
+<div style="position:absolute;left:230px;top:180px;width:150px;height:48px;border-radius:40px;background:#e8fbff;opacity:.8"></div>
+<img class="kc-rain" src="/_blob/56aff61c888ef5a73cf9b880f416c6d0" alt="" style="left:30px">
+<img class="kc-rain" src="/_blob/56aff61c888ef5a73cf9b880f416c6d0" alt="" style="left:110px;animation-delay:-1s;width:22px;height:22px">
+<img class="kc-rain" src="/_blob/56aff61c888ef5a73cf9b880f416c6d0" alt="" style="left:200px;animation-delay:-2s">
+<img class="kc-rain" src="/_blob/56aff61c888ef5a73cf9b880f416c6d0" alt="" style="left:280px;animation-delay:-.5s;width:24px;height:24px">
+<img class="kc-rain" src="/_blob/56aff61c888ef5a73cf9b880f416c6d0" alt="" style="left:160px;animation-delay:-2.6s;width:20px;height:20px">
+<img src="/_blob/56aff61c888ef5a73cf9b880f416c6d0" alt="" style="position:absolute;left:45px;top:210px;width:250px;height:250px;filter:drop-shadow(0 10px 20px rgba(0,0,0,.35))">
+<div class="kc-holo" style="position:absolute;left:45px;top:210px;width:250px;height:250px;border-radius:50%;opacity:.55"></div>
+<img class="kc-bob" src="/_blob/66f4b2c602337b35f1d35507f417f308" alt="Dash" style="position:absolute;left:95px;top:96px;width:150px;height:128px;object-fit:contain;filter:drop-shadow(0 8px 8px rgba(0,0,0,.35))">
+<div class="kc-sweep" style="animation-delay:-3s"></div>
+<div style="position:absolute;left:0;right:0;top:22px;display:flex;justify-content:center"><img src="/_blob/1e25670d6b64f000805d97c64546aa87" alt="Doge Dash" style="width:200px;height:38px;object-fit:contain"></div>
+<div style="position:absolute;left:12px;right:12px;bottom:12px;background:#1b1446;border:2px solid #ffe14d;border-radius:12px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:3px"><span class="kc-g" style="font-family:'Luckiest Guy',cursive;font-size:28px;line-height:1">DASH</span><span style="font-size:10px;font-weight:700;letter-spacing:2px">COIN KING · KEY CARD</span></div>
+<span style="font-size:12px;font-weight:700">{{serial}}</span>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{kD}}" hint-placeholder-val="{{ false }}">
+<div style="box-sizing:border-box;padding:10px;background:linear-gradient(90deg,#ff9ad5,#ffe57a,#8dffc9,#7fd6ff,#c9a2ff,#ff9ad5);background-size:300% 100%;box-shadow:0 20px 50px rgba(0,0,0,.6),0 0 40px rgba(125,255,176,.35);animation:kcholo 6s linear infinite;">
+<div style="position:relative;width:340px;height:484px;border-radius:10px;overflow:hidden;background:#3aa8f0">
+<img src="/_blob/5d4a111b4bf5bdf7488cdcba957b3bc3" alt="" style="position:absolute;left:0;top:0;width:340px;height:484px;object-fit:cover;object-position:60% 50%">
+<div class="kc-holo" style="position:absolute;inset:0;opacity:.3"></div>
+<img src="/_blob/8df3645dabecff59ecdc48dc63d9cc35" alt="" style="position:absolute;left:196px;top:228px;width:140px;height:133px;object-fit:contain">
+<div style="position:absolute;left:0;right:0;top:372px;display:flex;justify-content:center"><img src="/_blob/1e25670d6b64f000805d97c64546aa87" alt="Doge Dash" style="width:220px;height:42px;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(0,0,0,.4))"></div>
+<div style="position:absolute;left:12px;right:12px;bottom:12px;background:#1b1446;border:2px solid #7dffb0;border-radius:12px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:3px"><span class="kc-h" style="font-family:'Luckiest Guy',cursive;font-size:28px;line-height:1">DASH</span><span style="font-size:10px;font-weight:700;letter-spacing:2px">BREAKOUT · KEY CARD</span></div>
+<span style="font-size:12px;font-weight:700">{{serial}}</span>
+</div>
+</div>
+<span style="position:absolute;left:96px;top:-8px;width:40px;height:22px;background:#ffffff;clip-path:polygon(0 0,100% 30%,60% 100%);transform:rotate(-20deg)"></span>
+<span style="position:absolute;left:236px;top:-6px;width:30px;height:18px;background:#d6f7ff;clip-path:polygon(0 30%,100% 0,40% 100%);transform:rotate(14deg)"></span>
+<img class="kc-bob" src="/_blob/368188bada7026c96cc1cf9b6bd14d1f" alt="Dash breaking out of the card" style="position:absolute;left:40px;top:-26px;width:280px;height:269px;object-fit:contain;transform:rotate(-4deg);filter:drop-shadow(0 16px 14px rgba(0,0,0,.55))">
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"design":{"editor":"enum","options":["A","B","C","D"],"default":"A"},"serial":{"editor":null,"default":"1 / 3"},"$preview":{"width":360,"height":504}}'>
+class Component extends DCLogic {
+renderVals() {
+const k = String(this.props.design ?? 'A');
+return { kA: k === 'A', kB: k === 'B', kC: k === 'C', kD: k === 'D', serial: this.props.serial ?? '1 / 3' };
+}
+}
+</script>
+</body>
+</html>

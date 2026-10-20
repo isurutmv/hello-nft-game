@@ -1,7 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "npm ci --prefix web",
+  "installCommand": "npm ci && npm ci --prefix web",
   "buildCommand": "npm run build --prefix web",
   "outputDirectory": "web/dist",
-  "framework": null
+  "framework": null,
+  "functions": {
+    "api/card/[id].ts": { "memory": 2048, "maxDuration": 30 },
+    "api/pack/[id].ts": { "memory": 2048, "maxDuration": 30 },
+    "api/dash/[id].ts": { "memory": 1024, "maxDuration": 30 }
+  }
 }

@@ -12,8 +12,31 @@ Digital collector cards for Doge Dash holders, built from the Series 1 design:
 ```
 contracts/   Hardhat project: Solidity contracts, tests, deploy scripts
 web/         Vite + React + wagmi dapp (Home, Play, Claim, My packs, Rip, My cards)
+web/src/dc   The Series 1 design files (.dc.html) and the small runtime that renders them
 web/src/game Doge Dash runner: rules (sim.ts), levels, drawing, sound, perks
+api/         Vercel functions: Dash cut-out art, and card/pack PNGs for wallets and marketplaces
 ```
+
+## The cards are the design
+
+Cards, card backs, packs and the pack-opening scene are rendered from the original Series 1 design files, unchanged:
+`SeriesCard`, `ImpactCard`, `KeyCard`, `AdventureCard`, `LevelCard`, `EnemyCard`, `CardBack`, `PackWrapper` and the
+design's `PackRip` screen (in `web/src/dc/components/`, with the design's images in `web/public/art/`). A small runtime
+(`web/src/dc/runtime.ts`) renders the templates into a shadow root so their CSS applies exactly as designed.
+`web/src/lib/designCard.ts` maps each on-chain card (set, finish, design, serial) to the props the design's own
+pack-opening screen would pass. When you rip a pack, the design's opening scene plays with the cards Chainlink VRF drew.
+
+Every Base, Sky Prism, Run Cycle and ZOOMIES! card shows its real HELLO Doge Dash, by token ID:
+
+- The 60 Dashes in the design file use the design's own cut-outs.
+- For every other token, `/api/dash/{id}` fetches the token's image from the collection's IPFS folder
+  (`ipfs://QmYTS6KMs9AgkqrB1NX9du2EEAFJXyCjEv4amX2X2ZDHt4/{id}.png`), cuts the Dash out of its flat background and
+  returns a 520 px PNG. The first request for a token takes a few seconds, then the CDN caches the result for good.
+  The app preloads the art for the cards you pulled while you're on the "ready" screen.
+- Each card's background colour comes from the token's Background trait (`web/src/data/dash-meta.json`, built by
+  `web/scripts/build-dash-meta.mjs` from the collection's metadata). The palette matches the design's samples.
+
+`/card.html?id=7` shows any minted card (flip and tilt), `/card.html?pack=1` a sealed pack.
 
 ## The game: Doge Dash
 
@@ -51,7 +74,7 @@ worlds plus 25 extra seeds each, and fails if any run takes a hit. To watch the 
 
 ## Live on BSC testnet
 
-Deployed from `0xC830ca16bAbF2812130C4a1428add5613d6C2cac` and verified on [Sourcify](https://sourcify.dev) (exact match). The web app reads
+Deployed from `0xC830ca16bAbF2812130C4a1428add5613d6C2cac` (v2, with design-rendered card images) and verified on [Sourcify](https://sourcify.dev) (exact match). The web app reads
 these addresses from `web/src/contracts/deployments.json`.
 
 | Contract | Address |
@@ -59,25 +82,45 @@ these addresses from `web/src/contracts/deployments.json`.
 | MockDogeDash | [`0xa1cf6B0c1614dDD06c9e5050129E2C133fe3DA52`](https://testnet.bscscan.com/address/0xa1cf6B0c1614dDD06c9e5050129E2C133fe3DA52) |
 | USDC | [`0x5c7ec3E41BB6B3B723bD87c789c60FE36A685CA3`](https://testnet.bscscan.com/address/0x5c7ec3E41BB6B3B723bD87c789c60FE36A685CA3) |
 | USDT | [`0x6120E8410088bb7d5FeAEe809Df5943ddad0434D`](https://testnet.bscscan.com/address/0x6120E8410088bb7d5FeAEe809Df5943ddad0434D) |
-| DashPacks | [`0x7160DD229966108E2D629CB844465637163BA48C`](https://testnet.bscscan.com/address/0x7160DD229966108E2D629CB844465637163BA48C) |
-| DashCards | [`0x313E96E71aD19CeDAE94BFa68Ef953270167c4A7`](https://testnet.bscscan.com/address/0x313E96E71aD19CeDAE94BFa68Ef953270167c4A7) |
-| CardRenderer | [`0x300037F67aa3242F556fD7FBD49eB84Cd412362b`](https://testnet.bscscan.com/address/0x300037F67aa3242F556fD7FBD49eB84Cd412362b) |
-| PackRipper | [`0xc76cFCb12DCe68E92d3D4278CB68F6d8aF43E9FF`](https://testnet.bscscan.com/address/0xc76cFCb12DCe68E92d3D4278CB68F6d8aF43E9FF) |
+| DashPacks | [`0x237B3aC99C068c7099463019e3670D4E2044F04a`](https://testnet.bscscan.com/address/0x237B3aC99C068c7099463019e3670D4E2044F04a) |
+| DashCards | [`0xD6828C1b96B66c1C1Dd93220E3d7A0C8f5f223f9`](https://testnet.bscscan.com/address/0xD6828C1b96B66c1C1Dd93220E3d7A0C8f5f223f9) |
+| CardRenderer | [`0xA3cA64612D2dB50858953261fcb93649ccd7544F`](https://testnet.bscscan.com/address/0xA3cA64612D2dB50858953261fcb93649ccd7544F) |
+| PackRipper | [`0x8CA04435ecFDFD6ae0bcB118CE5b7b818e206cBe`](https://testnet.bscscan.com/address/0x8CA04435ecFDFD6ae0bcB118CE5b7b818e206cBe) |
 | DashLeaderboard | [`0x19C999512a9bc4ba44636DEe20B1338EC4cA4e6b`](https://testnet.bscscan.com/address/0x19C999512a9bc4ba44636DEe20B1338EC4cA4e6b) |
 
 Chainlink VRF v2.5 subscription `30569291071428640930983185309972124917807855442015241823367329295091774612262` (funded with tBNB, PackRipper is a consumer). A live
 smoke run (`npx hardhat run scripts/smoke.ts --network bscTestnet`) claimed, paid, ripped and opened a pack; VRF
-answered in about 15 seconds.
+answered in about 11 seconds. The first deployment (v1) is kept in `contracts/deployments/bscTestnet.v1.json`; its
+packs and cards don't carry over.
 
 ### Host the site on Vercel
 
-Import the repository; `vercel.json` builds `web/` and serves `web/dist`. No secrets are needed on Vercel. Optional
-environment variables:
+Import the repository and leave the project root as the repository root. `vercel.json` builds `web/`, serves
+`web/dist` and deploys the functions in `api/`. No secrets are needed on Vercel. Optional environment variables:
 
 | Name | Value |
 | --- | --- |
 | `VITE_BSC_TESTNET_RPC` | `https://bsc-testnet-rpc.publicnode.com` (the default) |
 | `VITE_WALLETCONNECT_PROJECT_ID` | A free project ID from cloud.reown.com, to connect mobile wallets by QR |
+| `SITE_URL` | The site's public URL, e.g. `https://doge-dash.vercel.app`. Used by the image functions; defaults to the request's host |
+| `IPFS_GATEWAY` | IPFS gateway for the Doge Dash art (default `https://gateway.pinata.cloud`) |
+
+| Function | Returns |
+| --- | --- |
+| `/api/dash/{tokenId}` | The Dash cut out of its background, 520 px tall PNG |
+| `/api/card/{cardId}` | The minted card rendered from the design, 720 × 1008 PNG |
+| `/api/pack/{packId}` | The sealed pack, 720 × 1120 PNG |
+
+The card and pack images are screenshots of `/card.html` taken by headless Chromium (`@sparticuz/chromium`), cached
+for a year. After the first deploy, point the NFTs' metadata at the site so wallets and marketplaces show the design:
+
+```bash
+cd contracts
+SITE_URL=https://your-site.vercel.app npx hardhat run scripts/set-uris.ts --network bscTestnet
+```
+
+That sets each card's `image` to `/api/card/{id}.png` and `animation_url` to the interactive `/card.html?id={id}`, and
+the same for packs. Until then, tokenURI falls back to the on-chain SVG.
 
 ## The print run
 
@@ -114,7 +157,7 @@ Rarity is set by how many cards exist in that set and finish: 1–12 → 1, 13�
 | `DashPacks` | ERC-721 sealed packs. `claim(dogeIds)` checks `ownerOf` on the Doge Dash collection on the same chain. `claimWithAttestation` accepts an EIP-712 signature from a trusted signer, for when the holder's NFTs live on Ethereum. Optional claim deadline, `promoMint` for leftovers, hard cap of 18,469. |
 | `PackRipper` | Takes 8 USDC/USDT per pack (up to 5 packs per rip), burns the packs, and requests Chainlink VRF v2.5. The VRF callback draws all 10 cards per pack from the pool straight away. Because the draw happens when the randomness arrives, nobody can see a seed first and wait for a better pool state. `openPack` then mints the cards. Anyone can call it, and the cards always go to the wallet that ripped. `retry` re-requests randomness if VRF never answers. |
 | `DashCards` | ERC-721 cards. Set, finish, design, serial, copies and pack ID are stored on-chain. |
-| `CardRenderer` | On-chain JSON metadata with an SVG stand-in image. Call `setImageBaseURI` to switch to the final art at `{base}{set}/{finish}/{design}.png`. |
+| `CardRenderer` | On-chain JSON metadata (name, set, finish, serial, rarity and token traits). `setURIs(image, animation)` sets `image` to `{image}{cardId}.png` and `animation_url` to `{animation}{cardId}`; until set, the image is an on-chain SVG. `DashPacks.setURIs` does the same for packs. |
 | `DashLeaderboard` | Best score per wallet per world, a top-10 table per world, and a bitmask of the worlds each wallet has cleared. |
 | `MockDogeDash`, `MockStablecoin` | Testnet only. Anyone can mint Doge Dash tokens (up to 5 per call), and the USDC/USDT faucet gives 100 per call. Both stablecoins use 18 decimals, like the Binance-Peg tokens on BSC. |
 
@@ -176,7 +219,8 @@ Chainlink VRF v2.5 on BSC testnet: coordinator `0xDA3b641D438362C440Ac5458c57e00
 
 ## Still to do before mainnet
 
-- Final card art and image hosting (`CardRenderer.setImageBaseURI`), and wiring the art into the web card component.
+- Licensing for the HELLO Doge Dash art used on the cards, and permanent hosting for the card images (for example,
+  render all cards once and pin them to IPFS, then `setURIs` to that folder).
 - An attestation signer service that reads Doge Dash ownership on Ethereum (the contract side is done and tested).
 - Real stablecoin addresses and 18-decimal pricing check (Binance-Peg USDC/USDT on BSC are 18 decimals).
 - Server-signed leaderboard scores (replay the run), and perks read from real trait metadata.

@@ -280,3 +280,11 @@ tr.me td { color: var(--yellow); }
   .play-promo { grid-template-columns: 1fr; }
   .worlds { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ------------------------------------------------ design components */
+.dc-card { filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.35)); }
+.pack-dc { display: grid; gap: 6px; justify-items: center; transition: transform 0.2s; }
+.pack-dc.is-selected { transform: translateY(-6px); filter: drop-shadow(0 0 0 #ffe14d) drop-shadow(0 0 14px rgba(255, 225, 77, 0.7)); }
+.pack-dc-id { font-weight: 900; font-size: 12px; letter-spacing: 0.08em; color: var(--muted); }
+.reveal-live { padding: 16px; }
+.rip-live-box { width: 100%; border-radius: 16px; overflow: hidden; margin: 10px 0; background: #120c33; }

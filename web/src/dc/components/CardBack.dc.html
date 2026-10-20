@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Card back</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&amp;family=Fredoka:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width:360px;height:504px;box-sizing:border-box;border-radius:18px;padding:10px;background:#ffffff;box-shadow:0 14px 34px rgba(0,0,0,.45);font-family:Fredoka,sans-serif">
+<div style="position:relative;width:340px;height:484px;border-radius:10px;overflow:hidden;background:radial-gradient(circle at 50% 38%,{{glow}} 0%,#1b1446 58%,#0d0b26 100%)">
+<div style="position:absolute;inset:0;background:radial-gradient(rgba(255,255,255,.08) 1.4px,transparent 1.9px) 0 0/10px 10px"></div>
+<div style="position:absolute;left:170px;top:186px;width:520px;height:520px;transform:translate(-50%,-50%);border-radius:50%;background:repeating-conic-gradient(from 0deg,{{ray}} 0deg 6deg,rgba(255,255,255,0) 6deg 18deg);opacity:.28"></div>
+
+<img src="/_blob/1e25670d6b64f000805d97c64546aa87" alt="Doge Dash" style="position:absolute;left:70px;top:16px;width:200px;height:40px;object-fit:contain">
+
+<span style="position:absolute;left:0;right:0;top:72px;text-align:center;font-size:12px;font-weight:700;letter-spacing:5px;color:#ffffff">RARITY</span>
+<div style="position:absolute;left:110px;top:94px;width:120px;height:120px;border-radius:50%;background:{{medal}};box-shadow:0 10px 24px rgba(0,0,0,.45),0 0 30px {{glowSoft}};display:flex;align-items:center;justify-content:center">
+<div style="width:96px;height:96px;border-radius:50%;background:#1b1446;border:3px solid rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center">
+<span style="font-family:'Luckiest Guy',cursive;font-size:62px;line-height:1;padding-top:8px;color:{{numColor}}">{{tier}}</span>
+</div>
+</div>
+<div style="position:absolute;left:0;right:0;top:224px;display:flex;justify-content:center">
+<span style="font-family:'Luckiest Guy',cursive;font-size:24px;line-height:1;letter-spacing:1px;color:#ffe14d;-webkit-text-stroke:2px #0d0b26;paint-order:stroke fill">{{copiesLine}}</span>
+</div>
+
+<div style="position:absolute;left:24px;right:24px;top:262px;display:flex;flex-direction:column;gap:5px">
+<div style="display:flex;gap:4px">
+<sc-for list="{{scale}}" as="p" hint-placeholder-count="7">
+<div style="flex:1;height:22px;border-radius:5px;background:{{p.bg}};border:2px solid {{p.edge}};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:{{p.fg}}">{{p.n}}</div>
+</sc-for>
+</div>
+<div style="display:flex;justify-content:space-between;font-size:9px;font-weight:700;letter-spacing:1.5px;color:#a79fd6"><span>← RAREST FINISH</span><span>MOST PRINTED →</span></div>
+</div>
+
+<div style="position:absolute;left:14px;right:14px;top:318px;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);padding:10px 12px;display:flex;flex-direction:column;gap:7px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px">
+<span style="font-family:'Luckiest Guy',cursive;font-size:19px;line-height:1;color:#ffffff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{name}}</span>
+<span style="font-size:13px;font-weight:700;color:#ffe14d;white-space:nowrap">{{serial}}</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:6px">
+<div><div style="font-size:9px;letter-spacing:1.5px;color:#a79fd6">SET</div><div style="font-size:12px;font-weight:600;color:#ffffff">{{set}}</div></div>
+<div><div style="font-size:9px;letter-spacing:1.5px;color:#a79fd6">VERSION</div><div style="font-size:12px;font-weight:600;color:#ffffff">{{version}}</div></div>
+<div><div style="font-size:9px;letter-spacing:1.5px;color:#a79fd6">ORIGIN</div><div style="font-size:12px;font-weight:600;color:#ffffff">{{tok}}</div></div>
+<div><div style="font-size:9px;letter-spacing:1.5px;color:#a79fd6">THIS CARD</div><div style="font-size:12px;font-weight:600;color:#ffffff">{{thisCard}}</div></div>
+</div>
+</div>
+
+<div style="position:absolute;left:0;right:0;bottom:0;height:34px;background:{{band}};display:flex;align-items:center;justify-content:center">
+<span style="font-size:10px;font-weight:700;letter-spacing:2.5px;color:#1b1446">SERIES 1 · DIGITAL COLLECTOR CARD</span>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"copies":{"editor":"int","min":1,"max":50,"default":1},"printed":{"editor":"int","min":1,"max":40000,"default":4},"dash":{"editor":null,"default":"DASH #2299"},"set":{"editor":null,"default":"Base"},"version":{"editor":null,"default":"Holo Dash"},"serial":{"editor":null,"default":"1/1"},"tok":{"editor":null,"default":"Token #2299"},"no":{"editor":null,"default":"B-2299"},"$preview":{"width":360,"height":504}}'>
+class Component extends DCLogic {
+renderVals() {
+const copies = Math.max(1, Number(this.props.copies ?? 1));
+const printed = Math.max(1, Number(this.props.printed ?? copies));
+const TH = [1, 13, 31, 61, 151, 1000, 10000];
+let tier = 1;
+TH.forEach((t, i) => { if (printed >= t) tier = i + 1; });
+const COL = [
+  ['linear-gradient(135deg,#ff9ad5,#ffe57a,#8dffc9,#7fd6ff,#c9a2ff,#ff9ad5)', '#ff9ad5', '#ffffff', 'rgba(255,154,213,.55)'],
+  ['linear-gradient(180deg,#fff6c2 0%,#f5c431 45%,#b37806 60%,#ffe27a 100%)', '#f5c431', '#ffe14d', 'rgba(245,196,49,.5)'],
+  ['linear-gradient(180deg,#ffc2e0 0%,#ff4fa3 50%,#a8115c 100%)', '#ff4fa3', '#ff8cc6', 'rgba(255,79,163,.45)'],
+  ['linear-gradient(180deg,#e2ccff 0%,#9b5cff 50%,#5a20b0 100%)', '#9b5cff', '#c9a2ff', 'rgba(155,92,255,.45)'],
+  ['linear-gradient(180deg,#c8ecff 0%,#2aa3e0 50%,#105d8a 100%)', '#2aa3e0', '#7fd6ff', 'rgba(42,163,224,.45)'],
+  ['linear-gradient(180deg,#c9ffe6 0%,#2fcf8a 50%,#137a4d 100%)', '#2fcf8a', '#8dffc9', 'rgba(47,207,138,.45)'],
+  ['linear-gradient(180deg,#eef0f6 0%,#9aa3b8 50%,#555d72 100%)', '#9aa3b8', '#dfe3ee', 'rgba(154,163,184,.4)']
+];
+const c = COL[tier - 1];
+const scale = COL.map((x, i) => ({ n: i + 1, bg: i + 1 === tier ? x[0] : 'rgba(255,255,255,.06)', edge: i + 1 === tier ? '#ffffff' : 'rgba(255,255,255,.15)', fg: i + 1 === tier ? '#1b1446' : '#a79fd6' }));
+return {
+  tier: String(tier), medal: c[0], glow: c[1], numColor: c[2], glowSoft: c[3], ray: c[3], band: c[0], scale,
+  copiesLine: (printed < 1000 ? 'ONLY ' : '') + printed.toLocaleString('en-US') + ' PRINTED',
+  thisCard: copies === 1 ? 'One of one' : '1 of ' + copies + ' copies',
+  name: this.props.dash ?? 'DASH #2299', set: this.props.set ?? 'Base', version: this.props.version ?? 'Holo Dash',
+  serial: this.props.serial ?? '1/1', tok: this.props.tok ?? 'Token #2299', no: this.props.no ?? 'B-2299'
+};
+}
+}
+</script>
+</body>
+</html>

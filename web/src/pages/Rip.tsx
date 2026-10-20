@@ -1,9 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useReadContracts } from "wagmi";
 import { PackRipperAbi } from "../contracts";
 import { useGame, useTx } from "../lib/useGame";
-import { FINISHES, SETS, cardName, printed, rarity, revealOrder, toCard, type Card } from "../lib/cards";
-import { CardBack, CardFront, FlipCard, PackArt } from "../components/CardView";
+import { revealOrder, toCard, type Card } from "../lib/cards";
+import { dashArt, liveEntry } from "../lib/designCard";
+import { DcView } from "../dc";
+import { PackArt } from "../components/CardView";
 
 const PENDING = 1;
 const DRAWN = 2;
@@ -31,6 +33,12 @@ export function Rip({ packIds, onDone, onBack }: { packIds: bigint[]; onDone: ()
     () => packIds.map((_, i) => revealOrder(((drawn.data?.[i]?.result as readonly Parameters<typeof toCard>[0][] | undefined) ?? []).map(toCard))),
     [drawn.data, packIds],
   );
+
+  // Warm the Dash cut-outs while the player is still on the "ready" screen, so the reveal never
+  // shows a card before its art has loaded.
+  useEffect(() => {
+    for (const card of packCards.flat()) if (card.set <= 3) new Image().src = dashArt(card.design + 1).url;
+  }, [packCards]);
 
   useEffect(() => {
     if (allOpened && packCards.every((p) => p.length)) setRevealing(true);
@@ -87,87 +95,45 @@ export function Rip({ packIds, onDone, onBack }: { packIds: bigint[]; onDone: ()
   );
 }
 
+/**
+ * The design's own pack-opening scene, driven by the cards Chainlink VRF actually drew: tear the
+ * wrapper, deal the cards, flip each one, then browse them close up.
+ */
 function Reveal({ packs, packIds, onDone }: { packs: Card[][]; packIds: bigint[]; onDone: () => void }) {
   const [p, setP] = useState(0);
-  const [i, setI] = useState(0);
-  const [front, setFront] = useState(false);
-  const [done, setDone] = useState(false);
-  const cards = packs[p];
-  const card = cards[i];
-
-  const next = () => {
-    if (i < cards.length - 1) {
-      setI(i + 1);
-      setFront(false);
-    } else if (p < packs.length - 1) {
-      setP(p + 1);
-      setI(0);
-      setFront(false);
-    } else setDone(true);
-  };
-
-  if (done) {
-    const all = packs.flat();
-    const best = [...all].sort((a, b) => rarity(printed(a.set, a.finish)) - rarity(printed(b.set, b.finish)))[0];
-    return (
-      <section className="panel">
-        <div className="kicker">PULLED {all.length} CARDS</div>
-        <h2>
-          Best pull: {cardName(best.set, best.design)} · {SETS[best.set].name} {FINISHES[best.finish]}
-        </h2>
-        <p className="muted">Tap a card to see its back. These are now NFTs in your wallet.</p>
-        <div className="card-grid">
-          {all.map((cd, k) => (
-            <FlipCard key={k} card={cd} size={170} />
-          ))}
-        </div>
-        <button className="btn btn-yellow btn-lg" onClick={onDone}>
-          View my collection →
-        </button>
-      </section>
-    );
-  }
-
-  const tier = rarity(printed(card.set, card.finish));
-  const hit = card.finish > 0 || SETS[card.set].rank >= 3;
-  const word = SETS[card.set].rank >= 5 ? "IMPACT PULL!" : SETS[card.set].rank === 7 ? "KEY CARD!" : card.finish === 2 ? "HOLO DASH!" : card.finish === 1 ? "HOLO!" : SETS[card.set].rank >= 3 ? `${SETS[card.set].short}!` : "";
-
+  const box = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(1100);
+  useEffect(() => {
+    const el = box.current!;
+    const ro = new ResizeObserver(() => setWidth(el.clientWidth));
+    ro.observe(el);
+    setWidth(el.clientWidth);
+    return () => ro.disconnect();
+  }, []);
+  const live = useMemo(() => packs[p].map(liveEntry), [packs, p]);
+  const last = p === packs.length - 1;
   return (
-    <section className="panel reveal">
-      <div className="kicker">
-        PACK #{packIds[p].toString()} · CARD {i + 1} OF {cards.length}
-        {packs.length > 1 && ` · PACK ${p + 1} OF ${packs.length}`}
+    <section className="panel reveal-live">
+      <div className="row-gap" style={{ justifyContent: "space-between", marginTop: 0 }}>
+        <div className="kicker" style={{ margin: 0 }}>
+          PACK #{packIds[p].toString()}
+          {packs.length > 1 && ` · ${p + 1} OF ${packs.length}`}
+        </div>
+        <div className="row-gap" style={{ margin: 0 }}>
+          {!last && (
+            <button className="btn btn-yellow btn-sm" onClick={() => setP(p + 1)}>
+              Next pack →
+            </button>
+          )}
+          <button className={`btn btn-sm ${last ? "btn-yellow" : ""}`} onClick={onDone}>
+            View my collection →
+          </button>
+        </div>
       </div>
-      <div className="reveal-stage">
-        <button className={`reveal-card ${front ? "is-front" : ""}`} onClick={() => (front ? next() : setFront(true))} key={`${p}-${i}`}>
-          <div className="flip-inner">
-            <div className="flip-face flip-back-first">
-              <CardBack card={card} size={260} />
-            </div>
-            <div className="flip-face flip-front-second">
-              <CardFront card={card} size={260} />
-            </div>
-          </div>
-        </button>
-        {front && hit && word && (
-          <div className="burst" style={{ color: SETS[card.set].color }}>
-            {word}
-          </div>
-        )}
+      <div ref={box} className="rip-live-box">
+        <DcView key={`${p}`} name="PackRipLive" props={{ live, kicker: `PACK ${p + 1} OF ${packs.length} · PAID` }} width={width} />
       </div>
-      <p className="muted">
-        {front
-          ? `${SETS[card.set].name} · ${FINISHES[card.finish]} · ${card.serial}/${card.copies} · Rarity ${tier}`
-          : `Rarity ${tier} on the back. Tap to flip.`}
-      </p>
-      <div className="row-gap center">
-        <button className="btn btn-yellow" onClick={() => (front ? next() : setFront(true))}>
-          {front ? "Next card →" : "Flip"}
-        </button>
-        <button className="btn btn-ghost" onClick={() => setDone(true)}>
-          Skip to all cards
-        </button>
-      </div>
+      <p className="muted small">Drag across the top of the pack (or tap it) to rip it open, then tap each card to flip it.</p>
     </section>
   );
 }

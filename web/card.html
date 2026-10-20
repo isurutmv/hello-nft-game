@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doge Dash Collector Card</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      html, body { margin: 0; height: 100%; background: transparent; }
+      body.interactive { background: radial-gradient(circle at 50% 30%, #3a2a8a, #120c33); display: grid; place-items: center; }
+      #root { width: 720px; height: 1008px; }
+      body.interactive #root { width: min(92vw, 62vh); height: auto; aspect-ratio: 360 / 504; perspective: 1600px; cursor: pointer; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/card-page.ts"></script>
+  </body>
+</html>

@@ -8,18 +8,24 @@ import {DashCards, ICardRenderer} from "./DashCards.sol";
 import {PrintRun} from "./libraries/PrintRun.sol";
 
 /// @title Card metadata
-/// @notice Builds each card's JSON on-chain. If `imageBaseURI` is set, the image is
-/// `{imageBaseURI}{set}/{finish}/{design}.png` (final art); otherwise it is an on-chain
-/// SVG stand-in so cards show up in wallets on testnet without any hosting.
+/// @notice Builds each card's JSON on-chain. The card art is the Series 1 design, rendered per
+/// card by the site: `image` is `{imageBaseURI}{tokenId}.png` (e.g. https://site/api/card/) and
+/// `animation_url` is `{animationBaseURI}{tokenId}` (e.g. https://site/card.html?id=), an
+/// interactive version with the holo glare. Until those are set, an on-chain SVG stand-in is used.
 contract CardRenderer is ICardRenderer, Ownable {
     using Strings for uint256;
 
     string public imageBaseURI;
+    string public animationBaseURI;
+
+    event URIsSet(string imageBaseURI, string animationBaseURI);
 
     constructor(address owner_) Ownable(owner_) {}
 
-    function setImageBaseURI(string calldata uri) external onlyOwner {
-        imageBaseURI = uri;
+    function setURIs(string calldata image, string calldata animation) external onlyOwner {
+        imageBaseURI = image;
+        animationBaseURI = animation;
+        emit URIsSet(image, animation);
     }
 
     function tokenURI(uint256 tokenId, DashCards.Card calldata c) external view returns (string memory) {
@@ -29,10 +35,11 @@ contract CardRenderer is ICardRenderer, Ownable {
         string memory serial = string.concat(uint256(c.serial).toString(), "/", uint256(c.copies).toString());
 
         string memory image = bytes(imageBaseURI).length != 0
-            ? string.concat(
-                imageBaseURI, uint256(c.set).toString(), "/", uint256(c.finish).toString(), "/", uint256(c.design).toString(), ".png"
-            )
+            ? string.concat(imageBaseURI, tokenId.toString(), ".png")
             : string.concat("data:image/svg+xml;base64,", Base64.encode(bytes(_svg(c, name, serial, tier))));
+        string memory animation = bytes(animationBaseURI).length != 0
+            ? string.concat(',"animation_url":"', animationBaseURI, tokenId.toString(), '"')
+            : "";
 
         string memory attrs = string.concat(
             '[{"trait_type":"Set","value":"', setName(c.set),
@@ -49,7 +56,7 @@ contract CardRenderer is ICardRenderer, Ownable {
         string memory json = string.concat(
             '{"name":"', name, " - ", setName(c.set), " ", finishName(c.finish), " ", serial,
             '","description":"Doge Dash Collector Cards Series 1, card #', tokenId.toString(),
-            '. Rarity ', tier.toString(), ' of 7 (1 is rarest).","attributes":', attrs, '],"image":"', image, '"}'
+            '. Rarity ', tier.toString(), ' of 7 (1 is rarest).","attributes":', attrs, '],"image":"', image, '"', animation, "}"
         );
         return string.concat("data:application/json;base64,", Base64.encode(bytes(json)));
     }

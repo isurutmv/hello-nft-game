@@ -1,0 +1,16 @@
+{
+  "name": "doge-dash-cards",
+  "private": true,
+  "description": "Vercel serverless functions (api/) for card images and Doge Dash art. The app is in web/, contracts in contracts/.",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "dependencies": {
+    "@sparticuz/chromium": "153.0.0",
+    "puppeteer-core": "25.15.0",
+    "sharp": "0.34.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "5.8.3"
+  }
+}

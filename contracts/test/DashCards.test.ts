@@ -91,6 +91,11 @@ describe("DashPacks claim", () => {
     const meta = decodeDataUri(await packs.tokenURI(1));
     expect(meta.name).to.equal("Series 1 Pack #1");
     expect(meta.attributes[1].value).to.equal("Doge Dash #1");
+    await packs.setURIs("https://site.example/api/pack/", "https://site.example/card.html?pack=");
+    const live = decodeDataUri(await packs.tokenURI(1));
+    expect(live.image).to.equal("https://site.example/api/pack/1.png");
+    expect(live.animation_url).to.equal("https://site.example/card.html?pack=1");
+    await expect(packs.connect(alice).setURIs("x", "y")).to.be.revertedWithCustomError(packs, "OwnableUnauthorizedAccount");
   });
 });
 
@@ -141,6 +146,13 @@ describe("PackRipper", () => {
     const meta = decodeDataUri(await cards.tokenURI(ids[0]));
     expect(meta.attributes.find((a: { trait_type: string }) => a.trait_type === "Pack").value).to.equal(1);
     expect(meta.image).to.match(/^data:image\/svg\+xml;base64,/);
+
+    // Once the site is live, images and the interactive page come from it.
+    const { renderer } = { renderer: await ethers.getContractAt("CardRenderer", await cards.renderer()) };
+    await renderer.setURIs("https://site.example/api/card/", "https://site.example/card.html?id=");
+    const live = decodeDataUri(await cards.tokenURI(ids[0]));
+    expect(live.image).to.equal(`https://site.example/api/card/${ids[0]}.png`);
+    expect(live.animation_url).to.equal(`https://site.example/card.html?id=${ids[0]}`);
   });
 
   it("rejects non-owners, unknown tokens and oversize rips", async () => {

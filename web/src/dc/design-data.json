@@ -1,0 +1,636 @@
+{
+ "dashes": [
+  {
+   "tok": 2787,
+   "art": "ad4a8bd9cf6ed428436aa8a6dc726d2f",
+   "bg": "#ff1fb4",
+   "name": "DASH #2787",
+   "no": "787",
+   "traits": "Blue Tiger \u00b7 Pink Headphones"
+  },
+  {
+   "tok": 213,
+   "art": "38aedbceb3f7e793a5ca036fa913aa9e",
+   "bg": "#ff8a1f",
+   "name": "DASH #213",
+   "no": "213",
+   "traits": "Blue Jaguar \u00b7 Halo"
+  },
+  {
+   "tok": 3498,
+   "art": "ce2334cd4734684487952cdabc8982b3",
+   "bg": "#ff8a1f",
+   "name": "DASH #3498",
+   "no": "498",
+   "traits": "Orange \u00b7 Pink Headphones"
+  },
+  {
+   "tok": 2493,
+   "art": "7ff04a1b283b1f7a203aab7752944db3",
+   "bg": "#ff3b3b",
+   "name": "DASH #2493",
+   "no": "493",
+   "traits": "Pink Tiger \u00b7 Red Mohawk"
+  },
+  {
+   "tok": 1436,
+   "art": "586ba2e184fe5dd9ad1fe58ff6d1c0cf",
+   "bg": "#ffc21f",
+   "name": "DASH #1436",
+   "no": "436",
+   "traits": "Pink Jaguar \u00b7 Dash Cap"
+  },
+  {
+   "tok": 3923,
+   "art": "065e1ecb7692ba3af34af36facb98e00",
+   "bg": "#ff1fb4",
+   "name": "DASH #3923",
+   "no": "923",
+   "traits": "Orange Tiger \u00b7 Pink Headphones"
+  },
+  {
+   "tok": 3824,
+   "art": "57fdbd526377cac485b837fd1e46e614",
+   "bg": "#ff8a1f",
+   "name": "DASH #3824",
+   "no": "824",
+   "traits": "Pink Tiger \u00b7 Dash Cap"
+  },
+  {
+   "tok": 734,
+   "art": "bdcc7488a3924996a47fbc839210dfed",
+   "bg": "#ff3b3b",
+   "name": "DASH #734",
+   "no": "734",
+   "traits": "Orange Jaguar \u00b7 Blue Mohawk"
+  },
+  {
+   "tok": 1912,
+   "art": "bf005681f9bb68f3830682296bb32bc3",
+   "bg": "#ffc21f",
+   "name": "DASH #1912",
+   "no": "912",
+   "traits": "Pink Jaguar \u00b7 Ribbon"
+  },
+  {
+   "tok": 3735,
+   "art": "7ecd12982ce27306db650c04d039aee8",
+   "bg": "#ffc21f",
+   "name": "DASH #3735",
+   "no": "735",
+   "traits": "Orange Jaguar \u00b7 Dash"
+  },
+  {
+   "tok": 2613,
+   "art": "4cb636a8dceb8a4de4ff07b815b046f0",
+   "bg": "#ff8a1f",
+   "name": "DASH #2613",
+   "no": "613",
+   "traits": "Orange Jaguar \u00b7 Dash"
+  },
+  {
+   "tok": 1718,
+   "art": "e1c94db188e71065dae6cc33d35a742f",
+   "bg": "#ff3b3b",
+   "name": "DASH #1718",
+   "no": "718",
+   "traits": "Pink \u00b7 Dash"
+  },
+  {
+   "tok": 3883,
+   "art": "8acacb852fbb6fd63b72cdec8d324dea",
+   "bg": "#ff3b3b",
+   "name": "DASH #3883",
+   "no": "883",
+   "traits": "Blue Jaguar \u00b7 Blue Mohawk"
+  },
+  {
+   "tok": 369,
+   "art": "7d91d13dd6d92368470ab3329b8a2ea4",
+   "bg": "#ff8a1f",
+   "name": "DASH #369",
+   "no": "369",
+   "traits": "Orange \u00b7 Dash"
+  },
+  {
+   "tok": 2029,
+   "art": "0b39a2a45d0f07b13e991406ad8db8a5",
+   "bg": "#0a6cf0",
+   "name": "DASH #2029",
+   "no": "029",
+   "traits": "Orange \u00b7 Pink Headphones"
+  },
+  {
+   "tok": 3235,
+   "art": "48715acaec222ecd031d0ac81bce1cc3",
+   "bg": "#ff3b3b",
+   "name": "DASH #3235",
+   "no": "235",
+   "traits": "Orange Jaguar \u00b7 Dash"
+  },
+  {
+   "tok": 3967,
+   "art": "0f19af4e61b10ea463db959f76e84495",
+   "bg": "#0a6cf0",
+   "name": "DASH #3967",
+   "no": "967",
+   "traits": "Orange Jaguar \u00b7 Ribbon"
+  },
+  {
+   "tok": 3768,
+   "art": "e2b9b40ef91464a0213541d13c119bfc",
+   "bg": "#ff8a1f",
+   "name": "DASH #3768",
+   "no": "768",
+   "traits": "Orange \u00b7 Ribbon"
+  },
+  {
+   "tok": 2333,
+   "art": "6621314110f8d9c045fdd35d4889bdb0",
+   "bg": "#ffc21f",
+   "name": "DASH #2333",
+   "no": "333",
+   "traits": "Blue Tiger \u00b7 Pink Headphones"
+  },
+  {
+   "tok": 2398,
+   "art": "1ba7b0f35e752ee48839726c01f8e408",
+   "bg": "#0a6cf0",
+   "name": "DASH #2398",
+   "no": "398",
+   "traits": "Pink Tiger \u00b7 Red Mohawk"
+  },
+  {
+   "tok": 3834,
+   "art": "cdaef13bd3f89f1cdf98c516fa440854",
+   "bg": "#ff8a1f",
+   "name": "DASH #3834",
+   "no": "834",
+   "traits": "Blue Jaguar \u00b7 Blue Headphones"
+  },
+  {
+   "tok": 3129,
+   "art": "1d901515341b3d693397696bfaa3946d",
+   "bg": "#ff3b3b",
+   "name": "DASH #3129",
+   "no": "129",
+   "traits": "Orange Jaguar \u00b7 Halo"
+  },
+  {
+   "tok": 3749,
+   "art": "1afc278dfa2359a43388e448d8939259",
+   "bg": "#ff1fb4",
+   "name": "DASH #3749",
+   "no": "749",
+   "traits": "Blue Tiger \u00b7 Crown"
+  },
+  {
+   "tok": 1848,
+   "art": "9d5b9e68c456772cf373bf2de3145ec6",
+   "bg": "#12c9e6",
+   "name": "DASH #1848",
+   "no": "848",
+   "traits": "Blue Tiger \u00b7 Blue Headphones"
+  },
+  {
+   "tok": 2372,
+   "art": "109475c98c43a68b966cc7e4bae14f44",
+   "bg": "#ff8a1f",
+   "name": "DASH #2372",
+   "no": "372",
+   "traits": "Blue \u00b7 Dash"
+  },
+  {
+   "tok": 3878,
+   "art": "4128ca0dd7a2eaecbf25a1171b6df28a",
+   "bg": "#ff1fb4",
+   "name": "DASH #3878",
+   "no": "878",
+   "traits": "Blue Tiger \u00b7 Dash"
+  },
+  {
+   "tok": 710,
+   "art": "cde68b1da0e49f3116e1e8cce04a0366",
+   "bg": "#12c9e6",
+   "name": "DASH #710",
+   "no": "710",
+   "traits": "Pink Jaguar \u00b7 Blue Headphones"
+  },
+  {
+   "tok": 1789,
+   "art": "e9b4c5ec6beb9bcd9b5e5a68c7135b9f",
+   "bg": "#12c9e6",
+   "name": "DASH #1789",
+   "no": "789",
+   "traits": "Orange Tiger \u00b7 Pink Headphones"
+  },
+  {
+   "tok": 3610,
+   "art": "7dbacd15d2ffd4f80f33cc0eac06ae45",
+   "bg": "#0a6cf0",
+   "name": "DASH #3610",
+   "no": "610",
+   "traits": "Orange Jaguar \u00b7 Ribbon"
+  },
+  {
+   "tok": 215,
+   "art": "60655e60243ee37584425f0ff6183a76",
+   "bg": "#ff8a1f",
+   "name": "DASH #215",
+   "no": "215",
+   "traits": "Blue Jaguar \u00b7 Red Mohawk"
+  },
+  {
+   "tok": 3200,
+   "art": "4face7f628e30ccc662f14eea9877a76",
+   "bg": "#ff1fb4",
+   "name": "DASH #3200",
+   "no": "200",
+   "traits": "Orange \u00b7 Dash"
+  },
+  {
+   "tok": 1520,
+   "art": "f842c560cab9dc4233b3b8b59769de4d",
+   "bg": "#0a6cf0",
+   "name": "DASH #1520",
+   "no": "520",
+   "traits": "Orange Jaguar \u00b7 Pink Headphones"
+  },
+  {
+   "tok": 1534,
+   "art": "9d6b1fb2fdfd3b95c80d537ca6290357",
+   "bg": "#ff8a1f",
+   "name": "DASH #1534",
+   "no": "534",
+   "traits": "Orange Tiger \u00b7 Dash"
+  },
+  {
+   "tok": 214,
+   "art": "ab234dda27521282227ef4de858527d9",
+   "bg": "#ff8a1f",
+   "name": "DASH #214",
+   "no": "214",
+   "traits": "Blue \u00b7 Dash"
+  },
+  {
+   "tok": 3867,
+   "art": "aad516c662f0c6367e1cd74dca4f8bd0",
+   "bg": "#12c9e6",
+   "name": "DASH #3867",
+   "no": "867",
+   "traits": "Orange \u00b7 Dash Cap"
+  },
+  {
+   "tok": 1742,
+   "art": "4ae80719f6665c688e3d5a6306935882",
+   "bg": "#ff1fb4",
+   "name": "DASH #1742",
+   "no": "742",
+   "traits": "Orange \u00b7 Red Mohawk"
+  },
+  {
+   "tok": 1707,
+   "art": "4b90466d52c385b6ed16cb9f62272c5c",
+   "bg": "#ff3b3b",
+   "name": "DASH #1707",
+   "no": "707",
+   "traits": "Blue Jaguar \u00b7 Blue Mohawk"
+  },
+  {
+   "tok": 2486,
+   "art": "b8c4fabff45d5e065c282b72d4c06c27",
+   "bg": "#12c9e6",
+   "name": "DASH #2486",
+   "no": "486",
+   "traits": "Orange \u00b7 Pink Headphones"
+  },
+  {
+   "tok": 3917,
+   "art": "0407511e39d3fa8e3d6b72c24d9705df",
+   "bg": "#ff3b3b",
+   "name": "DASH #3917",
+   "no": "917",
+   "traits": "Orange Tiger \u00b7 Dash"
+  },
+  {
+   "tok": 96,
+   "art": "a67ea9bdfe4928b314017e431198e126",
+   "bg": "#0a6cf0",
+   "name": "DASH #96",
+   "no": "096",
+   "traits": "Pink Tiger \u00b7 Dash"
+  },
+  {
+   "tok": 3209,
+   "art": "950bed5341ac5a501c2bd4cf72c34a18",
+   "bg": "#12c9e6",
+   "name": "DASH #3209",
+   "no": "209",
+   "traits": "Blue Jaguar \u00b7 Dash"
+  },
+  {
+   "tok": 3930,
+   "art": "b44d16eac37be187d37fb1e283f22b75",
+   "bg": "#ff8a1f",
+   "name": "DASH #3930",
+   "no": "930",
+   "traits": "Orange Jaguar \u00b7 Pink Headphones"
+  },
+  {
+   "tok": 1825,
+   "art": "1b7a4470b1da19de7b03806e90b703d6",
+   "bg": "#ffc21f",
+   "name": "DASH #1825",
+   "no": "825",
+   "traits": "Pink Jaguar \u00b7 Dash"
+  },
+  {
+   "tok": 580,
+   "art": "797287071dd4e9dcaa99f4babf2e770b",
+   "bg": "#ff8a1f",
+   "name": "DASH #580",
+   "no": "580",
+   "traits": "Pink Tiger \u00b7 Pink Headphones"
+  },
+  {
+   "tok": 3570,
+   "art": "427b1ae482965f51e0f54abf1a7cda8b",
+   "bg": "#ffc21f",
+   "name": "DASH #3570",
+   "no": "570",
+   "traits": "Pink Jaguar \u00b7 Ribbon"
+  },
+  {
+   "tok": 2928,
+   "art": "4639869eab58b5efb14bffccb71b8d84",
+   "bg": "#ff1fb4",
+   "name": "DASH #2928",
+   "no": "928",
+   "traits": "Orange Tiger \u00b7 Blue Headphones"
+  },
+  {
+   "tok": 2394,
+   "art": "e278bca1133e7c417c666ca148723194",
+   "bg": "#0a6cf0",
+   "name": "DASH #2394",
+   "no": "394",
+   "traits": "Orange Tiger \u00b7 Red Mohawk"
+  },
+  {
+   "tok": 3525,
+   "art": "b114947bf04bb27694c1cef6bbb25dcc",
+   "bg": "#0a6cf0",
+   "name": "DASH #3525",
+   "no": "525",
+   "traits": "Blue Jaguar \u00b7 Blue Headphones"
+  },
+  {
+   "tok": 1892,
+   "art": "4f529e691a7aa438f6499a26c3f9e90d",
+   "bg": "#0a6cf0",
+   "name": "DASH #1892",
+   "no": "892",
+   "traits": "Orange \u00b7 Ribbon"
+  },
+  {
+   "tok": 3635,
+   "art": "e9dad07dec5892ed0a4909c8b7319cc6",
+   "bg": "#ff8a1f",
+   "name": "DASH #3635",
+   "no": "635",
+   "traits": "Pink Jaguar \u00b7 Blue Mohawk"
+  },
+  {
+   "tok": 1767,
+   "art": "fbf5842c5bfeeeaf9313065d05991ea8",
+   "bg": "#ff8a1f",
+   "name": "DASH #1767",
+   "no": "767",
+   "traits": "Blue Jaguar \u00b7 Dash Cap"
+  },
+  {
+   "tok": 2850,
+   "art": "9541a77ad13c7e25197087d15fef27f8",
+   "bg": "#ff3b3b",
+   "name": "DASH #2850",
+   "no": "850",
+   "traits": "Orange \u00b7 Pink Headphones"
+  },
+  {
+   "tok": 1811,
+   "art": "f8896b4ebffecd4c48ec5933d8d18d73",
+   "bg": "#ff3b3b",
+   "name": "DASH #1811",
+   "no": "811",
+   "traits": "Orange Tiger \u00b7 Dash"
+  },
+  {
+   "tok": 755,
+   "art": "96ffe9056991e2ce2618d1d308e99baf",
+   "bg": "#ff3b3b",
+   "name": "DASH #755",
+   "no": "755",
+   "traits": "Pink Tiger \u00b7 Dash Cap"
+  },
+  {
+   "tok": 1309,
+   "art": "f95b223a4d1b7f6a9902a3faa17a9e46",
+   "bg": "#ff1fb4",
+   "name": "DASH #1309",
+   "no": "309",
+   "traits": "Orange Tiger \u00b7 Red Mohawk"
+  },
+  {
+   "tok": 3374,
+   "art": "d26ff510c4362b779ae3db93ebefbb6c",
+   "bg": "#ff1fb4",
+   "name": "DASH #3374",
+   "no": "374",
+   "traits": "Orange Jaguar \u00b7 Dash"
+  },
+  {
+   "tok": 3697,
+   "art": "1b00e9db3267527710f57e761de7cc27",
+   "bg": "#ff8a1f",
+   "name": "DASH #3697",
+   "no": "697",
+   "traits": "Orange \u00b7 Pink Headphones"
+  },
+  {
+   "tok": 1723,
+   "art": "e74274feff80ea614490d9cee842e502",
+   "bg": "#ff8a1f",
+   "name": "DASH #1723",
+   "no": "723",
+   "traits": "Pink \u00b7 Blue Mohawk"
+  },
+  {
+   "tok": 1766,
+   "art": "1dc9216880e1713a9a42ace431521e79",
+   "bg": "#0a6cf0",
+   "name": "DASH #1766",
+   "no": "766",
+   "traits": "Blue \u00b7 Blue Headphones"
+  },
+  {
+   "tok": 1487,
+   "art": "949b513e8832c4f397fd60da3dcc1b4f",
+   "bg": "#0a6cf0",
+   "name": "DASH #1487",
+   "no": "487",
+   "traits": "Orange \u00b7 Blue Headphones"
+  }
+ ],
+ "supers": [
+  {
+   "tok": 118,
+   "art": "1785a48201fd3b4a84b96696ad67294f",
+   "name": "DASH #118",
+   "ur": "ULTRA RARE 1"
+  },
+  {
+   "tok": 1054,
+   "art": "cb4d5aa01fed031f30a3c0e07e060c6e",
+   "name": "DASH #1054",
+   "ur": "ULTRA RARE 2"
+  },
+  {
+   "tok": 2299,
+   "art": "bec12d57557856f28b9fb2ec19d69a8e",
+   "name": "ASTRO DASH",
+   "ur": "ULTRA RARE 3"
+  },
+  {
+   "tok": 846,
+   "art": "c3238974963dd1451756dcde4fc03ded",
+   "name": "CYBORG DASH",
+   "ur": "ULTRA RARE 4"
+  },
+  {
+   "tok": 475,
+   "art": "2d6c5542745cd5e5ae0a9567b94ac8f4",
+   "name": "DASH #475",
+   "ur": "ULTRA RARE 5"
+  },
+  {
+   "tok": 2866,
+   "art": "865c337cec57043cef302c2a011e5ea1",
+   "name": "DASH #2866",
+   "ur": "ULTRA RARE 6"
+  },
+  {
+   "tok": 3674,
+   "art": "7edbc38d5b282148a7dd47ca4820b6a5",
+   "name": "DASH #3674",
+   "ur": "ULTRA RARE 7"
+  },
+  {
+   "tok": 1479,
+   "art": "12b6957ae6eb84db33c97eb66b8fe76b",
+   "name": "DASH #1479",
+   "ur": "ULTRA RARE 8"
+  },
+  {
+   "tok": 2632,
+   "art": "a2338f35408e6adeba37e2fdcb5cb51e",
+   "name": "DASH #2632",
+   "ur": "ULTRA RARE 9"
+  },
+  {
+   "tok": 731,
+   "art": "6853d4268f502d9dd2fcaaa8a533c418",
+   "name": "LION DASH",
+   "ur": "ULTRA RARE 10"
+  },
+  {
+   "tok": 2362,
+   "art": "086f1caf34f3d4d0d9e69f653cfd5983",
+   "name": "DASH #2362",
+   "ur": "ULTRA RARE 11"
+  },
+  {
+   "tok": 3412,
+   "art": "d662da427332a66d901955294f4cffb3",
+   "name": "DASH #3412",
+   "ur": "ULTRA RARE 12"
+  },
+  {
+   "tok": 3583,
+   "art": "073b57fc65922a91691834d26cffaa4a",
+   "name": "DASH #3583",
+   "ur": "ULTRA RARE 13"
+  },
+  {
+   "tok": 762,
+   "art": "3d40040496955ee2af2b74fb43a9a632",
+   "name": "DASH #762",
+   "ur": "ULTRA RARE 14"
+  },
+  {
+   "tok": 1677,
+   "art": "5eefa5530b1298123ed494394841984c",
+   "name": "ALIEN DASH",
+   "ur": "ULTRA RARE 15"
+  },
+  {
+   "tok": 2116,
+   "art": "e60bc51428fbb6e52dc79c1a0b6d9cb1",
+   "name": "DEVIL DASH",
+   "ur": "ULTRA RARE 16"
+  },
+  {
+   "tok": 2729,
+   "art": "ef5359c02421317e8ef84ea8ec7d163c",
+   "name": "DASH #2729",
+   "ur": "ULTRA RARE 17"
+  },
+  {
+   "tok": 1857,
+   "art": "82f2b81a76f6854252825fe5c77a476d",
+   "name": "DASH #1857",
+   "ur": "ULTRA RARE 18"
+  },
+  {
+   "tok": 3577,
+   "art": "29a2f168c95ff55c274c95460be29ba0",
+   "name": "DASH #3577",
+   "ur": "ULTRA RARE 19"
+  },
+  {
+   "tok": 1283,
+   "art": "0bcf09477bc967c8fc82a9c3ae145e56",
+   "name": "DASH #1283",
+   "ur": "ULTRA RARE 20"
+  },
+  {
+   "tok": 1085,
+   "art": "5e6809e880218e840d46b44d6f1809e4",
+   "name": "ZOMBIE DASH",
+   "ur": "ULTRA RARE 21"
+  },
+  {
+   "tok": 1944,
+   "art": "c71868db5a695fe882c8665ad61c7f4b",
+   "name": "DASH #1944",
+   "ur": "ULTRA RARE 22"
+  },
+  {
+   "tok": 3722,
+   "art": "81a6c3103da9f633fd76ce80c564a9e7",
+   "name": "DASH #3722",
+   "ur": "ULTRA RARE 23"
+  },
+  {
+   "tok": 1578,
+   "art": "a1c0f99096526f47398a0fc288602bbc",
+   "name": "DASH #1578",
+   "ur": "ULTRA RARE 24"
+  },
+  {
+   "tok": 3662,
+   "art": "eb461b20b3f7c945bb7e9207eff053c7",
+   "name": "DASH #3662",
+   "ur": "ULTRA RARE 25"
+  }
+ ]
+}

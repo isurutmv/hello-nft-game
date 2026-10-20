@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Level card</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&amp;family=Fredoka:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width:360px;height:504px;box-sizing:border-box;border-radius:18px;padding:10px;background:linear-gradient(180deg,#8b5a2b,#5e3a17);box-shadow:0 14px 34px rgba(0,0,0,.45);font-family:Fredoka,sans-serif">
+<div style="position:relative;width:340px;height:484px;border-radius:10px;overflow:hidden;background:#1b1446">
+<img src="{{bg}}" alt="" style="position:absolute;left:0;top:0;width:340px;height:484px;object-fit:cover;object-position:{{pos}}">
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,11,38,.35) 0%,rgba(13,11,38,0) 30%,rgba(13,11,38,0) 60%,rgba(13,11,38,.55) 100%)"></div>
+
+<img src="/_blob/5f0f787d42b1de3da20f158d29ae4d6b" alt="Doge Dash" style="position:absolute;right:10px;top:10px;width:84px;height:54px;object-fit:contain">
+<div style="position:absolute;left:12px;top:14px;transform:rotate(-5deg);background:linear-gradient(180deg,#c98a4b,#9a6230);border:3px solid #4a2c10;border-radius:8px;padding:6px 14px;box-shadow:0 4px 0 #4a2c10">
+<span style="font-family:'Luckiest Guy',cursive;font-size:34px;line-height:1;color:#ffffff;-webkit-text-stroke:2px #4a2c10;paint-order:stroke fill">{{num}}</span>
+</div>
+<div style="position:absolute;left:14px;top:80px;display:flex;gap:4px">
+<sc-for list="{{pips}}" as="p" hint-placeholder-count="10">
+<span style="width:12px;height:12px;border-radius:3px;background:{{p.c}};border:1px solid rgba(0,0,0,.4)"></span>
+</sc-for>
+</div>
+<span style="position:absolute;left:14px;top:98px;font-size:10px;font-weight:700;letter-spacing:1.5px;color:#ffffff;text-shadow:0 1px 2px rgba(0,0,0,.6)">DIFFICULTY</span>
+
+<sc-for list="{{coins}}" as="c" hint-placeholder-count="0">
+<img src="/_blob/56aff61c888ef5a73cf9b880f416c6d0" alt="" style="position:absolute;left:{{c.x}}px;top:{{c.y}}px;width:28px;height:28px;filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))">
+</sc-for>
+<sc-for list="{{sprites}}" as="sp" hint-placeholder-count="1">
+<img src="{{sp.src}}" alt="" style="position:absolute;left:{{sp.x}}px;top:{{sp.y}}px;width:{{sp.w}}px;height:{{sp.h}}px;object-fit:contain;transform:rotate({{sp.r}}deg) scaleX({{sp.fx}});filter:drop-shadow(0 6px 5px rgba(0,0,0,.35))">
+</sc-for>
+<sc-if value="{{clear}}" hint-placeholder-val="{{ false }}">
+<span style="position:absolute;left:150px;top:150px;font-family:'Luckiest Guy',cursive;font-size:50px;line-height:1;color:#ffe14d;-webkit-text-stroke:3px #1b1446;paint-order:stroke fill;transform:rotate(-8deg)">CLEAR!</span>
+<span style="position:absolute;left:190px;top:206px;font-family:'Luckiest Guy',cursive;font-size:26px;line-height:1;color:#ffffff;-webkit-text-stroke:2px #1b1446;paint-order:stroke fill;transform:rotate(-8deg)">+1,000</span>
+</sc-if>
+<div style="position:absolute;left:10px;right:10px;bottom:84px;display:flex;justify-content:space-between">
+<span style="display:flex;align-items:center;gap:6px;background:rgba(13,11,38,.8);border-radius:999px;padding:4px 10px 4px 4px;font-size:12px;font-weight:700;color:#ffe14d"><img src="/_blob/56aff61c888ef5a73cf9b880f416c6d0" alt="" style="width:20px;height:20px">1,000 COINS</span>
+<span style="background:rgba(13,11,38,.8);border-radius:999px;padding:5px 10px;font-size:12px;font-weight:700;color:#ffffff">~60 SEC RUN</span>
+</div>
+<div style="position:absolute;left:10px;right:10px;bottom:10px;background:#1b1446;border:2px solid #c98a4b;border-radius:12px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:3px">
+<span style="font-family:'Luckiest Guy',cursive;font-size:24px;line-height:1;color:#ffe14d">{{name}}</span>
+<span style="font-size:10px;font-weight:700;letter-spacing:1.5px;color:#ffffff">{{sub}}</span>
+</div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
+<span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#c9c2f0">{{version}}</span>
+<span style="font-size:12px;font-weight:700;color:#ffffff">{{serial}}</span>
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"level":{"editor":"enum","options":["1","3","5","7","space"],"default":"1"},"part":{"editor":"int","min":1,"max":5,"default":1},"serial":{"editor":null,"default":"07/25"},"version":{"editor":null,"default":"NORMAL"},"$preview":{"width":360,"height":504}}'>
+class Component extends DCLogic {
+renderVals() {
+const R = '/_blob/368188bada7026c96cc1cf9b6bd14d1f', S = '/_blob/66f4b2c602337b35f1d35507f417f308';
+const CH = '/_blob/6368559d48eb42f017225628511d27fd', W = '/_blob/f62188c2c27d815550b0e3bd49a08ef1', B = '/_blob/0da0b5aac7d903c9e10fe26b4269e278';
+const L = {
+'1': { num: 'LEVEL 1', name: 'THE MEADOW', bg: '/_blob/5d4a111b4bf5bdf7488cdcba957b3bc3', d: 1, enemy: ['BIRD WATCH', [[CH, 200, 140, 110, 118, -6], [W, 150, 250, 64, 68, 0], [R, 10, 262, 140, 134, 0]]] },
+'3': { num: 'LEVEL 3', name: 'THE JUNGLE', bg: '/_blob/9f4291b98ea8cc710de610b444a0b45e', d: 3, enemy: ['DANGER AHEAD', [[B, 160, 230, 170, 129, 0], [R, 10, 252, 140, 134, 0]]] },
+'5': { num: 'LEVEL 5', name: 'ROUTE 66', bg: '/_blob/833e69743041f6c0b9abfc105b7442e0', d: 5, enemy: ['BUZZ CITY', [[W, 190, 130, 80, 85, -10], [W, 250, 230, 60, 64, 8], [W, 140, 190, 50, 54, -16], [R, 10, 262, 140, 134, 0]]] },
+'7': { num: 'LEVEL 7', name: 'ICE CAPS', bg: '/_blob/f31299d838eb86415ee2fb78adbbce31', d: 7, enemy: ['THIN ICE', [[R, 80, 180, 170, 163, -14]]] },
+'space': { num: 'SPACE', name: 'DEEP SPACE', bg: '/_blob/f188d8a3472fb66c3f9059a88e25a672', d: 8, enemy: ['SHOOTING STARS', [[R, 80, 180, 170, 163, -14]]] }
+};
+const k = String(this.props.level ?? '1');
+const l = L[k] || L['1'];
+const p = Math.min(5, Math.max(1, Number(this.props.part ?? 1)));
+const row = (x, y, n, g) => Array.from({ length: n }, (_, i) => ({ x: x + i * g, y: y + (i % 2 ? -12 : 0) }));
+const PARTS = [
+{ t: 'LET’S GO!', pos: '0% 50%', sp: [[R, 14, 262, 150, 144, 0]], c: [] },
+{ t: 'COIN TRAIL', pos: '28% 50%', sp: [[R, 30, 170, 170, 163, -14]], c: row(150, 170, 5, 34) },
+{ t: l.enemy[0], pos: '55% 50%', sp: l.enemy[1], c: (k === '7' || k === 'space') ? row(40, 150, 4, 40) : [] },
+{ t: 'TAKE FIVE', pos: '80% 50%', sp: [[S, 70, 230, 180, 154, 0]], c: [{ x: 50, y: 330 }, { x: 270, y: 320 }] },
+{ t: 'LEVEL CLEAR', pos: '100% 50%', sp: [[R, 10, 220, 170, 163, -10]], c: [] }
+];
+const part = PARTS[p - 1];
+return {
+num: l.num, bg: l.bg, pos: part.pos, name: part.t, sub: l.name + ' · ' + p + ' OF 5',
+clear: p === 5,
+sprites: part.sp.map((s) => ({ src: s[0], x: s[1], y: s[2], w: s[3], h: s[4], r: s[5] || 0, fx: s[6] || 1 })),
+coins: part.c,
+pips: Array.from({ length: 10 }, (_, i) => ({ c: i < l.d ? (l.d > 6 ? '#ff2e63' : (l.d > 4 ? '#ffb02e' : '#7dffb0')) : 'rgba(255,255,255,.35)' })),
+serial: this.props.serial ?? '07/25', version: this.props.version ?? 'NORMAL'
+};
+}
+}
+</script>
+</body>
+</html>

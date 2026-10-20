@@ -11,7 +11,8 @@ import path from "node:path";
  * Writes addresses to deployments/<network>.json and, for the web app,
  * ../web/src/contracts/deployments.json (ABIs come from `npm run export-abi`).
  *
- * Env (all optional): DOGE_DASH, USDC, USDT (reuse existing tokens), VRF_SUB_ID,
+ * Env (all optional): DOGE_DASH, USDC, USDT, LEADERBOARD (reuse existing contracts), VRF_SUB_ID,
+ * SITE_URL (point NFT images at the deployed site, see scripts/set-uris.ts),
  * VRF_FUND_BNB (default: balance minus 0.03 tBNB), TREASURY.
  */
 
@@ -95,12 +96,18 @@ async function main() {
     { keyHash, subId, confirmations: 3, nativePayment: true, gasBase: 150_000, gasPerPack: 450_000 },
   ]);
   const ripperAddr = await ripper.getAddress();
-  const leaderboard = await deployed("DashLeaderboard", [dogeAddr]);
+  const leaderboardAddr = process.env.LEADERBOARD || (await (await deployed("DashLeaderboard", [dogeAddr])).getAddress());
 
   await (await packs.getFunction("setRipper")(ripperAddr)).wait();
   await (await cards.getFunction("setMinter")(ripperAddr)).wait();
   await (await ripper.getFunction("setPrice")(usdcAddr, PRICE)).wait();
   await (await ripper.getFunction("setPrice")(usdtAddr, PRICE)).wait();
+  if (process.env.SITE_URL) {
+    const site = process.env.SITE_URL.replace(/\/$/, "");
+    await (await renderer.getFunction("setURIs")(`${site}/api/card/`, `${site}/card.html?id=`)).wait();
+    await (await packs.getFunction("setURIs")(`${site}/api/pack/`, `${site}/card.html?pack=`)).wait();
+    console.log(`  NFT images served from ${site}`);
+  }
   if (!isLocal) {
     const coordinator = new ethers.Contract(coordinatorAddr, COORDINATOR_ABI, deployer);
     await (await coordinator.addConsumer(subId, ripperAddr)).wait();
@@ -122,7 +129,7 @@ async function main() {
       DashCards: await cards.getAddress(),
       CardRenderer: await renderer.getAddress(),
       PackRipper: ripperAddr,
-      DashLeaderboard: await leaderboard.getAddress(),
+      DashLeaderboard: leaderboardAddr,
       ...(isLocal ? { VRFMock: coordinatorAddr } : {}),
     },
   };

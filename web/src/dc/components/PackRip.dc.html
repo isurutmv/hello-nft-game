@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Rip a pack</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&amp;family=Fredoka:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+button{font-family:Fredoka,sans-serif;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid #ffe14d;outline-offset:3px}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-12px) rotate(1deg)}}
+@keyframes glowpulse{0%,100%{box-shadow:0 0 0 3px #ffe14d,0 0 30px 6px rgba(255,210,63,.55)}50%{box-shadow:0 0 0 3px #fff6c2,0 0 70px 22px rgba(255,210,63,.9)}}
+@keyframes spin{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes pop{0%{transform:scale(.4) rotate(-10deg);opacity:0}60%{transform:scale(1.15) rotate(-4deg);opacity:1}100%{transform:scale(1) rotate(-6deg);opacity:1}}
+@keyframes hint{0%,100%{transform:translateX(0)}50%{transform:translateX(14px)}}
+@keyframes shake{0%,100%{transform:translate(0,0)}15%{transform:translate(-9px,4px)}30%{transform:translate(8px,-6px)}45%{transform:translate(-6px,5px)}60%{transform:translate(5px,-3px)}75%{transform:translate(-3px,2px)}}
+@keyframes flash{0%{opacity:.95;transform:translate(-50%,-50%) scale(.3)}100%{opacity:0;transform:translate(-50%,-50%) scale(2.6)}}
+@keyframes conf{0%{transform:translate(0,0) rotate(0deg);opacity:1}100%{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
+@keyframes dealin{0%{transform:translate(-50%,-50%) translateY(300px) rotate(10deg) scale(.6);opacity:0}65%{transform:translate(-50%,-50%) translateY(-18px) rotate(-2deg) scale(1.04);opacity:1}100%{transform:translate(-50%,-50%) translateY(0) rotate(0deg) scale(1);opacity:1}}
+@keyframes flyout{0%{transform:translate(-50%,-50%) rotate(0deg);opacity:1}100%{transform:translate(-50%,-50%) translate(-760px,-120px) rotate(-28deg);opacity:0}}
+@keyframes panelin{0%{transform:translateX(50px);opacity:0}100%{transform:translateX(0);opacity:1}}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(.6)}50%{opacity:1;transform:scale(1.2)}}
+@keyframes beams{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(-360deg)}}
+@keyframes rise{0%{transform:translateY(30px);opacity:0}100%{transform:translateY(0);opacity:1}}
+.floaty{animation:floaty 3.2s ease-in-out infinite}
+.glow{animation:glowpulse 1.1s ease-in-out infinite}
+.rays{position:absolute;left:50%;top:50%;width:1200px;height:1200px;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,214,90,.55) 0deg 6deg,rgba(255,214,90,0) 6deg 18deg);animation:spin 9s linear infinite;-webkit-mask:radial-gradient(circle,#000 18%,transparent 62%);mask:radial-gradient(circle,#000 18%,transparent 62%);pointer-events:none}
+.beams{position:absolute;left:50%;top:50%;width:1400px;height:1400px;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(150,200,255,.35) 0deg 4deg,rgba(150,200,255,0) 4deg 22deg);animation:beams 18s linear infinite;-webkit-mask:radial-gradient(circle,#000 10%,transparent 60%);mask:radial-gradient(circle,#000 10%,transparent 60%);pointer-events:none}
+.pop{animation:pop .6s cubic-bezier(.2,1.4,.4,1) forwards}
+.hint{animation:hint 1.2s ease-in-out infinite}
+.shake{animation:shake .5s ease-in-out}
+.flash{position:absolute;left:50%;top:50%;width:700px;height:700px;border-radius:50%;animation:flash .75s ease-out forwards;pointer-events:none}
+.conf{position:absolute;left:50%;top:46%;width:12px;height:18px;border-radius:3px;animation:conf 1.5s cubic-bezier(.15,.7,.3,1) forwards;pointer-events:none}
+.dealin{animation:dealin .6s cubic-bezier(.2,.9,.3,1) forwards}
+.flyout{animation:flyout .34s cubic-bezier(.6,0,.9,.4) forwards}
+.panelin{animation:panelin .45s cubic-bezier(.2,.9,.3,1) forwards}
+.twinkle{position:absolute;width:8px;height:8px;border-radius:50%;background:#ffffff;box-shadow:0 0 10px 3px rgba(255,255,255,.8);animation:twinkle 2.4s ease-in-out infinite;pointer-events:none}
+.rise{animation:rise .5s ease-out forwards}
+.holoL{background:repeating-linear-gradient(115deg,hsl(330,100%,72%) 0%,hsl(50,100%,70%) 7%,hsl(140,100%,70%) 14%,hsl(195,100%,70%) 21%,hsl(270,100%,74%) 28%,hsl(330,100%,72%) 35%);background-size:300% 300%;mix-blend-mode:color-dodge;opacity:.62;pointer-events:none}
+
+
+@keyframes kcsway{0%,100%{transform:perspective(1300px) rotateY(-9deg) rotateX(3deg)}50%{transform:perspective(1300px) rotateY(9deg) rotateX(-3deg)}}
+@keyframes kcholo{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+@keyframes kcsweep{0%{transform:translateX(-160%) rotate(20deg)}60%,100%{transform:translateX(260%) rotate(20deg)}}
+@keyframes kcspin{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes kctw{0%,100%{opacity:.1;transform:scale(.5)}50%{opacity:1;transform:scale(1.25)}}
+@keyframes kcfall{0%{transform:translateY(-60px) rotate(0deg);opacity:0}10%{opacity:1}100%{transform:translateY(560px) rotate(360deg);opacity:1}}
+@keyframes kcbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.kc-sway{position:relative;width:360px;height:504px;border-radius:18px;animation:kcsway 7s ease-in-out infinite}
+.kc-holo{background:repeating-linear-gradient(115deg,hsl(330,100%,72%) 0%,hsl(50,100%,70%) 6%,hsl(140,100%,70%) 12%,hsl(195,100%,70%) 18%,hsl(270,100%,74%) 24%,hsl(330,100%,72%) 30%);background-size:300% 300%;animation:kcholo 7s linear infinite;mix-blend-mode:color-dodge;pointer-events:none}
+.kc-sweep{position:absolute;top:-40%;left:0;width:45%;height:180%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.55),rgba(255,255,255,0));animation:kcsweep 4.5s ease-in-out infinite;pointer-events:none;mix-blend-mode:overlay}
+.kc-spin{position:absolute;left:50%;top:44%;border-radius:50%;animation:kcspin 30s linear infinite;pointer-events:none}
+.kc-tw{position:absolute;width:7px;height:7px;border-radius:50%;background:#ffffff;box-shadow:0 0 10px 3px rgba(255,255,255,.85);animation:kctw 2.6s ease-in-out infinite}
+.kc-rain{position:absolute;top:0;width:30px;height:30px;animation:kcfall 3.2s linear infinite}
+.kc-bob{animation:kcbob 3s ease-in-out infinite}
+.kc-g{background:linear-gradient(180deg,#fff6c2 0%,#f5c431 45%,#b37806 56%,#ffe27a 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.kc-h{background:linear-gradient(100deg,#ff9ad5,#ffe57a,#8dffc9,#7fd6ff,#c9a2ff,#ff9ad5);background-size:300% 100%;animation:kcholo 5s linear infinite;-webkit-background-clip:text;background-clip:text;color:transparent}
+.mk-Sit{-webkit-mask-image:url(/_blob/66f4b2c602337b35f1d35507f417f308);mask-image:url(/_blob/66f4b2c602337b35f1d35507f417f308);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-Run{-webkit-mask-image:url(/_blob/368188bada7026c96cc1cf9b6bd14d1f);mask-image:url(/_blob/368188bada7026c96cc1cf9b6bd14d1f);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+
+.tile{transition:transform .2s cubic-bezier(.2,1.4,.4,1)}
+button.tile:hover{transform:translateY(-10px) scale(1.06)}
+button.tile:focus-visible{outline:3px solid #ffe14d;outline-offset:4px;border-radius:8px}
+.mk-n2787{-webkit-mask-image:url(/_blob/ad4a8bd9cf6ed428436aa8a6dc726d2f);mask-image:url(/_blob/ad4a8bd9cf6ed428436aa8a6dc726d2f);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n213{-webkit-mask-image:url(/_blob/38aedbceb3f7e793a5ca036fa913aa9e);mask-image:url(/_blob/38aedbceb3f7e793a5ca036fa913aa9e);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3498{-webkit-mask-image:url(/_blob/ce2334cd4734684487952cdabc8982b3);mask-image:url(/_blob/ce2334cd4734684487952cdabc8982b3);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n2493{-webkit-mask-image:url(/_blob/7ff04a1b283b1f7a203aab7752944db3);mask-image:url(/_blob/7ff04a1b283b1f7a203aab7752944db3);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1436{-webkit-mask-image:url(/_blob/586ba2e184fe5dd9ad1fe58ff6d1c0cf);mask-image:url(/_blob/586ba2e184fe5dd9ad1fe58ff6d1c0cf);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3923{-webkit-mask-image:url(/_blob/065e1ecb7692ba3af34af36facb98e00);mask-image:url(/_blob/065e1ecb7692ba3af34af36facb98e00);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3824{-webkit-mask-image:url(/_blob/57fdbd526377cac485b837fd1e46e614);mask-image:url(/_blob/57fdbd526377cac485b837fd1e46e614);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n734{-webkit-mask-image:url(/_blob/bdcc7488a3924996a47fbc839210dfed);mask-image:url(/_blob/bdcc7488a3924996a47fbc839210dfed);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1912{-webkit-mask-image:url(/_blob/bf005681f9bb68f3830682296bb32bc3);mask-image:url(/_blob/bf005681f9bb68f3830682296bb32bc3);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3735{-webkit-mask-image:url(/_blob/7ecd12982ce27306db650c04d039aee8);mask-image:url(/_blob/7ecd12982ce27306db650c04d039aee8);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n2613{-webkit-mask-image:url(/_blob/4cb636a8dceb8a4de4ff07b815b046f0);mask-image:url(/_blob/4cb636a8dceb8a4de4ff07b815b046f0);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1718{-webkit-mask-image:url(/_blob/e1c94db188e71065dae6cc33d35a742f);mask-image:url(/_blob/e1c94db188e71065dae6cc33d35a742f);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3883{-webkit-mask-image:url(/_blob/8acacb852fbb6fd63b72cdec8d324dea);mask-image:url(/_blob/8acacb852fbb6fd63b72cdec8d324dea);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n369{-webkit-mask-image:url(/_blob/7d91d13dd6d92368470ab3329b8a2ea4);mask-image:url(/_blob/7d91d13dd6d92368470ab3329b8a2ea4);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n2029{-webkit-mask-image:url(/_blob/0b39a2a45d0f07b13e991406ad8db8a5);mask-image:url(/_blob/0b39a2a45d0f07b13e991406ad8db8a5);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3235{-webkit-mask-image:url(/_blob/48715acaec222ecd031d0ac81bce1cc3);mask-image:url(/_blob/48715acaec222ecd031d0ac81bce1cc3);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3967{-webkit-mask-image:url(/_blob/0f19af4e61b10ea463db959f76e84495);mask-image:url(/_blob/0f19af4e61b10ea463db959f76e84495);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3768{-webkit-mask-image:url(/_blob/e2b9b40ef91464a0213541d13c119bfc);mask-image:url(/_blob/e2b9b40ef91464a0213541d13c119bfc);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n2333{-webkit-mask-image:url(/_blob/6621314110f8d9c045fdd35d4889bdb0);mask-image:url(/_blob/6621314110f8d9c045fdd35d4889bdb0);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n2398{-webkit-mask-image:url(/_blob/1ba7b0f35e752ee48839726c01f8e408);mask-image:url(/_blob/1ba7b0f35e752ee48839726c01f8e408);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3834{-webkit-mask-image:url(/_blob/cdaef13bd3f89f1cdf98c516fa440854);mask-image:url(/_blob/cdaef13bd3f89f1cdf98c516fa440854);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3129{-webkit-mask-image:url(/_blob/1d901515341b3d693397696bfaa3946d);mask-image:url(/_blob/1d901515341b3d693397696bfaa3946d);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3749{-webkit-mask-image:url(/_blob/1afc278dfa2359a43388e448d8939259);mask-image:url(/_blob/1afc278dfa2359a43388e448d8939259);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1848{-webkit-mask-image:url(/_blob/9d5b9e68c456772cf373bf2de3145ec6);mask-image:url(/_blob/9d5b9e68c456772cf373bf2de3145ec6);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n2372{-webkit-mask-image:url(/_blob/109475c98c43a68b966cc7e4bae14f44);mask-image:url(/_blob/109475c98c43a68b966cc7e4bae14f44);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3878{-webkit-mask-image:url(/_blob/4128ca0dd7a2eaecbf25a1171b6df28a);mask-image:url(/_blob/4128ca0dd7a2eaecbf25a1171b6df28a);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n710{-webkit-mask-image:url(/_blob/cde68b1da0e49f3116e1e8cce04a0366);mask-image:url(/_blob/cde68b1da0e49f3116e1e8cce04a0366);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1789{-webkit-mask-image:url(/_blob/e9b4c5ec6beb9bcd9b5e5a68c7135b9f);mask-image:url(/_blob/e9b4c5ec6beb9bcd9b5e5a68c7135b9f);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3610{-webkit-mask-image:url(/_blob/7dbacd15d2ffd4f80f33cc0eac06ae45);mask-image:url(/_blob/7dbacd15d2ffd4f80f33cc0eac06ae45);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n215{-webkit-mask-image:url(/_blob/60655e60243ee37584425f0ff6183a76);mask-image:url(/_blob/60655e60243ee37584425f0ff6183a76);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3200{-webkit-mask-image:url(/_blob/4face7f628e30ccc662f14eea9877a76);mask-image:url(/_blob/4face7f628e30ccc662f14eea9877a76);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1520{-webkit-mask-image:url(/_blob/f842c560cab9dc4233b3b8b59769de4d);mask-image:url(/_blob/f842c560cab9dc4233b3b8b59769de4d);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1534{-webkit-mask-image:url(/_blob/9d6b1fb2fdfd3b95c80d537ca6290357);mask-image:url(/_blob/9d6b1fb2fdfd3b95c80d537ca6290357);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n214{-webkit-mask-image:url(/_blob/ab234dda27521282227ef4de858527d9);mask-image:url(/_blob/ab234dda27521282227ef4de858527d9);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3867{-webkit-mask-image:url(/_blob/aad516c662f0c6367e1cd74dca4f8bd0);mask-image:url(/_blob/aad516c662f0c6367e1cd74dca4f8bd0);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1742{-webkit-mask-image:url(/_blob/4ae80719f6665c688e3d5a6306935882);mask-image:url(/_blob/4ae80719f6665c688e3d5a6306935882);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1707{-webkit-mask-image:url(/_blob/4b90466d52c385b6ed16cb9f62272c5c);mask-image:url(/_blob/4b90466d52c385b6ed16cb9f62272c5c);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n2486{-webkit-mask-image:url(/_blob/b8c4fabff45d5e065c282b72d4c06c27);mask-image:url(/_blob/b8c4fabff45d5e065c282b72d4c06c27);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3917{-webkit-mask-image:url(/_blob/0407511e39d3fa8e3d6b72c24d9705df);mask-image:url(/_blob/0407511e39d3fa8e3d6b72c24d9705df);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n96{-webkit-mask-image:url(/_blob/a67ea9bdfe4928b314017e431198e126);mask-image:url(/_blob/a67ea9bdfe4928b314017e431198e126);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3209{-webkit-mask-image:url(/_blob/950bed5341ac5a501c2bd4cf72c34a18);mask-image:url(/_blob/950bed5341ac5a501c2bd4cf72c34a18);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3930{-webkit-mask-image:url(/_blob/b44d16eac37be187d37fb1e283f22b75);mask-image:url(/_blob/b44d16eac37be187d37fb1e283f22b75);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1825{-webkit-mask-image:url(/_blob/1b7a4470b1da19de7b03806e90b703d6);mask-image:url(/_blob/1b7a4470b1da19de7b03806e90b703d6);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n580{-webkit-mask-image:url(/_blob/797287071dd4e9dcaa99f4babf2e770b);mask-image:url(/_blob/797287071dd4e9dcaa99f4babf2e770b);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3570{-webkit-mask-image:url(/_blob/427b1ae482965f51e0f54abf1a7cda8b);mask-image:url(/_blob/427b1ae482965f51e0f54abf1a7cda8b);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n2928{-webkit-mask-image:url(/_blob/4639869eab58b5efb14bffccb71b8d84);mask-image:url(/_blob/4639869eab58b5efb14bffccb71b8d84);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n2394{-webkit-mask-image:url(/_blob/e278bca1133e7c417c666ca148723194);mask-image:url(/_blob/e278bca1133e7c417c666ca148723194);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3525{-webkit-mask-image:url(/_blob/b114947bf04bb27694c1cef6bbb25dcc);mask-image:url(/_blob/b114947bf04bb27694c1cef6bbb25dcc);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1892{-webkit-mask-image:url(/_blob/4f529e691a7aa438f6499a26c3f9e90d);mask-image:url(/_blob/4f529e691a7aa438f6499a26c3f9e90d);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3635{-webkit-mask-image:url(/_blob/e9dad07dec5892ed0a4909c8b7319cc6);mask-image:url(/_blob/e9dad07dec5892ed0a4909c8b7319cc6);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1767{-webkit-mask-image:url(/_blob/fbf5842c5bfeeeaf9313065d05991ea8);mask-image:url(/_blob/fbf5842c5bfeeeaf9313065d05991ea8);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n2850{-webkit-mask-image:url(/_blob/9541a77ad13c7e25197087d15fef27f8);mask-image:url(/_blob/9541a77ad13c7e25197087d15fef27f8);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1811{-webkit-mask-image:url(/_blob/f8896b4ebffecd4c48ec5933d8d18d73);mask-image:url(/_blob/f8896b4ebffecd4c48ec5933d8d18d73);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n755{-webkit-mask-image:url(/_blob/96ffe9056991e2ce2618d1d308e99baf);mask-image:url(/_blob/96ffe9056991e2ce2618d1d308e99baf);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1309{-webkit-mask-image:url(/_blob/f95b223a4d1b7f6a9902a3faa17a9e46);mask-image:url(/_blob/f95b223a4d1b7f6a9902a3faa17a9e46);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3374{-webkit-mask-image:url(/_blob/d26ff510c4362b779ae3db93ebefbb6c);mask-image:url(/_blob/d26ff510c4362b779ae3db93ebefbb6c);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3697{-webkit-mask-image:url(/_blob/1b00e9db3267527710f57e761de7cc27);mask-image:url(/_blob/1b00e9db3267527710f57e761de7cc27);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1723{-webkit-mask-image:url(/_blob/e74274feff80ea614490d9cee842e502);mask-image:url(/_blob/e74274feff80ea614490d9cee842e502);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1766{-webkit-mask-image:url(/_blob/1dc9216880e1713a9a42ace431521e79);mask-image:url(/_blob/1dc9216880e1713a9a42ace431521e79);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1487{-webkit-mask-image:url(/_blob/949b513e8832c4f397fd60da3dcc1b4f);mask-image:url(/_blob/949b513e8832c4f397fd60da3dcc1b4f);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n2299{-webkit-mask-image:url(/_blob/bec12d57557856f28b9fb2ec19d69a8e);mask-image:url(/_blob/bec12d57557856f28b9fb2ec19d69a8e);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n846{-webkit-mask-image:url(/_blob/c3238974963dd1451756dcde4fc03ded);mask-image:url(/_blob/c3238974963dd1451756dcde4fc03ded);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n731{-webkit-mask-image:url(/_blob/6853d4268f502d9dd2fcaaa8a533c418);mask-image:url(/_blob/6853d4268f502d9dd2fcaaa8a533c418);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1677{-webkit-mask-image:url(/_blob/5eefa5530b1298123ed494394841984c);mask-image:url(/_blob/5eefa5530b1298123ed494394841984c);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n2116{-webkit-mask-image:url(/_blob/e60bc51428fbb6e52dc79c1a0b6d9cb1);mask-image:url(/_blob/e60bc51428fbb6e52dc79c1a0b6d9cb1);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1085{-webkit-mask-image:url(/_blob/5e6809e880218e840d46b44d6f1809e4);mask-image:url(/_blob/5e6809e880218e840d46b44d6f1809e4);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3722{-webkit-mask-image:url(/_blob/81a6c3103da9f633fd76ce80c564a9e7);mask-image:url(/_blob/81a6c3103da9f633fd76ce80c564a9e7);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3674{-webkit-mask-image:url(/_blob/7edbc38d5b282148a7dd47ca4820b6a5);mask-image:url(/_blob/7edbc38d5b282148a7dd47ca4820b6a5);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3662{-webkit-mask-image:url(/_blob/eb461b20b3f7c945bb7e9207eff053c7);mask-image:url(/_blob/eb461b20b3f7c945bb7e9207eff053c7);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3583{-webkit-mask-image:url(/_blob/073b57fc65922a91691834d26cffaa4a);mask-image:url(/_blob/073b57fc65922a91691834d26cffaa4a);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3577{-webkit-mask-image:url(/_blob/29a2f168c95ff55c274c95460be29ba0);mask-image:url(/_blob/29a2f168c95ff55c274c95460be29ba0);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n3412{-webkit-mask-image:url(/_blob/d662da427332a66d901955294f4cffb3);mask-image:url(/_blob/d662da427332a66d901955294f4cffb3);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n2866{-webkit-mask-image:url(/_blob/865c337cec57043cef302c2a011e5ea1);mask-image:url(/_blob/865c337cec57043cef302c2a011e5ea1);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n2729{-webkit-mask-image:url(/_blob/ef5359c02421317e8ef84ea8ec7d163c);mask-image:url(/_blob/ef5359c02421317e8ef84ea8ec7d163c);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n2632{-webkit-mask-image:url(/_blob/a2338f35408e6adeba37e2fdcb5cb51e);mask-image:url(/_blob/a2338f35408e6adeba37e2fdcb5cb51e);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n2362{-webkit-mask-image:url(/_blob/086f1caf34f3d4d0d9e69f653cfd5983);mask-image:url(/_blob/086f1caf34f3d4d0d9e69f653cfd5983);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1944{-webkit-mask-image:url(/_blob/c71868db5a695fe882c8665ad61c7f4b);mask-image:url(/_blob/c71868db5a695fe882c8665ad61c7f4b);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1857{-webkit-mask-image:url(/_blob/82f2b81a76f6854252825fe5c77a476d);mask-image:url(/_blob/82f2b81a76f6854252825fe5c77a476d);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1578{-webkit-mask-image:url(/_blob/a1c0f99096526f47398a0fc288602bbc);mask-image:url(/_blob/a1c0f99096526f47398a0fc288602bbc);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1479{-webkit-mask-image:url(/_blob/12b6957ae6eb84db33c97eb66b8fe76b);mask-image:url(/_blob/12b6957ae6eb84db33c97eb66b8fe76b);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1283{-webkit-mask-image:url(/_blob/0bcf09477bc967c8fc82a9c3ae145e56);mask-image:url(/_blob/0bcf09477bc967c8fc82a9c3ae145e56);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n1054{-webkit-mask-image:url(/_blob/cb4d5aa01fed031f30a3c0e07e060c6e);mask-image:url(/_blob/cb4d5aa01fed031f30a3c0e07e060c6e);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n762{-webkit-mask-image:url(/_blob/3d40040496955ee2af2b74fb43a9a632);mask-image:url(/_blob/3d40040496955ee2af2b74fb43a9a632);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n475{-webkit-mask-image:url(/_blob/2d6c5542745cd5e5ae0a9567b94ac8f4);mask-image:url(/_blob/2d6c5542745cd5e5ae0a9567b94ac8f4);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-n118{-webkit-mask-image:url(/_blob/1785a48201fd3b4a84b96696ad67294f);mask-image:url(/_blob/1785a48201fd3b4a84b96696ad67294f);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.iceL{background:repeating-conic-gradient(from 0deg at 30% 40%,rgba(255,255,255,.5) 0deg 2deg,rgba(255,255,255,0) 2deg 14deg),repeating-conic-gradient(from 30deg at 70% 70%,rgba(255,255,255,.4) 0deg 1.5deg,rgba(255,255,255,0) 1.5deg 11deg);mix-blend-mode:overlay;pointer-events:none}
+.mk-P{-webkit-mask-image:url(/_blob/882393a5c70d8ca39ae94a6ddb40d108);mask-image:url(/_blob/882393a5c70d8ca39ae94a6ddb40d108);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-T{-webkit-mask-image:url(/_blob/f1fd94a7fa9d20bfb43dce69cc4f0bcd);mask-image:url(/_blob/f1fd94a7fa9d20bfb43dce69cc4f0bcd);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-D{-webkit-mask-image:url(/_blob/5b55bbb155ed8c5eecb9858f9ccf15c1);mask-image:url(/_blob/5b55bbb155ed8c5eecb9858f9ccf15c1);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-Wg{-webkit-mask-image:url(/_blob/1d9889caf4dde895d03e52b4c043a8a9);mask-image:url(/_blob/1d9889caf4dde895d03e52b4c043a8a9);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-C{-webkit-mask-image:url(/_blob/657902a794ba29e3abf1e08a880c3010);mask-image:url(/_blob/657902a794ba29e3abf1e08a880c3010);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-Cy{-webkit-mask-image:url(/_blob/75f13402cef675a6935dbf7116c8a93e);mask-image:url(/_blob/75f13402cef675a6935dbf7116c8a93e);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-A{-webkit-mask-image:url(/_blob/c0c6a48f31f11953b9d2f5271528b4ea);mask-image:url(/_blob/c0c6a48f31f11953b9d2f5271528b4ea);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+
+</style>
+</helmet>
+<div style="position:relative;width:1280px;height:920px;box-sizing:border-box;display:flex;background:radial-gradient(circle at 62% 48%,{{bgGlow}} 0%,#0d0b26 62%);transition:background 1s;font-family:Fredoka,sans-serif;color:#ffffff;overflow:hidden">
+
+<div style="width:340px;flex-shrink:0;box-sizing:border-box;padding:48px 36px;display:flex;flex-direction:column;gap:28px;border-right:1px solid rgba(255,255,255,.08);position:relative;z-index:2">
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font-size:12px;font-weight:600;letter-spacing:4px;color:#ffe14d">{{kicker}}</span>
+<span style="font-family:'Luckiest Guy',cursive;font-size:46px;line-height:1">Rip a pack</span>
+<span style="font-size:15px;line-height:1.5;color:#c9c2f0">Each pack is an NFT. Ripping it burns the pack and mints its 10 cards to the holder’s wallet.</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{steps}}" as="st" hint-placeholder-count="3">
+<div style="display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:{{st.bg}};border:1px solid {{st.edge}}">
+<span style="width:30px;height:30px;flex-shrink:0;border-radius:50%;background:{{st.dot}};color:#1b1446;font-weight:700;display:flex;align-items:center;justify-content:center">{{st.n}}</span>
+<div style="display:flex;flex-direction:column;gap:2px">
+<span style="font-size:15px;font-weight:600">{{st.title}}</span>
+<span style="font-size:13px;color:#a79fd6">{{st.sub}}</span>
+</div>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:auto;display:flex;flex-direction:column;gap:10px">
+<sc-if value="{{isSealed}}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{autoRip}}" style="min-height:52px;border-radius:999px;border:0;background:#ffe14d;color:#1b1446;font-size:17px;font-weight:700">Rip it for me</button>
+</sc-if>
+<sc-if value="{{isReveal}}" hint-placeholder-val="{{ false }}">
+<sc-if value="{{canShare}}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{shareCard}}" style="min-height:52px;border-radius:999px;border:0;background:#2aa3e0;color:#ffffff;font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:10px"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"></path></svg>Share this card</button>
+</sc-if>
+<button type="button" onClick="{{primary}}" style="min-height:52px;border-radius:999px;border:0;background:#ffe14d;color:#1b1446;font-size:17px;font-weight:700">{{primaryLabel}}</button>
+<button type="button" onClick="{{skip}}" style="min-height:48px;border-radius:999px;border:2px solid rgba(255,255,255,.3);background:transparent;color:#ffffff;font-size:15px;font-weight:600">Show all 10</button>
+</sc-if>
+<sc-if value="{{isDone}}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{shareAll}}" style="min-height:52px;border-radius:999px;border:0;background:#ffe14d;color:#1b1446;font-size:17px;font-weight:700">Share my pull</button>
+<sc-if value="{{notSite}}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{reset}}" style="min-height:48px;border-radius:999px;border:2px solid rgba(255,255,255,.3);background:transparent;color:#ffffff;font-size:15px;font-weight:600">Rip another pack</button>
+</sc-if>
+</sc-if>
+<span style="font-size:12px;line-height:1.5;color:#8d86b8">Every card type in the set, randomised per pack. Real odds from the print-run model: 184,686 cards in 18,469 packs.</span>
+</div>
+</div>
+
+<div class="{{shakeClass}}" style="position:relative;flex-grow:1;height:920px">
+
+<sc-for list="{{stars}}" as="sp" hint-placeholder-count="0">
+<span class="twinkle" style="left:{{sp.x}}px;top:{{sp.y}}px;animation-delay:{{sp.d}}s"></span>
+</sc-for>
+
+<sc-if value="{{showPack}}" hint-placeholder-val="{{ true }}">
+<div class="beams" style="opacity:{{beamO}};transition:opacity .3s"></div>
+<div style="position:absolute;left:50%;top:50%;width:360px;height:560px;transform:translate(-50%,-50%) scale(1.25)">
+<div class="{{floatClass}}" style="position:absolute;left:0;top:0;width:360px;height:560px">
+<div style="position:absolute;left:0;top:0;width:360px;height:560px;transform:{{packRot}};transition:transform .2s linear">
+<div style="position:absolute;left:0;top:0;width:360px;height:560px;transform:{{bodyT}};opacity:{{bodyO}};transition:transform .8s cubic-bezier(.5,0,.8,.2) .2s,opacity .6s ease .45s"><div style="position:absolute;left:0;top:0;width:360px;height:560px;clip-path:inset(76px 1px 4px 1px round 4px);background:linear-gradient(135deg,#8796c8 0%,#4a5288 60%,#2c3164 100%);transform:translate({{edx}}px,{{edy}}px)"></div></div>
+<div style="position:absolute;left:0;top:0;width:360px;height:560px;clip-path:inset(72px 0 0 0);transform:{{bodyT}};opacity:{{bodyO}};transition:transform .8s cubic-bezier(.5,0,.8,.2) .2s,opacity .6s ease .45s;filter:drop-shadow(0 30px 40px rgba(0,0,0,.5)) drop-shadow(0 0 {{packGlow}}px rgba(255,225,120,.9))">
+<dc-import name="PackWrapper" shine="{{shine}}" hint-size="360px,560px"></dc-import>
+</div>
+<div style="position:absolute;left:0;top:0;width:360px;height:560px;transform:{{stripT}};transform-origin:0 72px;opacity:{{stripO}};transition:{{stripTr}}"><div style="position:absolute;left:0;top:0;width:360px;height:560px;clip-path:inset(4px 1px 490px 1px round 4px);background:linear-gradient(135deg,#8796c8 0%,#4a5288 100%);transform:translate({{edx}}px,{{edy}}px)"></div></div>
+<div style="position:absolute;left:0;top:0;width:360px;height:560px;clip-path:inset(0 0 488px 0);transform:{{stripT}};transform-origin:0 72px;opacity:{{stripO}};transition:{{stripTr}}">
+<dc-import name="PackWrapper" shine="{{shine}}" hint-size="360px,560px"></dc-import>
+</div>
+<div style="position:absolute;left:0;top:70px;height:4px;width:{{tearW}}px;background:#ffffff;box-shadow:0 0 12px 3px rgba(255,255,255,.9),0 0 30px 8px rgba(255,214,90,.6);border-radius:2px"></div>
+<sc-if value="{{tearing}}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:{{tipX}}px;top:58px;width:28px;height:28px;border-radius:50%;background:radial-gradient(circle,#ffffff 0%,rgba(255,225,120,.9) 35%,rgba(255,225,120,0) 70%)"></div>
+</sc-if>
+<sc-if value="{{isSealed}}" hint-placeholder-val="{{ true }}">
+<div onPointerDown="{{down}}" onPointerMove="{{move}}" onPointerUp="{{up}}" onPointerLeave="{{up}}" style="position:absolute;left:-20px;top:20px;width:400px;height:110px;cursor:grab;touch-action:none"></div>
+</sc-if>
+</div>
+</div>
+<sc-if value="{{isSealed}}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;left:0;top:-58px;width:360px;display:flex;justify-content:center;pointer-events:none">
+<span class="hint" style="font-size:13px;font-weight:700;letter-spacing:2px;color:#ffe14d;background:rgba(27,20,70,.85);padding:6px 12px;border-radius:999px">DRAG ACROSS THE TOP TO RIP →</span>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{burst}}" hint-placeholder-val="{{ false }}">
+<div class="flash" style="background:radial-gradient(circle,rgba(255,255,255,1) 0%,rgba(255,236,170,.8) 25%,rgba(255,214,90,0) 65%)"></div>
+<sc-for list="{{confetti}}" as="cf" hint-placeholder-count="0">
+<span class="conf" style="--dx:{{cf.dx}}px;--dy:{{cf.dy}}px;--r:{{cf.r}}deg;background:{{cf.c}};animation-delay:{{cf.d}}s"></span>
+</sc-for>
+</sc-if>
+
+<sc-if value="{{showStack}}" hint-placeholder-val="{{ false }}">
+<div class="rays" style="opacity:.6"></div>
+<div style="position:absolute;left:50%;top:50%;width:360px;height:504px;transform:translate(-50%,-50%) translateY({{stackY}}px) scale(1.15);opacity:{{stackO}};transition:transform .9s cubic-bezier(.2,.9,.2,1),opacity .4s ease">
+<div style="position:absolute;left:12px;top:12px;width:360px;height:504px;border-radius:18px;background:#120d33;transform:rotate(4deg)"></div>
+<div style="position:absolute;left:6px;top:6px;width:360px;height:504px;border-radius:18px;background:#17114a;transform:rotate(2deg)"></div>
+<div style="position:absolute;left:0;top:0;width:360px;height:504px;box-sizing:border-box;border-radius:18px;border:10px solid #ffffff;background:#1b1446 radial-gradient(rgba(255,255,255,.08) 1.4px,transparent 1.9px) 0 0/10px 10px;display:flex;align-items:center;justify-content:center">
+<img src="/_blob/5f0f787d42b1de3da20f158d29ae4d6b" alt="" style="width:220px;height:142px;object-fit:contain">
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isReveal}}" hint-placeholder-val="{{ false }}">
+<sc-if value="{{hitShown}}" hint-placeholder-val="{{ false }}">
+<div class="rays" style="left:{{cardX}}px"></div>
+</sc-if>
+<sc-if value="{{flipFx}}" hint-placeholder-val="{{ false }}">
+<div class="flash" style="left:{{cardX}}px;background:{{fx.flash}}"></div>
+<sc-for list="{{fxConf}}" as="cf" hint-placeholder-count="0">
+<span class="conf" style="left:{{cardX}}px;--dx:{{cf.dx}}px;--dy:{{cf.dy}}px;--r:{{cf.r}}deg;background:{{cf.c}};animation-delay:{{cf.d}}s"></span>
+</sc-for>
+</sc-if>
+<sc-if value="{{wordOn}}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:{{wordX}}px;top:34px;width:520px;display:flex;justify-content:center;pointer-events:none">
+<span class="pop" style="font-family:'Luckiest Guy',cursive;font-size:60px;line-height:1;color:{{fx.wordColor}};-webkit-text-stroke:3px #1b1446;paint-order:stroke fill;filter:drop-shadow(5px 5px 0 {{fx.wordShadow}})">{{fx.text}}</span>
+</div>
+</sc-if>
+<sc-if value="{{hitTease}}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:0;right:0;top:56px;display:flex;justify-content:center">
+<span style="font-size:18px;font-weight:700;letter-spacing:3px;color:#ffe14d">SOMETHING’S SHINING…</span>
+</div>
+</sc-if>
+
+<div class="{{dealClass}}" style="position:absolute;left:{{cardX}}px;top:460px;width:360px;height:504px;transform:translate(-50%,-50%);transition:left .55s cubic-bezier(.2,.9,.3,1)">
+<div onClick="{{cardClick}}" onPointerMove="{{tilt}}" onPointerLeave="{{untilt}}" style="width:360px;height:504px;transform:scale({{cardScale}});transition:transform .5s cubic-bezier(.2,.9,.3,1);perspective:1600px;cursor:{{cardCursor}}">
+<div style="width:360px;height:504px;transform-style:preserve-3d;transform:rotateX({{tiltX}}deg) rotateY({{tiltY}}deg);transition:transform .3s ease-out">
+<div style="position:relative;width:360px;height:504px;transform-style:preserve-3d;transform:rotateY({{flipDeg}}deg);transition:transform .7s cubic-bezier(.3,1.35,.5,1)">
+<div style="position:absolute;left:0;top:0;width:360px;height:504px;border-radius:18px;background:#e9e6f5;transform:translateZ(1.5px)"></div>
+<div style="position:absolute;left:0;top:0;width:360px;height:504px;border-radius:18px;background:#d6d1ea;transform:translateZ(0.75px)"></div>
+<div style="position:absolute;left:0;top:0;width:360px;height:504px;border-radius:18px;background:#c9c3e0;transform:translateZ(0px)"></div>
+<div style="position:absolute;left:0;top:0;width:360px;height:504px;border-radius:18px;background:#d6d1ea;transform:translateZ(-0.75px)"></div>
+<div style="position:absolute;left:0;top:0;width:360px;height:504px;border-radius:18px;background:#e9e6f5;transform:translateZ(-1.5px)"></div>
+<div class="{{backClass}}" style="position:absolute;left:0;top:0;width:360px;height:504px;transform:translateZ(2.2px);box-sizing:border-box;border-radius:18px;border:10px solid #ffffff;background:#1b1446 radial-gradient(rgba(255,255,255,.08) 1.4px,transparent 1.9px) 0 0/10px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;backface-visibility:hidden;-webkit-backface-visibility:hidden">
+<img src="/_blob/5f0f787d42b1de3da20f158d29ae4d6b" alt="Doge Dash card back" style="width:220px;height:142px;object-fit:contain">
+<span style="font-size:12px;font-weight:700;letter-spacing:3px;color:#a79fd6">SERIES 1 · TAP TO FLIP</span>
+</div>
+<div style="position:absolute;left:0;top:0;width:360px;height:504px;transform:rotateY(180deg) translateZ(2.2px);backface-visibility:hidden;-webkit-backface-visibility:hidden">
+<sc-if value="{{cur.isImpact}}" hint-placeholder-val="{{ false }}">
+<dc-import name="ImpactCard" finish="{{cur.finish}}" art="{{cur.art}}" dash="{{cur.name}}" serial="{{cur.serial}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{cur.isSeries}}" hint-placeholder-val="{{ true }}">
+<dc-import name="SeriesCard" kind="{{cur.k}}" art="{{cur.art}}" bg="{{cur.bg}}" dash="{{cur.name}}" serial="{{cur.serial}}" no="{{cur.no}}" pup="{{cur.pup}}" tok="{{cur.tok}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{cur.isAdv}}" hint-placeholder-val="{{ false }}">
+<dc-import name="AdventureCard" scene="{{cur.scene}}" serial="{{cur.serial}}" version="{{cur.version}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{cur.isLvl}}" hint-placeholder-val="{{ false }}">
+<dc-import name="LevelCard" level="{{cur.level}}" part="{{cur.part}}" serial="{{cur.serial}}" version="{{cur.version}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{cur.isEnemy}}" hint-placeholder-val="{{ false }}">
+<dc-import name="EnemyCard" enemy="{{cur.enemy}}" design="{{cur.design}}" serial="{{cur.serial}}" version="{{cur.version}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{cur.isKey}}" hint-placeholder-val="{{ false }}">
+<dc-import name="KeyCard" design="{{cur.keyId}}" serial="{{cur.serial}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{cur.holoCard}}" hint-placeholder-val="{{ false }}">
+<div class="holoL" style="position:absolute;left:0;top:0;width:360px;height:504px;border-radius:18px;background-position:{{gx}}% {{gy}}%"></div>
+<div class="iceL" style="position:absolute;left:0;top:0;width:360px;height:504px;border-radius:18px;opacity:.8"></div>
+</sc-if>
+<sc-if value="{{cur.holoDash}}" hint-placeholder-val="{{ false }}">
+<div class="holoL {{cur.mask}}" style="position:absolute;left:{{cur.mx}}px;top:{{cur.my}}px;width:{{cur.mw}}px;height:{{cur.mh}}px;opacity:.85;background-position:{{gx}}% {{gy}}%"></div>
+<div class="iceL {{cur.mask}}" style="position:absolute;left:{{cur.mx}}px;top:{{cur.my}}px;width:{{cur.mw}}px;height:{{cur.mh}}px"></div>
+</sc-if>
+<div style="position:absolute;left:0;top:0;width:360px;height:504px;border-radius:18px;pointer-events:none;background:radial-gradient(circle at {{gx}}% {{gy}}%,rgba(255,255,255,.6) 0%,rgba(255,255,255,0) 50%);mix-blend-mode:overlay"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<sc-if value="{{showPanel}}" hint-placeholder-val="{{ false }}">
+<div class="panelin" style="position:absolute;left:560px;top:150px;width:340px;box-sizing:border-box;padding:26px;border-radius:22px;background:rgba(20,15,60,.88);border:1px solid {{cur.tierColor}};box-shadow:0 0 40px rgba(0,0,0,.4);display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-direction:column;gap:6px">
+<span style="align-self:flex-start;font-size:12px;font-weight:700;letter-spacing:2px;color:#1b1446;background:{{cur.tierColor}};padding:5px 12px;border-radius:999px">{{cur.tier}}</span>
+<span style="font-family:'Luckiest Guy',cursive;font-size:32px;line-height:1">{{cur.name}}</span>
+<span style="font-size:14px;color:#c9c2f0">{{cur.set}} · {{cur.tokLabel}}</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:8px">
+<div style="background:rgba(255,255,255,.07);border-radius:12px;padding:10px 12px"><div style="font-size:11px;letter-spacing:1.5px;color:#a79fd6">SERIAL</div><div style="font-size:18px;font-weight:700">{{cur.serial}}</div></div>
+<div style="background:rgba(255,255,255,.07);border-radius:12px;padding:10px 12px"><div style="font-size:11px;letter-spacing:1.5px;color:#a79fd6">COPIES EXIST</div><div style="font-size:18px;font-weight:700">{{cur.copies}}</div></div>
+<div style="background:rgba(255,255,255,.07);border-radius:12px;padding:10px 12px;grid-column:1 / span 2"><div style="font-size:11px;letter-spacing:1.5px;color:#a79fd6">FINISH</div><div style="font-size:16px;font-weight:600">{{cur.finishName}}</div></div>
+<div style="background:rgba(255,255,255,.07);border-radius:12px;padding:10px 12px;grid-column:1 / span 2"><div style="font-size:11px;letter-spacing:1.5px;color:#a79fd6">PULL RATE</div><div style="font-size:16px;font-weight:600">{{cur.odds}}</div></div>
+</div>
+<div style="display:flex;gap:8px">
+<button type="button" onClick="{{toggleZoom}}" style="flex:1;min-height:44px;border-radius:999px;border:2px solid rgba(255,255,255,.3);background:transparent;color:#ffffff;font-size:14px;font-weight:600">Zoom in</button>
+<button type="button" onClick="{{shareCard}}" style="flex:1;min-height:44px;border-radius:999px;border:0;background:{{cur.tierColor}};color:#1b1446;font-size:14px;font-weight:700">Share</button>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{zoom}}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:0;right:0;bottom:24px;display:flex;justify-content:center">
+<span style="font-size:13px;font-weight:600;letter-spacing:2px;color:#c9c2f0;background:rgba(27,20,70,.85);padding:6px 14px;border-radius:999px">TAP THE CARD TO ZOOM OUT</span>
+</div>
+</sc-if>
+<sc-if value="{{showPips}}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;left:0;right:0;bottom:36px;display:flex;justify-content:center;gap:8px">
+<sc-for list="{{pips}}" as="p" hint-placeholder-count="10">
+<span style="width:{{p.w}}px;height:10px;border-radius:5px;background:{{p.c}};transition:width .3s"></span>
+</sc-for>
+</div>
+</sc-if>
+</sc-if>
+
+<sc-if value="{{isDone}}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:0;right:0;top:56px;display:flex;flex-direction:column;align-items:center;gap:30px">
+<span class="pop" style="font-family:'Luckiest Guy',cursive;font-size:44px;line-height:1">Your pull</span>
+<div style="display:grid;grid-template-columns:repeat(5, minmax(0, 1fr));gap:22px">
+<sc-for list="{{cards}}" as="c" hint-placeholder-count="10">
+<div class="rise" style="width:151px;height:212px;position:relative;opacity:0;animation-delay:{{c.delay}}s">
+<button type="button" class="tile" onClick="{{c.open}}" aria-label="View {{c.name}}" style="position:absolute;left:0;top:0;width:151px;height:212px;padding:0;border:0;background:transparent;cursor:pointer">
+<div style="position:absolute;left:0;top:0;width:360px;height:504px;transform:scale(.42);transform-origin:0 0;pointer-events:none">
+<sc-if value="{{c.isImpact}}" hint-placeholder-val="{{ false }}">
+<dc-import name="ImpactCard" finish="{{c.finish}}" art="{{c.art}}" dash="{{c.name}}" serial="{{c.serial}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{c.isSeries}}" hint-placeholder-val="{{ true }}">
+<dc-import name="SeriesCard" kind="{{c.k}}" art="{{c.art}}" bg="{{c.bg}}" dash="{{c.name}}" serial="{{c.serial}}" no="{{c.no}}" pup="{{c.pup}}" tok="{{c.tok}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{c.isAdv}}" hint-placeholder-val="{{ false }}">
+<dc-import name="AdventureCard" scene="{{c.scene}}" serial="{{c.serial}}" version="{{c.version}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{c.isLvl}}" hint-placeholder-val="{{ false }}">
+<dc-import name="LevelCard" level="{{c.level}}" part="{{c.part}}" serial="{{c.serial}}" version="{{c.version}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{c.isEnemy}}" hint-placeholder-val="{{ false }}">
+<dc-import name="EnemyCard" enemy="{{c.enemy}}" design="{{c.design}}" serial="{{c.serial}}" version="{{c.version}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{c.isKey}}" hint-placeholder-val="{{ false }}">
+<dc-import name="KeyCard" design="{{c.keyId}}" serial="{{c.serial}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{c.holoCard}}" hint-placeholder-val="{{ false }}">
+<div class="holoL" style="position:absolute;left:0;top:0;width:360px;height:504px;border-radius:18px;background-position:{{c.gx0}}% {{c.gy0}}%"></div>
+<div class="iceL" style="position:absolute;left:0;top:0;width:360px;height:504px;border-radius:18px;opacity:.8"></div>
+</sc-if>
+<sc-if value="{{c.holoDash}}" hint-placeholder-val="{{ false }}">
+<div class="holoL {{c.mask}}" style="position:absolute;left:{{c.mx}}px;top:{{c.my}}px;width:{{c.mw}}px;height:{{c.mh}}px;opacity:.85;background-position:{{c.gx0}}% {{c.gy0}}%"></div>
+<div class="iceL {{c.mask}}" style="position:absolute;left:{{c.mx}}px;top:{{c.my}}px;width:{{c.mw}}px;height:{{c.mh}}px"></div>
+</sc-if>
+</div>
+</button>
+</div>
+</sc-for>
+</div>
+<span style="font-size:15px;color:#c9c2f0">{{pullSummary}} · tap a card to see it up close</span>
+</div>
+</sc-if>
+
+</div>
+
+<sc-if value="{{showDetail}}" hint-placeholder-val="{{ false }}">
+<div onClick="{{closeDetail}}" style="position:absolute;left:0;top:0;width:1280px;height:920px;z-index:8;background:rgba(6,4,20,.94)"></div>
+<button type="button" onClick="{{closeDetail}}" aria-label="Close card detail" style="position:absolute;right:28px;top:28px;z-index:9;width:52px;height:52px;border-radius:50%;border:2px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#ffffff;font-size:26px;font-weight:600;line-height:1">✕</button>
+<div style="position:absolute;left:224px;top:157px;width:432px;height:605px;z-index:8">
+<div onPointerMove="{{tilt}}" onPointerLeave="{{untilt}}" onClick="{{flipCard}}" style="width:360px;height:504px;transform:scale(1.2);transform-origin:0 0;perspective:1600px;cursor:pointer">
+<div class="panelin" style="width:360px;height:504px;transform-style:preserve-3d;transform:rotateX({{tiltX}}deg) rotateY({{tiltY}}deg);transition:transform .3s ease-out">
+<div style="position:relative;width:360px;height:504px">
+<sc-if value="{{det.isImpact}}" hint-placeholder-val="{{ false }}">
+<dc-import name="ImpactCard" finish="{{det.finish}}" art="{{det.art}}" dash="{{det.name}}" serial="{{det.serial}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{det.isSeries}}" hint-placeholder-val="{{ true }}">
+<dc-import name="SeriesCard" kind="{{det.k}}" art="{{det.art}}" bg="{{det.bg}}" dash="{{det.name}}" serial="{{det.serial}}" no="{{det.no}}" pup="{{det.pup}}" tok="{{det.tok}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{det.isAdv}}" hint-placeholder-val="{{ false }}">
+<dc-import name="AdventureCard" scene="{{det.scene}}" serial="{{det.serial}}" version="{{det.version}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{det.isLvl}}" hint-placeholder-val="{{ false }}">
+<dc-import name="LevelCard" level="{{det.level}}" part="{{det.part}}" serial="{{det.serial}}" version="{{det.version}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{det.isEnemy}}" hint-placeholder-val="{{ false }}">
+<dc-import name="EnemyCard" enemy="{{det.enemy}}" design="{{det.design}}" serial="{{det.serial}}" version="{{det.version}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{det.isKey}}" hint-placeholder-val="{{ false }}">
+<dc-import name="KeyCard" design="{{det.keyId}}" serial="{{det.serial}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{det.holoCard}}" hint-placeholder-val="{{ false }}">
+<div class="holoL" style="position:absolute;left:0;top:0;width:360px;height:504px;border-radius:18px;background-position:{{gx}}% {{gy}}%"></div>
+<div class="iceL" style="position:absolute;left:0;top:0;width:360px;height:504px;border-radius:18px;opacity:.8"></div>
+</sc-if>
+<sc-if value="{{det.holoDash}}" hint-placeholder-val="{{ false }}">
+<div class="holoL {{det.mask}}" style="position:absolute;left:{{det.mx}}px;top:{{det.my}}px;width:{{det.mw}}px;height:{{det.mh}}px;opacity:.85;background-position:{{gx}}% {{gy}}%"></div>
+<div class="iceL {{det.mask}}" style="position:absolute;left:{{det.mx}}px;top:{{det.my}}px;width:{{det.mw}}px;height:{{det.mh}}px"></div>
+</sc-if>
+<sc-if value="{{flipped}}" hint-placeholder-val="{{ false }}">
+<div class="panelin" style="position:absolute;left:0;top:0;width:360px;height:504px">
+<dc-import name="CardBack" copies="{{det.copiesN}}" printed="{{det.printed}}" dash="{{det.name}}" set="{{det.backSet}}" version="{{det.backVer}}" serial="{{det.serial}}" tok="{{det.tokLabel}}" no="{{det.no}}" hint-size="360px,504px"></dc-import>
+</div>
+</sc-if>
+<div style="position:absolute;left:0;top:0;width:360px;height:504px;border-radius:18px;pointer-events:none;background:radial-gradient(circle at {{gx}}% {{gy}}%,rgba(255,255,255,.6) 0%,rgba(255,255,255,0) 50%);mix-blend-mode:overlay"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="panelin" style="position:absolute;left:696px;top:160px;width:360px;box-sizing:border-box;padding:26px;border-radius:22px;z-index:8;background:rgba(20,15,60,.92);border:1px solid {{det.tierColor}};display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-direction:column;gap:6px">
+<span style="align-self:flex-start;font-size:12px;font-weight:700;letter-spacing:2px;color:#1b1446;background:{{det.tierColor}};padding:5px 12px;border-radius:999px">{{det.tier}}</span>
+<span style="font-family:'Luckiest Guy',cursive;font-size:30px;line-height:1">{{det.name}}</span>
+<span style="font-size:14px;color:#c9c2f0">{{det.set}} · {{det.tokLabel}}</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:8px">
+<div style="background:rgba(255,255,255,.07);border-radius:12px;padding:10px 12px"><div style="font-size:11px;letter-spacing:1.5px;color:#a79fd6">SERIAL</div><div style="font-size:18px;font-weight:700">{{det.serial}}</div></div>
+<div style="background:rgba(255,255,255,.07);border-radius:12px;padding:10px 12px"><div style="font-size:11px;letter-spacing:1.5px;color:#a79fd6">VERSION</div><div style="font-size:15px;font-weight:700">{{det.version}}</div></div>
+<div style="background:rgba(255,255,255,.07);border-radius:12px;padding:10px 12px;grid-column:1 / span 2;border:1px solid #ffe14d"><div style="font-size:11px;letter-spacing:1.5px;color:#a79fd6">RARITY OF THIS CARD</div><div style="font-size:16px;font-weight:700;color:#ffe14d">{{det.rarLine}}</div></div>
+<div style="background:rgba(255,255,255,.07);border-radius:12px;padding:10px 12px;grid-column:1 / span 2"><div style="font-size:11px;letter-spacing:1.5px;color:#a79fd6">FINISH</div><div style="font-size:15px;font-weight:600">{{det.finishName}}</div></div>
+<div style="background:rgba(255,255,255,.07);border-radius:12px;padding:10px 12px;grid-column:1 / span 2"><div style="font-size:11px;letter-spacing:1.5px;color:#a79fd6">PULL RATE</div><div style="font-size:15px;font-weight:600">{{det.odds}}</div></div>
+</div>
+<button type="button" onClick="{{flipCard}}" style="min-height:44px;border-radius:999px;border:2px solid #ffe14d;background:transparent;color:#ffe14d;font-size:15px;font-weight:700">{{flipLabel}} ↻</button>
+<button type="button" onClick="{{shareDetail}}" style="min-height:48px;border-radius:999px;border:0;background:#2aa3e0;color:#ffffff;font-size:16px;font-weight:700">Share this card</button>
+<div style="display:flex;gap:8px">
+<button type="button" onClick="{{prevDetail}}" aria-label="Previous card" style="flex:1;min-height:44px;border-radius:999px;border:2px solid rgba(255,255,255,.3);background:transparent;color:#ffffff;font-size:14px;font-weight:600">← Prev</button>
+<button type="button" onClick="{{closeDetail}}" style="flex:1;min-height:44px;border-radius:999px;border:2px solid rgba(255,255,255,.3);background:transparent;color:#ffffff;font-size:14px;font-weight:600">Close</button>
+<button type="button" onClick="{{nextDetail}}" aria-label="Next card" style="flex:1;min-height:44px;border-radius:999px;border:2px solid rgba(255,255,255,.3);background:transparent;color:#ffffff;font-size:14px;font-weight:600">Next →</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{shareOpen}}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;background:rgba(6,4,20,.78);display:flex;align-items:center;justify-content:center;z-index:5">
+<div class="panelin" role="dialog" aria-label="Share your pull" style="width:760px;box-sizing:border-box;border-radius:26px;background:#1b1446;border:1px solid rgba(255,255,255,.15);padding:30px;display:flex;gap:28px">
+<div style="width:300px;height:420px;flex-shrink:0;border-radius:18px;overflow:hidden;position:relative;background:radial-gradient(circle at 50% 45%,{{share.glow}} 0%,#0d0b26 75%)">
+<img src="/_blob/1e25670d6b64f000805d97c64546aa87" alt="" style="position:absolute;left:20px;top:16px;width:260px;height:50px;object-fit:contain">
+<div style="position:absolute;left:66px;top:84px;width:360px;height:504px;transform:scale(.47);transform-origin:0 0">
+<sc-if value="{{share.isImpact}}" hint-placeholder-val="{{ false }}">
+<dc-import name="ImpactCard" finish="{{share.finish}}" art="{{share.art}}" dash="{{share.name}}" serial="{{share.serial}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{share.isSeries}}" hint-placeholder-val="{{ true }}">
+<dc-import name="SeriesCard" kind="{{share.k}}" art="{{share.art}}" bg="{{share.bg}}" dash="{{share.name}}" serial="{{share.serial}}" no="{{share.no}}" pup="{{share.pup}}" tok="{{share.tok}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{share.isAdv}}" hint-placeholder-val="{{ false }}">
+<dc-import name="AdventureCard" scene="{{share.scene}}" serial="{{share.serial}}" version="{{share.version}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{share.isLvl}}" hint-placeholder-val="{{ false }}">
+<dc-import name="LevelCard" level="{{share.level}}" part="{{share.part}}" serial="{{share.serial}}" version="{{share.version}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{share.isEnemy}}" hint-placeholder-val="{{ false }}">
+<dc-import name="EnemyCard" enemy="{{share.enemy}}" design="{{share.design}}" serial="{{share.serial}}" version="{{share.version}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{share.isKey}}" hint-placeholder-val="{{ false }}">
+<dc-import name="KeyCard" design="{{share.keyId}}" serial="{{share.serial}}" hint-size="360px,504px"></dc-import>
+</sc-if>
+<sc-if value="{{share.holoCard}}" hint-placeholder-val="{{ false }}">
+<div class="holoL" style="position:absolute;left:0;top:0;width:360px;height:504px;border-radius:18px;background-position:{{share.gx0}}% {{share.gy0}}%"></div>
+<div class="iceL" style="position:absolute;left:0;top:0;width:360px;height:504px;border-radius:18px;opacity:.8"></div>
+</sc-if>
+<sc-if value="{{share.holoDash}}" hint-placeholder-val="{{ false }}">
+<div class="holoL {{share.mask}}" style="position:absolute;left:{{share.mx}}px;top:{{share.my}}px;width:{{share.mw}}px;height:{{share.mh}}px;opacity:.85;background-position:{{share.gx0}}% {{share.gy0}}%"></div>
+<div class="iceL {{share.mask}}" style="position:absolute;left:{{share.mx}}px;top:{{share.my}}px;width:{{share.mw}}px;height:{{share.mh}}px"></div>
+</sc-if>
+</div>
+<div style="position:absolute;left:0;right:0;bottom:16px;display:flex;justify-content:center">
+<span style="font-size:13px;font-weight:700;letter-spacing:1.5px;color:#ffe14d">{{share.caption}}</span>
+</div>
+</div>
+<div style="flex-grow:1;display:flex;flex-direction:column;gap:14px;min-width:0">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<span style="font-family:'Luckiest Guy',cursive;font-size:34px;line-height:1">Share your pull</span>
+<button type="button" onClick="{{closeShare}}" aria-label="Close" style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:transparent;color:#ffffff;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3 L13 13 M13 3 L3 13" stroke="#ffffff" stroke-width="2" stroke-linecap="round"></path></svg></button>
+</div>
+<span style="font-size:15px;line-height:1.5;color:#c9c2f0;background:rgba(255,255,255,.06);border-radius:12px;padding:12px 14px">{{share.text}}</span>
+<a href="{{share.x}}" target="_blank" rel="noopener" style="min-height:48px;border-radius:14px;background:#000000;color:#ffffff;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;text-decoration:none">Post on X</a>
+<a href="{{share.tg}}" target="_blank" rel="noopener" style="min-height:48px;border-radius:14px;background:#2aa3e0;color:#ffffff;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;text-decoration:none">Share on Telegram</a>
+<button type="button" onClick="{{copyText}}" style="min-height:48px;border-radius:14px;border:2px solid rgba(255,255,255,.3);background:transparent;color:#ffffff;font-size:15px;font-weight:600">{{copyLabel}}</button>
+<div style="display:flex;gap:6px;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;letter-spacing:2px;color:#a79fd6">ODDS</span><button type="button" onClick="{{oddsShow}}" style="min-height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:{{oShowBg}};color:{{oShowFg}};font-size:13px;font-weight:600">Showcase</button><button type="button" onClick="{{oddsReal}}" style="min-height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:{{oRealBg}};color:{{oRealFg}};font-size:13px;font-weight:600">Real</button></div>
+<span style="font-size:12px;line-height:1.5;color:#8d86b8">Live build: the post links to a public pull page with this card image, so it previews on X, Telegram and Discord.</span>
+</div>
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"kicker":{"editor":null,"default":""},"seed":{"editor":null,"default":1},"quick":{"editor":null,"default":false},"$preview":{"width":1280,"height":920}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+const qk = props && (props.quick === true || props.quick === 'true');
+this.state = { detail: null, seed: Number((props && props.seed) || 1), odds: 'showcase', hover: false, hx: 0.5, hy: 0.5, phase: qk ? 'done' : 'sealed', progress: 0, dragging: false, rise: false, idx: 0, flipped: false, t: 0, burst: 0, anim: 'in', flipFx: 0, zoom: false, share: null, copied: false, shake: false };
+}
+componentDidMount() {
+const pr = this.props || {};
+if (pr.seed) this.setState({ seed: Number(pr.seed) || 1 });
+if (pr.quick === true || pr.quick === 'true') this.setState({ phase: 'done' });
+this.shineTimer = setInterval(() => this.setState({ t: (this.state.t + 1) % 200 }), 40);
+}
+componentWillUnmount() { clearInterval(this.shineTimer); clearInterval(this.autoTimer); [this.openTimer, this.riseTimer, this.burstTimer, this.animTimer, this.fxTimer, this.shakeTimer].forEach((x) => clearTimeout(x)); }
+open() {
+if (this.state.phase !== 'sealed') return;
+clearInterval(this.autoTimer);
+this.setState({ phase: 'opening', progress: 1, dragging: false, rise: false, burst: 1, shake: true });
+this.shakeTimer = setTimeout(() => this.setState({ shake: false }), 520);
+this.burstTimer = setTimeout(() => this.setState({ burst: 0 }), 1600);
+this.riseTimer = setTimeout(() => this.setState({ rise: true }), 350);
+this.openTimer = setTimeout(() => this.setState({ phase: 'reveal', idx: 0, flipped: false, anim: 'in', zoom: false }), 1500);
+}
+flip() {
+this.setState({ flipped: true, flipFx: 1 });
+clearTimeout(this.fxTimer);
+this.fxTimer = setTimeout(() => this.setState({ flipFx: 0 }), 1500);
+}
+advance(n) {
+if (this.state.idx >= n - 1) { this.setState({ phase: 'done', zoom: false }); return; }
+this.setState({ anim: 'out', zoom: false });
+clearTimeout(this.animTimer);
+this.animTimer = setTimeout(() => this.setState({ idx: this.state.idx + 1, flipped: false, anim: 'in', flipFx: 0 }), 340);
+}
+renderVals() {
+const s = this.state;
+const P = '/_blob/882393a5c70d8ca39ae94a6ddb40d108', T = '/_blob/f1fd94a7fa9d20bfb43dce69cc4f0bcd', D = '/_blob/5b55bbb155ed8c5eecb9858f9ccf15c1', Wg = '/_blob/1d9889caf4dde895d03e52b4c043a8a9', C = '/_blob/657902a794ba29e3abf1e08a880c3010', Cy = '/_blob/75f13402cef675a6935dbf7116c8a93e';
+const A = '/_blob/c0c6a48f31f11953b9d2f5271528b4ea';
+const DASHES = [{"art":"/_blob/ad4a8bd9cf6ed428436aa8a6dc726d2f","name":"DASH #2787","no":"787","bg":"#ff1fb4","m":"n2787","tok":"2787","traits":"Blue Tiger \u00b7 Pink Headphones"},{"art":"/_blob/38aedbceb3f7e793a5ca036fa913aa9e","name":"DASH #213","no":"213","bg":"#ff8a1f","m":"n213","tok":"213","traits":"Blue Jaguar \u00b7 Halo"},{"art":"/_blob/ce2334cd4734684487952cdabc8982b3","name":"DASH #3498","no":"498","bg":"#ff8a1f","m":"n3498","tok":"3498","traits":"Orange \u00b7 Pink Headphones"},{"art":"/_blob/7ff04a1b283b1f7a203aab7752944db3","name":"DASH #2493","no":"493","bg":"#ff3b3b","m":"n2493","tok":"2493","traits":"Pink Tiger \u00b7 Red Mohawk"},{"art":"/_blob/586ba2e184fe5dd9ad1fe58ff6d1c0cf","name":"DASH #1436","no":"436","bg":"#ffc21f","m":"n1436","tok":"1436","traits":"Pink Jaguar \u00b7 Dash Cap"},{"art":"/_blob/065e1ecb7692ba3af34af36facb98e00","name":"DASH #3923","no":"923","bg":"#ff1fb4","m":"n3923","tok":"3923","traits":"Orange Tiger \u00b7 Pink Headphones"},{"art":"/_blob/57fdbd526377cac485b837fd1e46e614","name":"DASH #3824","no":"824","bg":"#ff8a1f","m":"n3824","tok":"3824","traits":"Pink Tiger \u00b7 Dash Cap"},{"art":"/_blob/bdcc7488a3924996a47fbc839210dfed","name":"DASH #734","no":"734","bg":"#ff3b3b","m":"n734","tok":"734","traits":"Orange Jaguar \u00b7 Blue Mohawk"},{"art":"/_blob/bf005681f9bb68f3830682296bb32bc3","name":"DASH #1912","no":"912","bg":"#ffc21f","m":"n1912","tok":"1912","traits":"Pink Jaguar \u00b7 Ribbon"},{"art":"/_blob/7ecd12982ce27306db650c04d039aee8","name":"DASH #3735","no":"735","bg":"#ffc21f","m":"n3735","tok":"3735","traits":"Orange Jaguar \u00b7 Dash"},{"art":"/_blob/4cb636a8dceb8a4de4ff07b815b046f0","name":"DASH #2613","no":"613","bg":"#ff8a1f","m":"n2613","tok":"2613","traits":"Orange Jaguar \u00b7 Dash"},{"art":"/_blob/e1c94db188e71065dae6cc33d35a742f","name":"DASH #1718","no":"718","bg":"#ff3b3b","m":"n1718","tok":"1718","traits":"Pink \u00b7 Dash"},{"art":"/_blob/8acacb852fbb6fd63b72cdec8d324dea","name":"DASH #3883","no":"883","bg":"#ff3b3b","m":"n3883","tok":"3883","traits":"Blue Jaguar \u00b7 Blue Mohawk"},{"art":"/_blob/7d91d13dd6d92368470ab3329b8a2ea4","name":"DASH #369","no":"369","bg":"#ff8a1f","m":"n369","tok":"369","traits":"Orange \u00b7 Dash"},{"art":"/_blob/0b39a2a45d0f07b13e991406ad8db8a5","name":"DASH #2029","no":"029","bg":"#0a6cf0","m":"n2029","tok":"2029","traits":"Orange \u00b7 Pink Headphones"},{"art":"/_blob/48715acaec222ecd031d0ac81bce1cc3","name":"DASH #3235","no":"235","bg":"#ff3b3b","m":"n3235","tok":"3235","traits":"Orange Jaguar \u00b7 Dash"},{"art":"/_blob/0f19af4e61b10ea463db959f76e84495","name":"DASH #3967","no":"967","bg":"#0a6cf0","m":"n3967","tok":"3967","traits":"Orange Jaguar \u00b7 Ribbon"},{"art":"/_blob/e2b9b40ef91464a0213541d13c119bfc","name":"DASH #3768","no":"768","bg":"#ff8a1f","m":"n3768","tok":"3768","traits":"Orange \u00b7 Ribbon"},{"art":"/_blob/6621314110f8d9c045fdd35d4889bdb0","name":"DASH #2333","no":"333","bg":"#ffc21f","m":"n2333","tok":"2333","traits":"Blue Tiger \u00b7 Pink Headphones"},{"art":"/_blob/1ba7b0f35e752ee48839726c01f8e408","name":"DASH #2398","no":"398","bg":"#0a6cf0","m":"n2398","tok":"2398","traits":"Pink Tiger \u00b7 Red Mohawk"},{"art":"/_blob/cdaef13bd3f89f1cdf98c516fa440854","name":"DASH #3834","no":"834","bg":"#ff8a1f","m":"n3834","tok":"3834","traits":"Blue Jaguar \u00b7 Blue Headphones"},{"art":"/_blob/1d901515341b3d693397696bfaa3946d","name":"DASH #3129","no":"129","bg":"#ff3b3b","m":"n3129","tok":"3129","traits":"Orange Jaguar \u00b7 Halo"},{"art":"/_blob/1afc278dfa2359a43388e448d8939259","name":"DASH #3749","no":"749","bg":"#ff1fb4","m":"n3749","tok":"3749","traits":"Blue Tiger \u00b7 Crown"},{"art":"/_blob/9d5b9e68c456772cf373bf2de3145ec6","name":"DASH #1848","no":"848","bg":"#12c9e6","m":"n1848","tok":"1848","traits":"Blue Tiger \u00b7 Blue Headphones"},{"art":"/_blob/109475c98c43a68b966cc7e4bae14f44","name":"DASH #2372","no":"372","bg":"#ff8a1f","m":"n2372","tok":"2372","traits":"Blue \u00b7 Dash"},{"art":"/_blob/4128ca0dd7a2eaecbf25a1171b6df28a","name":"DASH #3878","no":"878","bg":"#ff1fb4","m":"n3878","tok":"3878","traits":"Blue Tiger \u00b7 Dash"},{"art":"/_blob/cde68b1da0e49f3116e1e8cce04a0366","name":"DASH #710","no":"710","bg":"#12c9e6","m":"n710","tok":"710","traits":"Pink Jaguar \u00b7 Blue Headphones"},{"art":"/_blob/e9b4c5ec6beb9bcd9b5e5a68c7135b9f","name":"DASH #1789","no":"789","bg":"#12c9e6","m":"n1789","tok":"1789","traits":"Orange Tiger \u00b7 Pink Headphones"},{"art":"/_blob/7dbacd15d2ffd4f80f33cc0eac06ae45","name":"DASH #3610","no":"610","bg":"#0a6cf0","m":"n3610","tok":"3610","traits":"Orange Jaguar \u00b7 Ribbon"},{"art":"/_blob/60655e60243ee37584425f0ff6183a76","name":"DASH #215","no":"215","bg":"#ff8a1f","m":"n215","tok":"215","traits":"Blue Jaguar \u00b7 Red Mohawk"},{"art":"/_blob/4face7f628e30ccc662f14eea9877a76","name":"DASH #3200","no":"200","bg":"#ff1fb4","m":"n3200","tok":"3200","traits":"Orange \u00b7 Dash"},{"art":"/_blob/f842c560cab9dc4233b3b8b59769de4d","name":"DASH #1520","no":"520","bg":"#0a6cf0","m":"n1520","tok":"1520","traits":"Orange Jaguar \u00b7 Pink Headphones"},{"art":"/_blob/9d6b1fb2fdfd3b95c80d537ca6290357","name":"DASH #1534","no":"534","bg":"#ff8a1f","m":"n1534","tok":"1534","traits":"Orange Tiger \u00b7 Dash"},{"art":"/_blob/ab234dda27521282227ef4de858527d9","name":"DASH #214","no":"214","bg":"#ff8a1f","m":"n214","tok":"214","traits":"Blue \u00b7 Dash"},{"art":"/_blob/aad516c662f0c6367e1cd74dca4f8bd0","name":"DASH #3867","no":"867","bg":"#12c9e6","m":"n3867","tok":"3867","traits":"Orange \u00b7 Dash Cap"},{"art":"/_blob/4ae80719f6665c688e3d5a6306935882","name":"DASH #1742","no":"742","bg":"#ff1fb4","m":"n1742","tok":"1742","traits":"Orange \u00b7 Red Mohawk"},{"art":"/_blob/4b90466d52c385b6ed16cb9f62272c5c","name":"DASH #1707","no":"707","bg":"#ff3b3b","m":"n1707","tok":"1707","traits":"Blue Jaguar \u00b7 Blue Mohawk"},{"art":"/_blob/b8c4fabff45d5e065c282b72d4c06c27","name":"DASH #2486","no":"486","bg":"#12c9e6","m":"n2486","tok":"2486","traits":"Orange \u00b7 Pink Headphones"},{"art":"/_blob/0407511e39d3fa8e3d6b72c24d9705df","name":"DASH #3917","no":"917","bg":"#ff3b3b","m":"n3917","tok":"3917","traits":"Orange Tiger \u00b7 Dash"},{"art":"/_blob/a67ea9bdfe4928b314017e431198e126","name":"DASH #96","no":"096","bg":"#0a6cf0","m":"n96","tok":"96","traits":"Pink Tiger \u00b7 Dash"},{"art":"/_blob/950bed5341ac5a501c2bd4cf72c34a18","name":"DASH #3209","no":"209","bg":"#12c9e6","m":"n3209","tok":"3209","traits":"Blue Jaguar \u00b7 Dash"},{"art":"/_blob/b44d16eac37be187d37fb1e283f22b75","name":"DASH #3930","no":"930","bg":"#ff8a1f","m":"n3930","tok":"3930","traits":"Orange Jaguar \u00b7 Pink Headphones"},{"art":"/_blob/1b7a4470b1da19de7b03806e90b703d6","name":"DASH #1825","no":"825","bg":"#ffc21f","m":"n1825","tok":"1825","traits":"Pink Jaguar \u00b7 Dash"},{"art":"/_blob/797287071dd4e9dcaa99f4babf2e770b","name":"DASH #580","no":"580","bg":"#ff8a1f","m":"n580","tok":"580","traits":"Pink Tiger \u00b7 Pink Headphones"},{"art":"/_blob/427b1ae482965f51e0f54abf1a7cda8b","name":"DASH #3570","no":"570","bg":"#ffc21f","m":"n3570","tok":"3570","traits":"Pink Jaguar \u00b7 Ribbon"},{"art":"/_blob/4639869eab58b5efb14bffccb71b8d84","name":"DASH #2928","no":"928","bg":"#ff1fb4","m":"n2928","tok":"2928","traits":"Orange Tiger \u00b7 Blue Headphones"},{"art":"/_blob/e278bca1133e7c417c666ca148723194","name":"DASH #2394","no":"394","bg":"#0a6cf0","m":"n2394","tok":"2394","traits":"Orange Tiger \u00b7 Red Mohawk"},{"art":"/_blob/b114947bf04bb27694c1cef6bbb25dcc","name":"DASH #3525","no":"525","bg":"#0a6cf0","m":"n3525","tok":"3525","traits":"Blue Jaguar \u00b7 Blue Headphones"},{"art":"/_blob/4f529e691a7aa438f6499a26c3f9e90d","name":"DASH #1892","no":"892","bg":"#0a6cf0","m":"n1892","tok":"1892","traits":"Orange \u00b7 Ribbon"},{"art":"/_blob/e9dad07dec5892ed0a4909c8b7319cc6","name":"DASH #3635","no":"635","bg":"#ff8a1f","m":"n3635","tok":"3635","traits":"Pink Jaguar \u00b7 Blue Mohawk"},{"art":"/_blob/fbf5842c5bfeeeaf9313065d05991ea8","name":"DASH #1767","no":"767","bg":"#ff8a1f","m":"n1767","tok":"1767","traits":"Blue Jaguar \u00b7 Dash Cap"},{"art":"/_blob/9541a77ad13c7e25197087d15fef27f8","name":"DASH #2850","no":"850","bg":"#ff3b3b","m":"n2850","tok":"2850","traits":"Orange \u00b7 Pink Headphones"},{"art":"/_blob/f8896b4ebffecd4c48ec5933d8d18d73","name":"DASH #1811","no":"811","bg":"#ff3b3b","m":"n1811","tok":"1811","traits":"Orange Tiger \u00b7 Dash"},{"art":"/_blob/96ffe9056991e2ce2618d1d308e99baf","name":"DASH #755","no":"755","bg":"#ff3b3b","m":"n755","tok":"755","traits":"Pink Tiger \u00b7 Dash Cap"},{"art":"/_blob/f95b223a4d1b7f6a9902a3faa17a9e46","name":"DASH #1309","no":"309","bg":"#ff1fb4","m":"n1309","tok":"1309","traits":"Orange Tiger \u00b7 Red Mohawk"},{"art":"/_blob/d26ff510c4362b779ae3db93ebefbb6c","name":"DASH #3374","no":"374","bg":"#ff1fb4","m":"n3374","tok":"3374","traits":"Orange Jaguar \u00b7 Dash"},{"art":"/_blob/1b00e9db3267527710f57e761de7cc27","name":"DASH #3697","no":"697","bg":"#ff8a1f","m":"n3697","tok":"3697","traits":"Orange \u00b7 Pink Headphones"},{"art":"/_blob/e74274feff80ea614490d9cee842e502","name":"DASH #1723","no":"723","bg":"#ff8a1f","m":"n1723","tok":"1723","traits":"Pink \u00b7 Blue Mohawk"},{"art":"/_blob/1dc9216880e1713a9a42ace431521e79","name":"DASH #1766","no":"766","bg":"#0a6cf0","m":"n1766","tok":"1766","traits":"Blue \u00b7 Blue Headphones"},{"art":"/_blob/949b513e8832c4f397fd60da3dcc1b4f","name":"DASH #1487","no":"487","bg":"#0a6cf0","m":"n1487","tok":"1487","traits":"Orange \u00b7 Blue Headphones"}];
+const SUPERS = [{"art": "/_blob/1785a48201fd3b4a84b96696ad67294f", "name": "DASH #118", "m": "n118", "tok": "118", "ur": "ULTRA RARE 1"}, {"art": "/_blob/cb4d5aa01fed031f30a3c0e07e060c6e", "name": "DASH #1054", "m": "n1054", "tok": "1054", "ur": "ULTRA RARE 2"}, {"art": "/_blob/bec12d57557856f28b9fb2ec19d69a8e", "name": "ASTRO DASH", "m": "n2299", "tok": "2299", "ur": "ULTRA RARE 3"}, {"art": "/_blob/c3238974963dd1451756dcde4fc03ded", "name": "CYBORG DASH", "m": "n846", "tok": "846", "ur": "ULTRA RARE 4"}, {"art": "/_blob/2d6c5542745cd5e5ae0a9567b94ac8f4", "name": "DASH #475", "m": "n475", "tok": "475", "ur": "ULTRA RARE 5"}, {"art": "/_blob/865c337cec57043cef302c2a011e5ea1", "name": "DASH #2866", "m": "n2866", "tok": "2866", "ur": "ULTRA RARE 6"}, {"art": "/_blob/7edbc38d5b282148a7dd47ca4820b6a5", "name": "DASH #3674", "m": "n3674", "tok": "3674", "ur": "ULTRA RARE 7"}, {"art": "/_blob/12b6957ae6eb84db33c97eb66b8fe76b", "name": "DASH #1479", "m": "n1479", "tok": "1479", "ur": "ULTRA RARE 8"}, {"art": "/_blob/a2338f35408e6adeba37e2fdcb5cb51e", "name": "DASH #2632", "m": "n2632", "tok": "2632", "ur": "ULTRA RARE 9"}, {"art": "/_blob/6853d4268f502d9dd2fcaaa8a533c418", "name": "LION DASH", "m": "n731", "tok": "731", "ur": "ULTRA RARE 10"}, {"art": "/_blob/086f1caf34f3d4d0d9e69f653cfd5983", "name": "DASH #2362", "m": "n2362", "tok": "2362", "ur": "ULTRA RARE 11"}, {"art": "/_blob/d662da427332a66d901955294f4cffb3", "name": "DASH #3412", "m": "n3412", "tok": "3412", "ur": "ULTRA RARE 12"}, {"art": "/_blob/073b57fc65922a91691834d26cffaa4a", "name": "DASH #3583", "m": "n3583", "tok": "3583", "ur": "ULTRA RARE 13"}, {"art": "/_blob/3d40040496955ee2af2b74fb43a9a632", "name": "DASH #762", "m": "n762", "tok": "762", "ur": "ULTRA RARE 14"}, {"art": "/_blob/5eefa5530b1298123ed494394841984c", "name": "ALIEN DASH", "m": "n1677", "tok": "1677", "ur": "ULTRA RARE 15"}, {"art": "/_blob/e60bc51428fbb6e52dc79c1a0b6d9cb1", "name": "DEVIL DASH", "m": "n2116", "tok": "2116", "ur": "ULTRA RARE 16"}, {"art": "/_blob/ef5359c02421317e8ef84ea8ec7d163c", "name": "DASH #2729", "m": "n2729", "tok": "2729", "ur": "ULTRA RARE 17"}, {"art": "/_blob/82f2b81a76f6854252825fe5c77a476d", "name": "DASH #1857", "m": "n1857", "tok": "1857", "ur": "ULTRA RARE 18"}, {"art": "/_blob/29a2f168c95ff55c274c95460be29ba0", "name": "DASH #3577", "m": "n3577", "tok": "3577", "ur": "ULTRA RARE 19"}, {"art": "/_blob/0bcf09477bc967c8fc82a9c3ae145e56", "name": "DASH #1283", "m": "n1283", "tok": "1283", "ur": "ULTRA RARE 20"}, {"art": "/_blob/5e6809e880218e840d46b44d6f1809e4", "name": "ZOMBIE DASH", "m": "n1085", "tok": "1085", "ur": "ULTRA RARE 21"}, {"art": "/_blob/c71868db5a695fe882c8665ad61c7f4b", "name": "DASH #1944", "m": "n1944", "tok": "1944", "ur": "ULTRA RARE 22"}, {"art": "/_blob/81a6c3103da9f633fd76ce80c564a9e7", "name": "DASH #3722", "m": "n3722", "tok": "3722", "ur": "ULTRA RARE 23"}, {"art": "/_blob/a1c0f99096526f47398a0fc288602bbc", "name": "DASH #1578", "m": "n1578", "tok": "1578", "ur": "ULTRA RARE 24"}, {"art": "/_blob/eb461b20b3f7c945bb7e9207eff053c7", "name": "DASH #3662", "m": "n3662", "tok": "3662", "ur": "ULTRA RARE 25"}];
+const ADV = ['FIRST STEPS', 'DANGER AHEAD', 'SWARM!', 'HOME AT LAST', 'COIN RUSH', 'CHICKEN RUN', 'BUZZ OFF', 'TUSK TROUBLE', 'JUNGLE JUMP', 'STARE DOWN', 'ROUTE 66', 'RUSH HOUR', 'STREET SWARM', 'ICE DASH', 'COLD FEET', 'SNOW NAP', 'BIG CHILL', 'SPACE DASH', 'MOON JUMP', 'STAR GAZER', 'COSMIC NAP', 'LOST IN SPACE', 'ALMOST HOME', 'WELCOME HOME', 'THE FINAL DASH'];
+const LVL = [['1', 'BIRD WATCH'], ['3', 'DANGER AHEAD'], ['5', 'BUZZ CITY'], ['7', 'THIN ICE'], ['space', 'SHOOTING STARS']];
+const LPART = ['LET’S GO!', 'COIN TRAIL', '', 'TAKE FIVE', 'LEVEL CLEAR'];
+const ENEM = [['boar', ['CHARGE!', 'TUSK TROUBLE', 'ON PATROL']], ['chicken', ['FEATHER STORM', 'BAWK!', 'SNEAKING UP']], ['wasp', ['STING OPERATION', 'SWARM LEADER', 'SPACE BUZZ']]];
+const BOX = { base: [42, 96, 277, 274], prism: [60, 85, 245, 288], run: [111, 158, 238, 238], zoom: [78, 161, 209, 223], costume: [69, 81, 230, 281], impact: [55, 178, 250, 250] };
+const CAT = {
+base: { w: 53547, v: [8, 3, 2], set: 'BASE', tier: 'COMMON · BASE', color: '#c9c2f0', copies: '13 per design (8 + 3 + 2)', finish: 'Gloss, spot UV on Dash', odds: '~2.9 per pack', rank: 0, glow: '#2c2366', fx: 'base' },
+run: { w: 32952, v: [5, 2, 1], set: 'RUN CYCLE', tier: 'RARE · RUN CYCLE', color: '#7dffb0', copies: '8 per design (5 + 2 + 1)', finish: 'Gloss on level art', odds: '~1.8 per pack', rank: 1, glow: '#1d5a4a', fx: 'run' },
+prism: { w: 37071, v: [5, 2, 2], set: 'SKY PRISM', tier: 'UNCOMMON · SKY PRISM', color: '#8fd4ff', copies: '9 per design (5 + 2 + 2)', finish: 'Prism foil', odds: '~2.0 per pack', rank: 1, glow: '#1f3f9e', fx: 'prism' },
+zoom: { w: 53547, v: [7, 3, 3], set: 'ZOOMIES!', tier: 'INSERT · ZOOMIES!', color: '#ff7aa8', copies: '13 per design (7 + 3 + 3)', finish: 'Comic burst', odds: '~2.9 per pack', rank: 2, glow: '#7a1a40', fx: 'zoom' },
+enemy: { w: 1620, v: [150, 30, 0], rc: [150, 24, 6], set: 'ENEMIES', tier: 'SET · ENEMIES', color: '#ff7aa8', copies: '180 per design (150 + 24 + 6)', finish: 'Level art, special effects', odds: '1 in 11 packs', rank: 3, glow: '#5a0f2e', fx: 'enemy' },
+lvl: { w: 2000, v: [64, 16, 0], rc: [64, 12, 4], set: 'LEVEL CARDS', tier: 'SET · LEVEL CARDS', color: '#e0a060', copies: '80 per design (64 + 12 + 4)', finish: 'Full-bleed level art', odds: '1 in 9 packs', rank: 3, glow: '#4a2c10', fx: 'lvl' },
+adv: { w: 2450, v: [80, 18, 0], rc: [80, 12, 6], set: 'DASH ADVENTURES', tier: 'SET · DASH ADVENTURES', color: '#ffe14d', copies: '98 per design (80 + 12 + 6)', finish: 'Full-bleed level art', odds: '1 in 8 packs', rank: 3, glow: '#1d4a7a', fx: 'adv' },
+costume: { w: 375, v: [12, 2, 1], set: 'COSTUME PARTY', tier: 'SUPER RARE · COSTUME PARTY', color: '#ffd23f', copies: '15 per super rare (12 + 2 + 1)', finish: 'Gold frame, space art', odds: '1 in 49 packs', rank: 4, glow: '#4b0fb0', fx: 'costume' },
+imp_colour: { w: 325, v: [10, 2, 1], set: 'IMPACT COLOUR', tier: 'ULTRA RARE · IMPACT COLOUR', color: '#ffe14d', copies: '13 per super rare (10 + 2 + 1)', finish: 'Colour comic burst', odds: '1 in 57 packs', rank: 5, glow: '#7a1a40', fx: 'impact', finishK: 'colour' },
+imp_prism: { w: 325, v: [10, 2, 1], set: 'IMPACT PRISM', tier: 'ULTRA RARE · IMPACT PRISM', color: '#bfe9ff', copies: '13 per super rare (10 + 2 + 1)', finish: 'Prism foil', odds: '1 in 57 packs', rank: 5, glow: '#1f3f9e', fx: 'impact', finishK: 'prism' },
+imp_silver: { w: 200, v: [5, 2, 1], set: 'IMPACT SILVER', tier: 'ULTRA RARE · IMPACT SILVER', color: '#eef1f4', copies: '8 per super rare (5 + 2 + 1)', finish: 'Mirror chrome', odds: '1 in 92 packs', rank: 5, glow: '#3a3f47', fx: 'impact', finishK: 'silver' },
+imp_gold: { w: 150, v: [3, 2, 1], set: 'IMPACT GOLD', tier: 'ULTRA RARE · IMPACT GOLD', color: '#ffd23f', copies: '6 per super rare (3 + 2 + 1)', finish: 'Gold foil + emboss', odds: '1 in 123 packs', rank: 5, glow: '#7a5200', fx: 'impact', finishK: 'gold' },
+key: { w: 24, v: [3, 2, 1], set: 'KEY CARD', tier: 'GRAIL · KEY CARD', color: '#f5c431', copies: '6 per design (3 + 2 + 1), 4 designs', finish: 'Full holo key art', odds: '1 in ~770 packs', rank: 7, glow: '#5a3c00', fx: 'key' },
+imp_bone: { w: 100, v: [1, 2, 1], set: 'GOLDEN BONE', tier: 'CHASE · GOLDEN BONE', color: '#f5c431', copies: '4 per super rare (1 + 2 + 1)', finish: 'Gold swirl, 1/1 serial', odds: '1 in 185 packs', rank: 6, glow: '#5a4200', fx: 'bone', finishK: 'bone' }
+};
+const seedBase = (s.seed || 1) * 7919 + ((s.picked || 0) + 1) * 104729;
+let st = seedBase >>> 0;
+const r = () => { st = (st + 0x6D2B79F5) >>> 0; let x = st; x = Math.imul(x ^ (x >>> 15), x | 1); x ^= x + Math.imul(x ^ (x >>> 7), x | 61); return ((x ^ (x >>> 14)) >>> 0) / 4294967296; };
+const pick = (arr) => arr[Math.floor(r() * arr.length)];
+const pickW = (weights) => { const tot = weights.reduce((a, b) => a + b, 0); let x = r() * tot; for (let i = 0; i < weights.length; i++) { x -= weights[i]; if (x < 0) return i; } return weights.length - 1; };
+const keys = Object.keys(CAT);
+const showcase = (s.odds || 'showcase') === 'showcase';
+const slots = showcase
+? ['base', 'base', 'base', 'run', 'prism', 'zoom', pick(['enemy', 'lvl', 'adv']), pick(['enemy', 'lvl', 'adv', 'costume']), pick(['costume', 'imp_colour', 'imp_prism', 'imp_silver']), pick(['imp_gold', 'imp_bone', 'imp_prism', 'key', 'key', 'costume'])]
+: Array.from({ length: 10 }, () => keys[pickW(keys.map((k) => CAT[k].w))]);
+const mk = (cat, i) => {
+const c = CAT[cat];
+const vi = showcase && c.v[2] > 0 ? pickW([3, 1, 1]) : (showcase ? pickW([3, 1, 0]) : pickW(c.v));
+const cnt = (c.rc || c.v)[vi] || 1;
+const vname = ['NORMAL', 'HOLO CARD', 'HOLO DASH'][vi];
+const o = { cat: cat, rank: c.rank, set: c.set, tier: c.tier + (vi ? ' · ' + vname : ''), tierColor: c.color, copies: c.copies, finishName: c.finish + (vi === 1 ? ' + full-card holo' : (vi === 2 ? ' + Holo Dash foil' : '')), odds: c.odds, glow: c.glow, fxk: vi && c.fx === 'base' ? 'holo' : c.fx, version: vname, holoCard: vi === 1, holoDash: vi === 2, serial: (1 + Math.floor(r() * cnt)) + '/' + cnt, isImpact: false, isSeries: false, isAdv: false, isLvl: false, isEnemy: false, isKey: false, keyId: 'A', k: 'base', art: P, bg: '#ff1fb4', no: '001', pup: false, tok: '[ID]', finish: 'colour', scene: 1, level: '1', part: 1, enemy: 'boar', design: 1, mask: '', mx: 0, my: 0, mw: 0, mh: 0, gx0: 30 + i * 6, gy0: 40 };
+{ const DES = { base: 4119, run: 4119, prism: 4119, zoom: 4119, costume: 25, imp_colour: 25, imp_prism: 25, imp_silver: 25, imp_gold: 25, imp_bone: 25, adv: 25, lvl: 25, enemy: 9, key: 4 }; const printed = (DES[cat] || 1) * cnt; const TH = [1, 13, 31, 61, 151, 1000, 10000]; let t = 1; TH.forEach((x, j) => { if (printed >= x) t = j + 1; }); o.rarity = t; o.copiesN = cnt; o.printed = printed; o.rarLine = 'RARITY ' + t + ' · ' + printed.toLocaleString('en-US') + ' printed in this finish · this card ' + (cnt === 1 ? '1/1' : '1 of ' + cnt); o.backSet = c.set.charAt(0) + c.set.slice(1).toLowerCase(); o.backVer = vname.charAt(0) + vname.slice(1).toLowerCase(); }
+let box = null;
+if (cat === 'base' || cat === 'run' || cat === 'prism' || cat === 'zoom') { const d = pick(DASHES); Object.assign(o, { isSeries: true, k: cat, art: d.art, name: d.name, no: d.no, bg: d.bg, tok: d.tok, pup: cat === 'base' && r() < 0.15, mask: 'mk-' + d.m }); box = BOX[cat]; }
+else if (cat === 'costume') { const d = pick(SUPERS); Object.assign(o, { isSeries: true, k: 'costume', art: d.art, name: d.name, no: d.tok, tok: d.tok, mask: 'mk-' + d.m }); box = BOX.costume; }
+else if (cat.indexOf('imp_') === 0) { const d = pick(SUPERS); Object.assign(o, { isImpact: true, art: d.art, name: d.name, tok: d.tok, finish: c.finishK, mask: 'mk-' + d.m }); box = BOX.impact; }
+else if (cat === 'key') { const kid = pick(['A', 'B', 'C', 'D']); const KB = { A: [55, 160, 250, 214, 'mk-Sit'], B: [50, 130, 260, 250, 'mk-Run'], C: [105, 106, 150, 128, 'mk-Sit'], D: [40, -26, 280, 269, 'mk-Run'] }[kid]; Object.assign(o, { isKey: true, keyId: kid, name: 'DASH · ' + { A: 'THE ORIGINAL', B: 'COSMIC', C: 'COIN KING', D: 'BREAKOUT' }[kid], mask: KB[4], serial: o.serial.replace('/', ' / ') }); box = KB; }
+else if (cat === 'adv') { const sc = 1 + Math.floor(r() * 25); Object.assign(o, { isAdv: true, scene: sc, name: ADV[sc - 1] }); }
+else if (cat === 'lvl') { const L = pick(LVL); const p = 1 + Math.floor(r() * 5); Object.assign(o, { isLvl: true, level: L[0], part: p, name: p === 3 ? L[1] : LPART[p - 1] }); }
+else { const E = pick(ENEM); const d = 1 + Math.floor(r() * 3); Object.assign(o, { isEnemy: true, enemy: E[0], design: d, name: E[1][d - 1] }); }
+if (box) { o.mx = box[0]; o.my = box[1]; o.mw = box[2]; o.mh = box[3]; }
+if (!box && o.holoDash) { o.holoDash = false; o.holoCard = true; }
+return o;
+};
+const cards = slots.map((cat, i) => mk(cat, i)).sort((a, b) => a.rank - b.rank).map((c, i) => Object.assign(c, { delay: (i * 0.07).toFixed(2), plain: !c.isImpact }));
+const FX = {
+base: { flash: 'radial-gradient(circle,rgba(255,255,255,.7) 0%,rgba(255,255,255,0) 60%)', word: false, text: '', wordColor: '#ffffff', wordShadow: '#1b1446', conf: 0, colors: ['#ffffff'] },
+holo: { flash: 'conic-gradient(from 0deg,rgba(255,120,200,.7),rgba(255,230,120,.7),rgba(120,255,190,.7),rgba(110,200,255,.7),rgba(190,140,255,.7),rgba(255,120,200,.7))', word: true, text: 'HOLO!', wordColor: '#ffffff', wordShadow: '#ff4fd8', conf: 16, colors: ['#bfe9ff', '#ffd6f5', '#c8fff3', '#fff6b0'] },
+prism: { flash: 'conic-gradient(from 0deg,rgba(255,120,200,.7),rgba(255,230,120,.7),rgba(120,255,190,.7),rgba(110,200,255,.7),rgba(190,140,255,.7),rgba(255,120,200,.7))', word: true, text: 'PRISM!', wordColor: '#bfe9ff', wordShadow: '#ff4fd8', conf: 18, colors: ['#bfe9ff', '#ffd6f5', '#c8fff3', '#fff6b0'] },
+run: { flash: 'radial-gradient(circle,rgba(125,255,176,.8) 0%,rgba(125,255,176,0) 60%)', word: true, text: 'RUN!', wordColor: '#7dffb0', wordShadow: '#1b1446', conf: 12, colors: ['#7dffb0', '#ffffff'] },
+zoom: { flash: 'radial-gradient(circle,rgba(255,225,77,.95) 0%,rgba(255,46,99,.6) 35%,rgba(255,46,99,0) 65%)', word: true, text: 'ZOOMIES!', wordColor: '#ffe14d', wordShadow: '#ff2e63', conf: 26, colors: ['#ffe14d', '#ff2e63', '#16d4ff'] },
+enemy: { flash: 'radial-gradient(circle,rgba(255,46,99,.9) 0%,rgba(90,15,46,.6) 35%,rgba(90,15,46,0) 65%)', word: true, text: 'ENEMY!', wordColor: '#ff7aa8', wordShadow: '#1b1446', conf: 22, colors: ['#ff2e63', '#ff7aa8', '#ffffff'] },
+lvl: { flash: 'radial-gradient(circle,rgba(255,200,120,.9) 0%,rgba(201,138,75,.5) 35%,rgba(201,138,75,0) 65%)', word: true, text: 'LEVEL UP!', wordColor: '#ffe14d', wordShadow: '#7a4a1a', conf: 22, colors: ['#ffe14d', '#c98a4b', '#7dffb0'] },
+adv: { flash: 'radial-gradient(circle,rgba(150,220,255,.95) 0%,rgba(255,225,77,.5) 35%,rgba(255,225,77,0) 65%)', word: true, text: 'ADVENTURE!', wordColor: '#ffe14d', wordShadow: '#0a6cf0', conf: 24, colors: ['#ffe14d', '#16d4ff', '#7dffb0'] },
+costume: { flash: 'radial-gradient(circle,rgba(255,255,255,1) 0%,rgba(154,60,255,.8) 30%,rgba(154,60,255,0) 65%)', word: true, text: 'COSTUME PARTY!', wordColor: '#ffd23f', wordShadow: '#4b0fb0', conf: 34, colors: ['#ffd23f', '#c8b6ff', '#ffffff'] },
+impact: { flash: 'radial-gradient(circle,rgba(255,255,255,1) 0%,rgba(255,214,90,.9) 30%,rgba(255,214,90,0) 65%)', word: true, text: 'IMPACT PULL!', wordColor: '#ffe14d', wordShadow: '#ff2e63', conf: 44, colors: ['#ffe14d', '#fff6c2', '#f5c431', '#ffffff'] },
+key: { flash: 'radial-gradient(circle,rgba(255,255,255,1) 0%,rgba(255,225,77,1) 25%,rgba(255,120,200,.7) 45%,rgba(255,120,200,0) 70%)', word: true, text: 'KEY CARD!', wordColor: '#ffe14d', wordShadow: '#ff2e63', conf: 70, colors: ['#ffe14d', '#ff9ad5', '#7fd6ff', '#8dffc9', '#ffffff'] },
+bone: { flash: 'radial-gradient(circle,rgba(255,255,255,1) 0%,rgba(245,196,49,1) 30%,rgba(245,196,49,0) 70%)', word: true, text: 'GOLDEN BONE!', wordColor: '#f5c431', wordShadow: '#000000', conf: 60, colors: ['#f5c431', '#fff6c2', '#ffffff', '#b37806'] }
+};
+cards.forEach((c) => { c.tokLabel = c.tok && c.tok !== '[ID]' ? 'Token #' + c.tok : 'Series 1 set card'; });
+cards.forEach((c, i) => { c.open = () => this.setState({ detail: i, hover: false }); });
+const n = cards.length;
+const cur = cards[Math.min(s.idx, n - 1)];
+const fx = FX[cur.fxk] || FX.base;
+const isHit = cur.rank >= 5;
+const best = cards[n - 1];
+const holoN = cards.filter((c) => c.holoCard || c.holoDash).length;
+const pullSummary = '10 cards · ' + holoN + ' holo · best pull: ' + best.tier;
+const swayT = (s.t / 200) * Math.PI * 2;
+const tx = s.hover ? s.hx : 0.5 + Math.sin(swayT) * 0.16;
+const ty = s.hover ? s.hy : 0.5 + Math.cos(swayT) * 0.1;
+
+const rnd = (i, k) => { const x = Math.sin(i * 12.9898 + k * 78.233) * 43758.5453; return x - Math.floor(x); };
+const mkConf = (count, colors, spread) => Array.from({ length: count }, (_, i) => { const a = rnd(i, 1) * Math.PI * 2; const d = spread * (0.45 + rnd(i, 2) * 0.75); return { dx: Math.round(Math.cos(a) * d), dy: Math.round(Math.sin(a) * d - 120), r: Math.round(rnd(i, 3) * 900 - 450), c: colors[i % colors.length], d: (rnd(i, 4) * 0.12).toFixed(2) }; });
+const stars = Array.from({ length: 22 }, (_, i) => ({ x: Math.round(rnd(i, 7) * 900 + 20), y: Math.round(rnd(i, 8) * 860 + 20), d: (rnd(i, 9) * 2.4).toFixed(2) }));
+const shine = ((s.t / 200) * 160 - 40).toFixed(0);
+const stepDefs = [['1', 'Rip the pack', 'Drag across the top edge'], ['2', 'Flip your 10 cards', 'Tap to flip, tap again to zoom'], ['3', 'Share the hit', 'Post your pull to X or Telegram']];
+const activeStep = s.phase === 'sealed' || s.phase === 'opening' ? 0 : (s.phase === 'done' ? 2 : 1);
+const flipped = s.flipped;
+const showPanel = s.phase === 'reveal' && flipped && !s.zoom && s.anim !== 'out';
+const cardX = s.zoom ? 470 : (showPanel ? 290 : 470);
+const shareCardObj = s.share === 'all' ? cards[n - 1] : (s.share ? cards[s.share - 1] : cur);
+const shareText = s.share === 'all'
+? 'Just ripped a Doge Dash Series 1 pack! Best pull: ' + shareCardObj.name + ' (' + shareCardObj.tier + ' ' + shareCardObj.serial + ') #DogeDash'
+: 'Pulled ' + shareCardObj.name + ' (' + shareCardObj.set + ' ' + shareCardObj.serial + ') from a Doge Dash Series 1 pack! #DogeDash';
+const link = 'https://opensea.io/collection/dogedash';
+const primaryLabel = !flipped ? 'Flip card ' + (s.idx + 1) + ' of ' + n : (s.idx >= n - 1 ? 'See your pull' : 'Next card →');
+return {
+isSealed: s.phase === 'sealed', isReveal: s.phase === 'reveal', isDone: s.phase === 'done',
+showPack: s.phase === 'sealed' || s.phase === 'opening',
+showStack: s.phase === 'opening',
+floatClass: s.phase === 'sealed' && !s.dragging && s.progress === 0 ? 'floaty' : '',
+shakeClass: s.shake ? 'shake' : '',
+bgGlow: s.phase === 'reveal' && flipped ? cur.glow : (s.phase === 'sealed' ? (s.progress > 0 ? '#3a2f80' : '#2c2366') : '#4a3a12'),
+beamO: (0.15 + s.progress * 0.85).toFixed(2),
+packGlow: Math.round(s.progress * 40),
+tearing: s.phase === 'sealed' && s.progress > 0.02,
+tipX: Math.round(s.progress * 360 - 14),
+burst: s.burst === 1, confetti: mkConf(48, ['#ffe14d', '#ff2e63', '#16d4ff', '#ffffff', '#c8b6ff'], 520),
+stars: stars,
+shine: shine,
+tearW: s.phase === 'sealed' ? Math.round(s.progress * 360) : 0,
+stripT: s.phase === 'opening' ? 'translate(160px,-340px) rotate(32deg)' : 'translateY(' + (-s.progress * 8).toFixed(1) + 'px) rotate(' + (-s.progress * 4).toFixed(1) + 'deg)',
+stripO: s.phase === 'opening' ? 0 : 1,
+stripTr: s.phase === 'opening' ? 'transform .75s cubic-bezier(.2,.8,.2,1),opacity .75s ease' : 'transform .12s linear',
+bodyT: s.phase === 'opening' ? 'translateY(760px) rotate(4deg)' : 'none',
+bodyO: s.phase === 'opening' ? 0 : 1,
+stackY: s.rise ? -10 : 220,
+stackO: s.rise ? 1 : 0,
+showDetail: s.phase === 'done' && s.detail !== null && s.detail !== undefined && s.share === null,
+det: cards[Math.min(Math.max(s.detail || 0, 0), n - 1)],
+closeDetail: () => this.setState({ detail: null, flip: false }),
+flipped: !!s.flip,
+kicker: this.props.kicker || 'DIGITAL PACK · PROTOTYPE',
+notSite: !this.props.kicker,
+flipCard: () => this.setState({ flip: !this.state.flip }),
+flipLabel: s.flip ? 'Show the front' : 'Flip to the back',
+prevDetail: () => this.setState({ flip: false, detail: ((this.state.detail || 0) + n - 1) % n }),
+nextDetail: () => this.setState({ flip: false, detail: ((this.state.detail || 0) + 1) % n }),
+shareDetail: () => this.setState({ share: (this.state.detail || 0) + 1, copied: false }),
+cur: cur, cards: cards, fx: fx, pullSummary: pullSummary,
+tiltX: ((0.5 - ty) * 22).toFixed(2), tiltY: ((tx - 0.5) * 28).toFixed(2), gx: Math.round(tx * 100), gy: Math.round(ty * 100),
+tilt: (e) => { const rr = e.currentTarget.getBoundingClientRect(); this.setState({ hover: true, hx: Math.min(1, Math.max(0, (e.clientX - rr.left) / rr.width)), hy: Math.min(1, Math.max(0, (e.clientY - rr.top) / rr.height)) }); },
+untilt: () => this.setState({ hover: false }),
+oShowBg: showcase ? '#ffe14d' : 'transparent', oShowFg: showcase ? '#1b1446' : '#ffffff', oRealBg: showcase ? 'transparent' : '#ffe14d', oRealFg: showcase ? '#ffffff' : '#1b1446',
+oddsShow: () => { if (this.state.phase !== 'reveal') this.setState({ odds: 'showcase' }); },
+oddsReal: () => { if (this.state.phase !== 'reveal') this.setState({ odds: 'real' }); },
+canShare: flipped && s.phase === 'reveal',
+wordOn: fx.word && flipped && s.anim !== 'out' && s.phase === 'reveal',
+fxConf: mkConf(fx.conf, fx.colors, isHit ? 460 : 300),
+flipFx: s.flipFx === 1 && flipped,
+dealClass: s.anim === 'out' ? 'flyout' : (s.anim === 'in' ? 'dealin' : ''),
+cardX: cardX, wordX: cardX - 260,
+cardScale: s.zoom ? 1.55 : 1.15,
+cardCursor: s.zoom ? 'zoom-out' : (flipped ? 'zoom-in' : 'pointer'),
+flipDeg: flipped ? 180 : 0,
+packRot: 'perspective(1400px) rotateY(' + ((tx - 0.5) * 10).toFixed(2) + 'deg) rotateX(' + ((0.5 - ty) * 7).toFixed(2) + 'deg)',
+edx: (3 - (tx - 0.5) * 9).toFixed(1), edy: (5 - (ty - 0.5) * 7).toFixed(1),
+backClass: isHit && !flipped ? 'glow' : '',
+hitTease: isHit && !flipped && s.anim !== 'out', hitShown: isHit && flipped,
+showPanel: showPanel, zoom: s.zoom, showPips: !s.zoom,
+primaryLabel: primaryLabel,
+pips: cards.map((c, i) => ({ w: i === s.idx ? 28 : 10, c: i < s.idx || (i === s.idx && flipped) ? (c.rank >= 5 ? '#ffe14d' : c.tierColor) : 'rgba(255,255,255,.22)' })),
+steps: stepDefs.map((d, i) => ({ n: d[0], title: d[1], sub: d[2], bg: i === activeStep ? 'rgba(255,225,77,.12)' : 'rgba(255,255,255,.04)', edge: i === activeStep ? 'rgba(255,225,77,.6)' : 'rgba(255,255,255,.08)', dot: i <= activeStep ? '#ffe14d' : 'rgba(255,255,255,.3)' })),
+shareOpen: s.share !== null,
+share: Object.assign({}, shareCardObj, { text: shareText, caption: shareCardObj.tier, x: 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText) + '&url=' + encodeURIComponent(link), tg: 'https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(shareText) }),
+copyLabel: s.copied ? 'Copied!' : 'Copy text for Discord',
+down: (e) => { if (e.currentTarget.setPointerCapture) e.currentTarget.setPointerCapture(e.pointerId); this.setState({ dragging: true }); },
+move: (e) => {
+if (!this.state.dragging) return;
+const r = e.currentTarget.getBoundingClientRect();
+const x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+if (x > this.state.progress) this.setState({ progress: x });
+if (x > 0.9) this.open();
+},
+up: () => { if (this.state.phase === 'sealed') this.setState({ dragging: false, progress: this.state.progress > 0.9 ? this.state.progress : 0 }); },
+autoRip: () => {
+clearInterval(this.autoTimer);
+this.setState({ dragging: true });
+this.autoTimer = setInterval(() => {
+const p = this.state.progress + 0.05;
+if (p >= 1) { this.open(); } else { this.setState({ progress: p }); }
+}, 30);
+},
+cardClick: () => {
+if (this.state.phase !== 'reveal' || this.state.anim === 'out') return;
+if (!this.state.flipped) { this.flip(); return; }
+this.setState({ zoom: !this.state.zoom });
+},
+primary: () => {
+if (this.state.phase !== 'reveal' || this.state.anim === 'out') return;
+if (!this.state.flipped) { this.flip(); return; }
+this.advance(n);
+},
+toggleZoom: () => this.setState({ zoom: !this.state.zoom }),
+shareCard: () => this.setState({ share: this.state.idx + 1, copied: false }),
+shareAll: () => this.setState({ share: 'all', copied: false }),
+closeShare: () => this.setState({ share: null }),
+copyText: () => { try { if (navigator.clipboard) navigator.clipboard.writeText(shareText + ' ' + link); } catch (e) {} this.setState({ copied: true }); },
+skip: () => this.setState({ phase: 'done', zoom: false }),
+reset: () => this.setState({ detail: null, seed: (this.state.seed || 1) + 1, phase: 'sealed', progress: 0, dragging: false, rise: false, idx: 0, flipped: false, anim: 'in', zoom: false, share: null, burst: 0, flipFx: 0 })
+};
+}
+}
+</script>
+</body>
+</html>

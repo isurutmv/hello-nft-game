@@ -45,6 +45,11 @@ contract DashPacks is ERC721Enumerable, Ownable, EIP712 {
     /// @notice Packs minted so far. Burned packs still count, so IDs never repeat.
     uint256 public totalMinted;
 
+    /// @notice Pack art from the site (`{imageBaseURI}{packId}.png`) and its interactive page
+    /// (`{animationBaseURI}{packId}`). Empty means the on-chain SVG stand-in.
+    string public imageBaseURI;
+    string public animationBaseURI;
+
     /// @notice Doge Dash token ID => already claimed.
     mapping(uint256 => bool) public claimed;
     /// @notice Pack ID => Doge Dash token ID it was claimed with (0 for promo packs).
@@ -56,6 +61,7 @@ contract DashPacks is ERC721Enumerable, Ownable, EIP712 {
     event DogeDashSet(address dogeDash);
     event ClaimSignerSet(address signer);
     event ClaimDeadlineSet(uint64 deadline);
+    event URIsSet(string imageBaseURI, string animationBaseURI);
 
     error AlreadyClaimed(uint256 dogeId);
     error NotHolder(uint256 dogeId);
@@ -145,6 +151,12 @@ contract DashPacks is ERC721Enumerable, Ownable, EIP712 {
         emit ClaimDeadlineSet(deadline);
     }
 
+    function setURIs(string calldata image, string calldata animation) external onlyOwner {
+        imageBaseURI = image;
+        animationBaseURI = animation;
+        emit URIsSet(image, animation);
+    }
+
     // ---------------------------------------------------------------- rip
 
     /// @notice Burn a pack. Only the ripper can call this, after it has checked ownership and payment.
@@ -186,9 +198,13 @@ contract DashPacks is ERC721Enumerable, Ownable, EIP712 {
             '","description":"Sealed Doge Dash Collector Cards Series 1 pack. Rip it to burn the pack and mint its 10 cards.",',
             '"attributes":[{"trait_type":"Series","value":"1"},{"trait_type":"Claimed with","value":"',
             from,
-            '"}],"image":"data:image/svg+xml;base64,',
-            Base64.encode(bytes(svg)),
-            '"}'
+            '"}],"image":"',
+            bytes(imageBaseURI).length != 0
+                ? string.concat(imageBaseURI, packId.toString(), ".png")
+                : string.concat("data:image/svg+xml;base64,", Base64.encode(bytes(svg))),
+            '"',
+            bytes(animationBaseURI).length != 0 ? string.concat(',"animation_url":"', animationBaseURI, packId.toString(), '"') : "",
+            "}"
         );
         return string.concat("data:application/json;base64,", Base64.encode(bytes(json)));
     }

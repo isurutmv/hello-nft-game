@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Impact card</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&amp;family=Fredoka:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width:360px;height:504px;box-sizing:border-box;border-radius:18px;padding:10px;background:{{f.frame}};box-shadow:0 14px 34px rgba(0,0,0,.45);font-family:Fredoka,sans-serif">
+<div style="position:relative;width:340px;height:484px;border-radius:10px;overflow:hidden;background:{{f.field}};box-shadow:inset 0 0 0 2px {{f.inner}}">
+
+<div style="position:absolute;left:-40px;top:150px;width:420px;height:420px;background:{{f.burstEdge}};clip-path:polygon(100.0% 50.0%,82.4% 56.4%,96.2% 69.1%,77.4% 68.3%,85.4% 85.4%,68.3% 77.4%,69.1% 96.2%,56.4% 82.4%,50.0% 100.0%,43.6% 82.4%,30.9% 96.2%,31.7% 77.4%,14.6% 85.4%,22.6% 68.3%,3.8% 69.1%,17.6% 56.4%,0.0% 50.0%,17.6% 43.6%,3.8% 30.9%,22.6% 31.7%,14.6% 14.6%,31.7% 22.6%,30.9% 3.8%,43.6% 17.6%,50.0% 0.0%,56.4% 17.6%,69.1% 3.8%,68.3% 22.6%,85.4% 14.6%,77.4% 31.7%,96.2% 30.9%,82.4% 43.6%)"></div>
+<div style="position:absolute;left:-28px;top:162px;width:396px;height:396px;background:{{f.burst}};clip-path:polygon(100.0% 50.0%,82.4% 56.4%,96.2% 69.1%,77.4% 68.3%,85.4% 85.4%,68.3% 77.4%,69.1% 96.2%,56.4% 82.4%,50.0% 100.0%,43.6% 82.4%,30.9% 96.2%,31.7% 77.4%,14.6% 85.4%,22.6% 68.3%,3.8% 69.1%,17.6% 56.4%,0.0% 50.0%,17.6% 43.6%,3.8% 30.9%,22.6% 31.7%,14.6% 14.6%,31.7% 22.6%,30.9% 3.8%,43.6% 17.6%,50.0% 0.0%,56.4% 17.6%,69.1% 3.8%,68.3% 22.6%,85.4% 14.6%,77.4% 31.7%,96.2% 30.9%,82.4% 43.6%)"></div>
+
+<div style="position:absolute;left:0;right:0;top:0;height:38px;background:{{f.plate}};border-bottom:2px solid {{f.plateEdge}};display:flex;align-items:center;justify-content:space-between;padding:0 12px;box-sizing:border-box">
+<img src="/_blob/1e25670d6b64f000805d97c64546aa87" alt="Doge Dash" style="width:150px;height:28px;object-fit:contain">
+<span style="font-size:10px;font-weight:700;letter-spacing:2px;color:{{f.text}}">IMPACT</span>
+</div>
+
+<div style="position:absolute;left:14px;top:46px;font-family:'Luckiest Guy',cursive;font-size:108px;line-height:1;transform:rotate(-7deg);transform-origin:left top;background:{{f.letter}};-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:3px {{f.stroke}};filter:drop-shadow({{f.shadow}})">DASH!</div>
+
+<svg style="position:absolute;right:16px;top:150px" width="26" height="46" viewBox="0 0 22 40" aria-hidden="true"><polygon points="14,0 0,22 10,22 4,40 22,14 12,14 18,0" fill="{{f.bolt}}" stroke="{{f.stroke}}" stroke-width="1.5"></polygon></svg>
+<svg style="position:absolute;left:14px;top:300px" width="22" height="40" viewBox="0 0 22 40" aria-hidden="true"><polygon points="14,0 0,22 10,22 4,40 22,14 12,14 18,0" fill="{{f.bolt}}" stroke="{{f.stroke}}" stroke-width="1.5"></polygon></svg>
+<svg style="position:absolute;right:30px;top:360px" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12,0 14.5,9.5 24,12 14.5,14.5 12,24 9.5,14.5 0,12 9.5,9.5" fill="{{f.bolt}}" stroke="{{f.stroke}}" stroke-width="1.2"></polygon></svg>
+
+<img src="{{art}}" alt="{{dash}}" style="position:absolute;left:45px;top:168px;width:250px;height:250px;object-fit:contain;filter:drop-shadow(0 6px 0 rgba(0,0,0,.25))">
+
+<sc-if value="{{hasSerial}}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;right:12px;top:118px;transform:rotate(8deg);background:{{f.plate}};border:2px solid {{f.plateEdge}};border-radius:8px;padding:4px 9px;font-family:'Luckiest Guy',cursive;font-size:18px;color:{{f.text}};line-height:1">{{serial}}</div>
+</sc-if>
+
+<div style="position:absolute;left:10px;right:10px;bottom:10px;background:{{f.plate}};border:2px solid {{f.plateEdge}};border-radius:10px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between">
+<span style="font-family:'Luckiest Guy',cursive;font-size:22px;color:{{f.text}};line-height:1;letter-spacing:.5px">{{dash}}</span>
+<span style="font-size:10px;font-weight:700;letter-spacing:1.5px;color:#ffffff">{{f.label}}</span>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"finish":{"editor":"enum","options":["colour","prism","silver","gold","bone"],"default":"colour"},"art":{"editor":null,"default":"/_blob/c0c6a48f31f11953b9d2f5271528b4ea"},"dash":{"editor":null,"default":"ASTRO DASH"},"serial":{"editor":null,"default":""},"$preview":{"width":360,"height":504}}'>
+class Component extends DCLogic {
+renderVals() {
+const goldFrame = 'linear-gradient(135deg,#fff3b0 0%,#e2a812 22%,#fff0a0 40%,#b97c06 60%,#ffe27a 80%,#c98a0b 100%)';
+const goldLetter = 'linear-gradient(180deg,#fff6c2 0%,#f5c431 45%,#b37806 56%,#ffe27a 100%)';
+const F = {
+colour: {
+frame: '#ffe14d', inner: '#1b1446',
+field: 'radial-gradient(rgba(255,255,255,.35) 1.5px, transparent 2px) 0 0/11px 11px, repeating-conic-gradient(from 0deg at 50% 62%, #ff2fb3 0deg 9deg, #ff79d4 9deg 18deg, #16d4ff 18deg 21deg, #ff2fb3 21deg 30deg)',
+burstEdge: '#1b1446', burst: '#ffe14d',
+letter: 'linear-gradient(#ffe14d,#ffe14d)', stroke: '#1b1446', shadow: '5px 5px 0 #16d4ff',
+plate: '#1b1446', plateEdge: '#ffffff', text: '#ffe14d', bolt: '#16d4ff', label: 'COLOUR'
+},
+prism: {
+frame: 'linear-gradient(135deg,#ffd6f5 0%,#bfe9ff 20%,#ffffff 35%,#c8b6ff 50%,#a8fff0 65%,#fff6b0 80%,#ffd6f5 100%)', inner: '#ffffff',
+field: 'linear-gradient(115deg, rgba(255,255,255,0) 28%, rgba(255,170,240,.38) 40%, rgba(150,255,240,.38) 50%, rgba(255,255,160,.32) 60%, rgba(255,255,255,0) 72%), repeating-conic-gradient(from 8deg at 50% 62%, rgba(120,200,255,.6) 0deg 6deg, rgba(210,140,255,.5) 6deg 12deg, rgba(140,255,230,.5) 12deg 18deg, rgba(255,255,255,0) 18deg 26deg), radial-gradient(circle at 50% 62%, #6b86ff 0%, #1d2a8f 55%, #0b1050 100%)',
+burstEdge: '#0b1050', burst: 'linear-gradient(135deg,#ffffff 0%,#bfe9ff 35%,#ffd6f5 65%,#c8fff3 100%)',
+letter: 'linear-gradient(100deg,#ffffff 0%,#bfe9ff 30%,#ffd6f5 55%,#c8fff3 80%,#ffffff 100%)', stroke: '#0b1050', shadow: '4px 4px 0 #ff4fd8',
+plate: '#0b1050', plateEdge: '#bfe9ff', text: '#ffffff', bolt: '#ffffff', label: 'PRISM'
+},
+silver: {
+frame: 'linear-gradient(135deg,#ffffff 0%,#a7b0ba 20%,#f2f4f7 38%,#6e7783 55%,#e3e7ec 72%,#8d96a1 100%)', inner: '#14161b',
+field: 'radial-gradient(rgba(255,255,255,.16) 1.4px, transparent 1.9px) 0 0/10px 10px, repeating-conic-gradient(from 0deg at 50% 62%, #262a31 0deg 9deg, #4d5560 9deg 18deg)',
+burstEdge: '#14161b', burst: 'linear-gradient(160deg,#ffffff 0%,#c9d0d8 40%,#7a8490 55%,#eef1f4 100%)',
+letter: 'linear-gradient(180deg,#ffffff 0%,#c9d0d8 45%,#7a8490 56%,#eef1f4 100%)', stroke: '#14161b', shadow: '4px 4px 0 #000000',
+plate: '#14161b', plateEdge: '#c9d0d8', text: '#eef1f4', bolt: '#eef1f4', label: 'SILVER'
+},
+gold: {
+frame: goldFrame, inner: '#3b0a12',
+field: 'radial-gradient(rgba(255,230,140,.28) 1.5px, transparent 2px) 0 0/11px 11px, repeating-conic-gradient(from 0deg at 50% 62%, #a3122b 0deg 9deg, #d8322f 9deg 18deg)',
+burstEdge: '#3b0a12', burst: goldLetter,
+letter: goldLetter, stroke: '#3b0a12', shadow: '4px 4px 0 #1b1446',
+plate: '#2a0a10', plateEdge: '#f5c431', text: '#f5c431', bolt: '#ffe27a', label: 'GOLD'
+},
+bone: {
+frame: 'linear-gradient(135deg,#141418 0%,#3a3320 28%,#f5c431 50%,#3a3320 72%,#141418 100%)', inner: '#f5c431',
+field: 'radial-gradient(rgba(255,210,90,.4) 1.2px, transparent 1.7px) 0 0/9px 9px, repeating-conic-gradient(from 0deg at 50% 62%, #0c0c10 0deg 9deg, #2a2414 9deg 18deg)',
+burstEdge: '#000000', burst: goldLetter,
+letter: goldLetter, stroke: '#000000', shadow: '4px 4px 0 #6b4b00',
+plate: '#000000', plateEdge: '#f5c431', text: '#f5c431', bolt: '#f5c431', label: 'GOLDEN BONE'
+}
+};
+const key = this.props.finish ?? 'colour';
+const serial = this.props.serial ?? '';
+return {
+f: F[key] || F.colour,
+art: this.props.art ?? '/_blob/c0c6a48f31f11953b9d2f5271528b4ea',
+dash: this.props.dash ?? 'ASTRO DASH',
+serial: serial,
+hasSerial: serial.length > 0
+};
+}
+}
+</script>
+</body>
+</html>
